@@ -1,0 +1,22 @@
+// widgets/movie_tile.dart
+import 'package:flutter/material.dart';
+import '../models/movie.dart';
+
+class MovieTile extends StatelessWidget {
+  final Movie movie;
+
+  const MovieTile({required this.movie});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Image.network(movie.posterUrl),
+      title: Text(movie.title),
+      subtitle: Text('Director: ${movie.director}'),
+      trailing: Text('Release Date: ${movie.releaseDate}'),
+      onTap: () {
+        // Implementar ação ao tocar no filme, se necessário
+      },
+    );
+  }
+}

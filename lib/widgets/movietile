@@ -11,11 +11,10 @@ class MovieTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Image.network(movie.posterUrl),
-      title: Text(movie.title),
-      subtitle: Text('Director: ${movie.director}'),
-      trailing: Text('Release Date: ${movie.releaseDate}'),
+      title: Text(movie.titulo),
+      subtitle: Text('Diretor: ${movie.diretor}'),
+      trailing: Text('Data de Lançamento: ${movie.datalancamento}'),
       onTap: () {
-        // Implementar ação ao tocar no filme, se necessário
       },
     );
   }

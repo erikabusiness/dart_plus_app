@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
           controller: _searchController,
           onChanged: _search,
           decoration: InputDecoration(
-            hintText: 'Search for movies...',
+            hintText: 'Procure por filmes...',
             border: InputBorder.none,
             suffixIcon: IconButton(
               icon: const Icon(Icons.clear),

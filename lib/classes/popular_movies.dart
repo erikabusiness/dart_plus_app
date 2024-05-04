@@ -28,4 +28,22 @@ class PopularMovie {
     this.voteAverage = 0.0,
     this.voteCount = 0,
   });
+
+  factory PopularMovie.fromJson(Map<String, dynamic> json) {
+  return PopularMovie(
+  title: json['title'] ?? '',
+  posterPath: json['poster_path'] ?? '',
+  releaseDate: json['release_date'] ?? '',
+  adult: json['adult'] ?? false,
+  backdropPath: json['backdrop_path'] ?? '',
+  genreIds: List<int>.from(json['genre_ids'] ?? []),
+  originalLanguage: json['original_language'] ?? '',
+  originalTitle: json['original_title'] ?? '',
+  overview: json['overview'] ?? '',
+  popularity: json['popularity']?.toDouble() ?? 0.0,
+  video: json['video'] ?? false,
+  voteAverage: json['vote_average']?.toDouble() ?? 0.0,
+  voteCount: json['vote_count'] ?? 0,
+  );
+}
 }

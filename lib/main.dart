@@ -1,3 +1,4 @@
+import 'package:dart_plus_app/data/mock/fetch/localdataservice.dart';
 import 'package:dart_plus_app/wigets/grid_view_vertical.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,17 +31,38 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late Future<List<dynamic>> mediaItems;
+
+  @override
+  void initState() {
+    super.initState();
+    mediaItems = LocalDataService().fetchData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 41, 41, 41),
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text('DartPlus'),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       ),
-      body: Column(
-        children: [
-          Text('oi'),
-          //WidgetGridViewVertical(),
-        ],
+      body: FutureBuilder<List<dynamic>>(
+        future: mediaItems,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              return Center(child: Text('Erro: ${snapshot.error}'));
+            }
+            if (snapshot.hasData) {
+              return WidgetGridViewVertical(mediaItems: snapshot.data!);
+            } else {
+              return const Center(child: Text('Nenhum dado disponível'));
+            }
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
       ),
     );
   }

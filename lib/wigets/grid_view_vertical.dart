@@ -13,66 +13,45 @@ class WidgetGridViewVertical extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int crossAxisCount = MediaQuery.of(context).size.width > 800
-        ? 4
-        : MediaQuery.of(context).size.width > 600
-            ? 3
-            : 2;
-    double childAspectRatio = MediaQuery.of(context).size.width > 800
-        ? 0.9
-        : MediaQuery.of(context).size.width > 600
-            ? 0.7
-            : 0.5;
+    int crossAxisCount = 3; // Set three items per row consistently
+    double childAspectRatio =
+        0.55; // Increase aspect ratio for more vertical space
 
     return Expanded(
       child: GridView.builder(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(10), // Reduce padding
         itemCount: mediaItems.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
-          crossAxisSpacing: 24,
-          mainAxisSpacing: 16,
-          childAspectRatio: childAspectRatio,
+          crossAxisSpacing: 10, // Reduced spacing
+          mainAxisSpacing: 10,
+          childAspectRatio: childAspectRatio, // Adjusted aspect ratio
         ),
         itemBuilder: (context, index) {
           var media = mediaItems[index];
-          String title = media is PopularMovie
-              ? media.title
-              : (media as PopularSeries).originalName;
           String posterPath = media.posterPath;
 
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              AspectRatio(
-                aspectRatio: 0.7,
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    image: DecorationImage(
-                      image: NetworkImage(
-                          'https://image.tmdb.org/t/p/w500$posterPath'),
-                      fit: BoxFit.fill,
+          return Container(
+            padding: const EdgeInsets.only(
+                bottom: 10), // Added padding to avoid overflow
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                AspectRatio(
+                  aspectRatio: 0.7,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      image: DecorationImage(
+                        image: NetworkImage(
+                            'https://image.tmdb.org/t/p/w500$posterPath'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),

@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
               'Filmes e Séries Populares',
               style: GoogleFonts.poppins(
                 color: Colors.white,
-                fontSize: 24,
+                fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,

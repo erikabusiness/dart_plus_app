@@ -13,15 +13,26 @@ class WidgetGridViewVertical extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int crossAxisCount = MediaQuery.of(context).size.width > 800
+        ? 4
+        : MediaQuery.of(context).size.width > 600
+            ? 3
+            : 2;
+    double childAspectRatio = MediaQuery.of(context).size.width > 800
+        ? 0.9
+        : MediaQuery.of(context).size.width > 600
+            ? 0.7
+            : 0.5;
+
     return Expanded(
       child: GridView.builder(
         padding: const EdgeInsets.all(24),
         itemCount: mediaItems.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossAxisCount,
           crossAxisSpacing: 24,
           mainAxisSpacing: 16,
-          childAspectRatio: 0.45,
+          childAspectRatio: childAspectRatio,
         ),
         itemBuilder: (context, index) {
           var media = mediaItems[index];
@@ -29,9 +40,6 @@ class WidgetGridViewVertical extends StatelessWidget {
               ? media.title
               : (media as PopularSeries).originalName;
           String posterPath = media.posterPath;
-          String releaseDate = media is PopularMovie
-              ? media.releaseDate
-              : (media as PopularSeries).firstAirDate;
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,28 +59,17 @@ class WidgetGridViewVertical extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    releaseDate,
-                    style: const TextStyle(fontSize: 16, color: Colors.grey),
-                  ),
-                ),
-              ),
-              Padding(
                 padding: const EdgeInsets.only(top: 4),
                 child: Text(
                   title,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.normal,
+                  style: GoogleFonts.openSans(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  softWrap: true,
                 ),
               ),
             ],

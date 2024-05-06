@@ -1,5 +1,3 @@
-
-import 'package:dart_plus_app/Widgets/title_section.dart';
 import 'package:dart_plus_app/data/mock/fetch/localdataservice.dart';
 import 'package:dart_plus_app/wigets/grid_view_vertical.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +18,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: 'Poppins',
       ),
-      home: const MyHomePage(),
+      home: const MyHomePage(title: 'DartPlus'),
     );
   }
 }
@@ -28,7 +26,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
   final String title;
-  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -46,17 +43,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 41, 41, 41),
+      backgroundColor: Colors.black, // Cor de fundo do Scaffold
       appBar: AppBar(
-
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
-      ),
-      body: const Column(
-        children: [WidgetTitleSection(title: 'Filmes e Séries Populares')],
-
-        title: const Text('DartPlus'),
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: Colors.black,
       ),
       body: FutureBuilder<List<dynamic>>(
         future: mediaItems,

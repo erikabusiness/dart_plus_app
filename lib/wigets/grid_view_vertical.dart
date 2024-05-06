@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:dart_plus_app/classes/popular_movies.dart';
-import 'package:dart_plus_app/classes/popular_series.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class WidgetGridViewVertical extends StatelessWidget {
   final List<dynamic> mediaItems;
@@ -13,27 +10,25 @@ class WidgetGridViewVertical extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int crossAxisCount = 3; // Set three items per row consistently
-    double childAspectRatio =
-        0.55; // Increase aspect ratio for more vertical space
+    int crossAxisCount = 3;
+    double childAspectRatio = 0.55;
 
     return Expanded(
       child: GridView.builder(
-        padding: const EdgeInsets.all(10), // Reduce padding
+        padding: const EdgeInsets.all(10),
         itemCount: mediaItems.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
-          crossAxisSpacing: 10, // Reduced spacing
+          crossAxisSpacing: 10,
           mainAxisSpacing: 10,
-          childAspectRatio: childAspectRatio, // Adjusted aspect ratio
+          childAspectRatio: childAspectRatio,
         ),
         itemBuilder: (context, index) {
           var media = mediaItems[index];
           String posterPath = media.posterPath;
 
           return Container(
-            padding: const EdgeInsets.only(
-                bottom: 10), // Added padding to avoid overflow
+            padding: const EdgeInsets.only(bottom: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

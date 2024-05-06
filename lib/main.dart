@@ -1,3 +1,4 @@
+import 'package:dart_plus_app/widgets/search_bar.dart';
 import 'package:dart_plus_app/widgets/title_section.dart';
 import 'package:dart_plus_app/data/mock/fetch/localdataservice.dart';
 import 'package:dart_plus_app/widgets/grid_view_vertical.dart';
@@ -54,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
+          WidgetSearchBar(),
           const WidgetTitleSection(title: 'Filmes e Séries Populares'),
           FutureBuilder<List<dynamic>>(
             future: mediaItems,

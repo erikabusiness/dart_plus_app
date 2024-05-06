@@ -1,7 +1,7 @@
 import 'package:dart_plus_app/data/mock/fetch/localdataservice.dart';
 import 'package:dart_plus_app/wigets/grid_view_vertical.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart'; // Importando para usar Poppins globalmente
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());

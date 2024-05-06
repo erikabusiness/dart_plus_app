@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dart_plus_app/classes/popular_movies.dart';
 import 'package:dart_plus_app/classes/popular_series.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class WidgetGridViewVertical extends StatelessWidget {
   final List<dynamic> mediaItems;
@@ -15,12 +14,12 @@ class WidgetGridViewVertical extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: GridView.builder(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(16),
         itemCount: mediaItems.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           crossAxisSpacing: 24,
-          mainAxisSpacing: 16,
+          mainAxisSpacing: 8,
           childAspectRatio: 0.45,
         ),
         itemBuilder: (context, index) {
@@ -51,22 +50,12 @@ class WidgetGridViewVertical extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    releaseDate,
-                    style: const TextStyle(fontSize: 16, color: Colors.grey),
-                  ),
-                ),
-              ),
-              Padding(
                 padding: const EdgeInsets.only(top: 4),
                 child: Text(
                   title,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: 16,
                     fontWeight: FontWeight.normal,
                     color: Colors.white,
                   ),

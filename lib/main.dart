@@ -1,4 +1,4 @@
-import 'package:dart_plus_app/Widgets/title_section.dart';
+import 'package:dart_plus_app/widgets/title_section.dart';
 import 'package:dart_plus_app/data/mock/fetch/localdataservice.dart';
 import 'package:dart_plus_app/widgets/grid_view_vertical.dart';
 import 'package:flutter/material.dart';

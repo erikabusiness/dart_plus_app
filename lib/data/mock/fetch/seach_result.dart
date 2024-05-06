@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:dart_plus_app/data/mock/fetch/localdataservice.dart';
-import 'package:dart_plus_app/wigets/grid_view_vertical.dart';
+import 'package:dart_plus_app/widgets/grid_view_vertical.dart';
 import 'package:flutter/material.dart';
 import 'package:dart_plus_app/classes/popular_movies.dart';
 import 'package:dart_plus_app/classes/popular_series.dart';

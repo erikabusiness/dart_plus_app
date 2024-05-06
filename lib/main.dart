@@ -1,6 +1,7 @@
 import 'package:dart_plus_app/data/mock/fetch/localdataservice.dart';
 import 'package:dart_plus_app/wigets/grid_view_vertical.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart'; // Importando para usar Poppins globalmente
 
 void main() {
   runApp(const MyApp());
@@ -43,27 +44,45 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Cor de fundo do Scaffold
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title, style: GoogleFonts.poppins()),
         backgroundColor: Colors.black,
       ),
-      body: FutureBuilder<List<dynamic>>(
-        future: mediaItems,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasError) {
-              return Center(child: Text('Erro: ${snapshot.error}'));
-            }
-            if (snapshot.hasData) {
-              return WidgetGridViewVertical(mediaItems: snapshot.data!);
-            } else {
-              return const Center(child: Text('Nenhum dado disponível'));
-            }
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'Filmes e Séries Populares',
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Expanded(
+            child: FutureBuilder<List<dynamic>>(
+              future: mediaItems,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Erro: ${snapshot.error}'));
+                  }
+                  if (snapshot.hasData) {
+                    return WidgetGridViewVertical(mediaItems: snapshot.data!);
+                  } else {
+                    return const Center(child: Text('Nenhum dado disponível'));
+                  }
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

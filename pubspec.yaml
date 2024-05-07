@@ -26,5 +26,5 @@ flutter:
   - lib\data\mock\popularMovies.json
   - lib\data\mock\popularTvSeries.json
   - lib\data\mock\trending.json
-  - lib\assets\data\popular_data.json
+  - assets\logo.png
  

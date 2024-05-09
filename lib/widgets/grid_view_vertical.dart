@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:dart_plus_app/classes/popular_movies.dart';
-import 'package:dart_plus_app/classes/popular_series.dart';
 
 class WidgetGridViewVertical extends StatelessWidget {
   final List<dynamic> mediaItems;
@@ -24,14 +22,9 @@ class WidgetGridViewVertical extends StatelessWidget {
         ),
         itemBuilder: (context, index) {
           var media = mediaItems[index];
-          String title = media is PopularMovie
-              ? media.title
-              : (media as PopularSeries).originalName;
+          String title = media.title;
           String posterPath = media.posterPath;
-          String releaseDate = media is PopularMovie
-              ? media.releaseDate
-              : (media as PopularSeries).firstAirDate;
-
+          String releaseDate = media.releaseDate;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

@@ -1,41 +1,47 @@
-class PopularSeries {
+import 'media.dart';
+
+class PopularSeries extends Media {
   final String originalName;
-  final String posterPath;
-  final String firstAirDate;
-  final bool adult;
-  final String backdropPath;
-  final List<int> genreIds;
+  final String releaseDate;
   final List<String> originCountry;
-  final String originalLanguage;
-  final String overview;
-  final double popularity;
-  final double voteAverage;
-  final int voteCount;
 
   PopularSeries({
     required this.originalName,
-    required this.posterPath,
-    required this.firstAirDate,
-    this.adult = false,
-    this.backdropPath = "",
-    this.genreIds = const [],
-    this.originCountry = const [],
-    this.originalLanguage = "",
-    this.overview = "",
-    this.popularity = 0.0,
-    this.voteAverage = 0.0,
-    this.voteCount = 0,
-  });
+    required this.releaseDate,
+    required this.originCountry,
+    String title = '',
+    String posterPath = '',
+    bool adult = false,
+    String backdropPath = "",
+    List<int> genreIds = const [],
+    String originalLanguage = "",
+    String overview = "",
+    double popularity = 0.0,
+    double voteAverage = 0.0,
+    int voteCount = 0,
+  }) : super(
+    title: title,
+    posterPath: posterPath,
+    adult: adult,
+    backdropPath: backdropPath,
+    genreIds: genreIds,
+    originalLanguage: originalLanguage,
+    overview: overview,
+    popularity: popularity,
+    voteAverage: voteAverage,
+    voteCount: voteCount,
+  );
 
   factory PopularSeries.fromJson(Map<String, dynamic> json) {
     return PopularSeries(
       originalName: json['original_name'] ?? '',
+      releaseDate: json['first_air_date'] ?? '',
+      originCountry: List<String>.from(json['origin_country'] ?? []),
+      title: json['original_name'] ?? '',
       posterPath: json['poster_path'] ?? '',
-      firstAirDate: json['first_air_date'] ?? '',
       adult: json['adult'] ?? false,
       backdropPath: json['backdrop_path'] ?? '',
       genreIds: List<int>.from(json['genre_ids'] ?? []),
-      originCountry: List<String>.from(json['origin_country'] ?? []),
       originalLanguage: json['original_language'] ?? '',
       overview: json['overview'] ?? '',
       popularity: json['popularity']?.toDouble() ?? 0.0,

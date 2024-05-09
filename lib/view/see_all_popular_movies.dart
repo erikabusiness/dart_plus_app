@@ -34,7 +34,28 @@ class _SeeAllPopularMovies extends State<SeeAllPopularMovies> {
         actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
       ),
       body: Column(
-        children: [],
+        children: [
+          FutureBuilder<List<dynamic>>(
+            future: mediaItems,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Center(child: Text('Erro: ${snapshot.error}'));
+                }
+                if (snapshot.hasData) {
+                  List<dynamic> filteredMediaItems = snapshot.data!
+                      .where((media) => media is PopularMovie)
+                      .toList();
+                  return WidgetGridViewVertical(mediaItems: filteredMediaItems);
+                } else {
+                  return const Center(child: Text('Nenhum dado disponível'));
+                }
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+        ],
       ),
     );
   }

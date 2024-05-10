@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:dart_plus_app/classes/media.dart';
 
 class MediaCard extends StatelessWidget {
-  final  media;
+  final Media media;
+  final dynamic? title;
 
   const MediaCard({
     super.key,
     required this.media,
+    this.title,
   });
 
   @override
@@ -66,21 +68,22 @@ class MediaCard extends StatelessWidget {
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 4),
-          child: Text(
-            media.title,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.normal,
-              color: Colors.white,
+        if (title != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text(
+              title!,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
             ),
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            softWrap: true,
           ),
-        ),
       ],
     );
   }

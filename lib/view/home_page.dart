@@ -6,8 +6,11 @@ import 'package:dart_plus_app/widgets/title_section.dart';
 import 'package:dart_plus_app/data/mock/fetch/localdataservice.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/clickable_text.dart';
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
+
   final String title;
 
   @override
@@ -34,15 +37,23 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         children: [
           const WidgetSearchBar(),
-          _buildSection(
-            'Filmes Populares',
-            (data) => data.whereType<PopularMovie>().toList(),
-            mediaItems,
-          ),
-          _buildSection(
-            'Séries Populares',
-            (data) => data.whereType<PopularSeries>().toList(),
-            mediaItems,
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  _buildSection(
+                    'Filmes Populares',
+                    (data) => data.whereType<PopularMovie>().toList(),
+                    mediaItems,
+                  ),
+                  _buildSection(
+                    'Séries Populares',
+                    (data) => data.whereType<PopularSeries>().toList(),
+                    mediaItems,
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -57,7 +68,13 @@ Widget _buildSection(
 ) {
   return Column(
     children: [
-      WidgetTitleSection(title: title),
+      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        WidgetTitleSection(title: title),
+        ClickableText(
+          text: "Ver todos",
+          onClick: () {},
+        ),
+      ]),
       FutureBuilder<List<dynamic>>(
         future: mediaItems,
         builder: (context, snapshot) {

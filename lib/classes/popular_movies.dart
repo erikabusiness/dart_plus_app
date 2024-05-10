@@ -1,4 +1,5 @@
 class PopularMovie {
+  final int id; 
   final String title;
   final String posterPath;
   final String releaseDate;
@@ -14,6 +15,7 @@ class PopularMovie {
   final int voteCount;
 
   PopularMovie({
+    required this.id,
     required this.title,
     required this.posterPath,
     required this.releaseDate,
@@ -31,6 +33,7 @@ class PopularMovie {
 
   factory PopularMovie.fromJson(Map<String, dynamic> json) {
   return PopularMovie(
+  id: json['id'] ?? 0,
   title: json['title'] ?? '',
   posterPath: json['poster_path'] ?? '',
   releaseDate: json['release_date'] ?? '',

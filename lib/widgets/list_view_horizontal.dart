@@ -1,8 +1,9 @@
+import 'package:dart_plus_app/classes/media.dart';
 import 'package:flutter/material.dart';
 import 'package:dart_plus_app/widgets/media_card.dart';
 
 class WidgetListViewHorizontal extends StatelessWidget {
-  final List<dynamic> mediaItems;
+  final List<Media> mediaItems;
 
   const WidgetListViewHorizontal({
     super.key,
@@ -27,7 +28,7 @@ class WidgetListViewHorizontal extends StatelessWidget {
                 ),
                 child: MediaCard(
                   media: mediaItems[index],
-                  title: null,
+                  viewTitle: false,
                 ),
               ),
             );

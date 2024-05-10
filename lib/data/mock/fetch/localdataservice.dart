@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'package:dart_plus_app/classes/media.dart';
 import 'package:flutter/services.dart';
 import 'package:dart_plus_app/classes/popular_movies.dart';
 import 'package:dart_plus_app/classes/popular_series.dart';
 
 class LocalDataService {
-  Future<List<dynamic>> fetchData() async {
+  Future<List<Media>> fetchData() async {
     try {
       final String moviesResponse =
           await rootBundle.loadString('lib/data/mock/popularMovies.json');
@@ -18,7 +19,7 @@ class LocalDataService {
       print("Parsed Movies Data: $moviesData");
       print("Parsed Series Data: $seriesData");
 
-      List<dynamic> items = [];
+      List<Media> items = [];
       if (moviesData != null && moviesData['results'] is List) {
         items.addAll((moviesData['results'] as List)
             .map((item) => PopularMovie.fromJson(item))

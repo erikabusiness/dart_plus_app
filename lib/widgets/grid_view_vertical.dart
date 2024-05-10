@@ -24,7 +24,6 @@ class WidgetGridViewVertical extends StatelessWidget {
           var media = mediaItems[index];
           return MediaCard(
             media: media,
-            title: media.title,
           );
         },
       ),

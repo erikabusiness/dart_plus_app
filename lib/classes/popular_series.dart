@@ -1,4 +1,5 @@
 class PopularSeries {
+  final int id;
   final String originalName;
   final String posterPath;
   final String firstAirDate;
@@ -14,6 +15,7 @@ class PopularSeries {
   final int voteCount;
 
   PopularSeries({
+    required this.id,
     required this.originalName,
     required this.posterPath,
     required this.firstAirDate,
@@ -30,6 +32,7 @@ class PopularSeries {
 
   factory PopularSeries.fromJson(Map<String, dynamic> json) {
   return PopularSeries(
+  id: json['id'] ?? 0,
   originalName: json['original_name'] ?? '',
   posterPath: json['poster_path'] ?? '',
   firstAirDate: json['first_air_date'] ?? '',

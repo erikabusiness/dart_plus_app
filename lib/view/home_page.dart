@@ -45,11 +45,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     'Filmes Populares',
                     (data) => data.whereType<PopularMovie>().toList(),
                     mediaItems,
+                    () {},
                   ),
                   _buildSection(
                     'Séries Populares',
                     (data) => data.whereType<PopularSeries>().toList(),
                     mediaItems,
+                    () {},
                   ),
                 ],
               ),
@@ -65,6 +67,7 @@ Widget _buildSection(
   String title,
   List<dynamic> Function(List<dynamic>) filterFunction,
   Future<List<dynamic>> mediaItems,
+  VoidCallback verTodos,
 ) {
   return Column(
     children: [
@@ -72,7 +75,9 @@ Widget _buildSection(
         WidgetTitleSection(title: title),
         ClickableText(
           text: "Ver todos",
-          onClick: () {},
+          onClick: () {
+            verTodos;
+          },
         ),
       ]),
       FutureBuilder<List<dynamic>>(

@@ -1,4 +1,6 @@
 import 'package:dart_plus_app/view/home_page.dart';
+import 'package:dart_plus_app/view/see_all_popular_movies.dart';
+import 'package:dart_plus_app/view/see_all_popular_series.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,11 +18,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark(
         useMaterial3: true,
       ),
-      home: const MyHomePage(
+      home: const SeeAllPopularSeries(
         title: 'Dart+',
       ),
     );
   }
 }
-
-

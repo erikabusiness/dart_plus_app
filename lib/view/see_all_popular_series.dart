@@ -1,3 +1,4 @@
+import 'package:dart_plus_app/classes/media.dart';
 import 'package:dart_plus_app/classes/popular_series.dart';
 import 'package:dart_plus_app/widgets/title_section.dart';
 import 'package:dart_plus_app/data/mock/fetch/localdataservice.dart';
@@ -13,7 +14,7 @@ class SeeAllPopularSeries extends StatefulWidget {
 }
 
 class _SeeAllPopularSeries extends State<SeeAllPopularSeries> {
-  late Future<List<dynamic>> mediaItems;
+  late Future<List<Media>> mediaItems;
 
   @override
   void initState() {
@@ -26,16 +27,12 @@ class _SeeAllPopularSeries extends State<SeeAllPopularSeries> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {},
-        ),
         title: const WidgetTitleSection(title: 'Séries Populares'),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
+        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
       ),
       body: Column(
         children: [
-          FutureBuilder<List<dynamic>>(
+          FutureBuilder<List<Media>>(
             future: mediaItems,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
@@ -43,9 +40,8 @@ class _SeeAllPopularSeries extends State<SeeAllPopularSeries> {
                   return Center(child: Text('Erro: ${snapshot.error}'));
                 }
                 if (snapshot.hasData) {
-                  List<dynamic> filteredMediaItems = snapshot.data!
-                      .where((media) => media is PopularSeries)
-                      .toList();
+                  List<Media> filteredMediaItems =
+                      snapshot.data!.whereType<PopularSeries>().toList();
                   return WidgetGridViewVertical(mediaItems: filteredMediaItems);
                 } else {
                   return const Center(child: Text('Nenhum dado disponível'));

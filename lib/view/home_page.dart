@@ -1,6 +1,7 @@
 import 'package:dart_plus_app/classes/popular_movies.dart';
 import 'package:dart_plus_app/classes/popular_series.dart';
 import 'package:dart_plus_app/widgets/list_view_horizontal.dart';
+import 'package:dart_plus_app/widgets/navigation_bar.dart';
 import 'package:dart_plus_app/widgets/search_bar.dart';
 import 'package:dart_plus_app/widgets/title_section.dart';
 import 'package:dart_plus_app/data/mock/fetch/localdataservice.dart';
@@ -19,11 +20,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late Future<List<dynamic>> mediaItems;
+  int _selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
     mediaItems = LocalDataService().fetchData();
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
@@ -58,6 +66,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }

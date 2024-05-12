@@ -25,7 +25,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.star),
-          label: 'Notificações',
+          label: 'Favoritos',
         ),
       ],
       currentIndex: selectedIndex,

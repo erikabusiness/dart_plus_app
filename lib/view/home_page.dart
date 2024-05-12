@@ -1,7 +1,6 @@
 import 'package:dart_plus_app/classes/popular_movies.dart';
 import 'package:dart_plus_app/classes/popular_series.dart';
 import 'package:dart_plus_app/widgets/list_view_horizontal.dart';
-import 'package:dart_plus_app/widgets/search_bar.dart';
 import 'package:dart_plus_app/widgets/title_section.dart';
 import 'package:dart_plus_app/data/mock/fetch/localdataservice.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +18,38 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late Future<List<dynamic>> mediaItems;
+  late Future<List<dynamic>> mediaItemsCopy;
+  late Future<List<dynamic>> filteredElements;
+
+  final TextEditingController searchController = TextEditingController();
+  final SearchController controller = SearchController();
+
+  void searchMedia(String value) {
+    if (value.isEmpty) {
+      setState(() {
+        mediaItems = mediaItemsCopy;
+      });
+    } else {
+      mediaItems.then((data) {
+        List<dynamic> filteredData = data
+            .where((element) =>
+                (element is PopularMovie || element is PopularSeries))
+            .where((element) =>
+                element.title.toLowerCase().contains(value.toLowerCase()))
+            .toList();
+        filteredElements = Future.value(filteredData);
+        setState(() {
+          mediaItems = filteredElements;
+        });
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     mediaItems = LocalDataService().fetchData();
+    mediaItemsCopy = mediaItems;
   }
 
   @override
@@ -36,7 +62,23 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-          const WidgetSearchBar(),
+          //const WidgetSearchBar(),
+          SearchBar(
+            controller: searchController,
+            leading: const Icon(Icons.search),
+            trailing: <Widget>[
+              Tooltip(
+                message: 'Busca por voz',
+                child:
+                    IconButton(onPressed: () {}, icon: const Icon(Icons.mic)),
+              ),
+            ],
+            hintText: 'Procure um filme',
+            //onTap: () => controller.openView(),
+            onChanged: (value) => {searchMedia(value)},
+            padding: const MaterialStatePropertyAll<EdgeInsets>(
+                EdgeInsets.symmetric(horizontal: 16.0)),
+          ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(

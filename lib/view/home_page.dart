@@ -1,3 +1,4 @@
+import 'package:dart_plus_app/classes/media.dart';
 import 'package:dart_plus_app/classes/popular_movies.dart';
 import 'package:dart_plus_app/classes/popular_series.dart';
 import 'package:dart_plus_app/widgets/list_view_horizontal.dart';
@@ -18,7 +19,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late Future<List<dynamic>> mediaItems;
+  late Future<List<Media>> mediaItems;
 
   @override
   void initState() {
@@ -65,8 +66,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
 Widget _buildSection(
   String title,
-  List<dynamic> Function(List<dynamic>) filterFunction,
-  Future<List<dynamic>> mediaItems,
+  List<Media> Function(List<Media>) filterFunction,
+  Future<List<Media>> mediaItems,
   VoidCallback verTodos,
 ) {
   return Column(
@@ -80,7 +81,7 @@ Widget _buildSection(
           },
         ),
       ]),
-      FutureBuilder<List<dynamic>>(
+      FutureBuilder<List<Media>>(
         future: mediaItems,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
@@ -88,7 +89,7 @@ Widget _buildSection(
               return Center(child: Text('Erro: ${snapshot.error}'));
             }
             if (snapshot.hasData) {
-              List<dynamic> filteredMediaItems = filterFunction(snapshot.data!);
+              List<Media> filteredMediaItems = filterFunction(snapshot.data!);
               return WidgetListViewHorizontal(
                 mediaItems: filteredMediaItems,
               );

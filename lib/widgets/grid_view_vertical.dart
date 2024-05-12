@@ -1,12 +1,19 @@
+import 'package:dart_plus_app/classes/media.dart';
 import 'package:dart_plus_app/widgets/media_card.dart';
 import 'package:flutter/material.dart';
 
 class WidgetGridViewVertical extends StatelessWidget {
-  final List<dynamic> mediaItems;
+  final List<Media> mediaItems;
+  final int gridCount;
+  final double crossAxisSpacing;
+  final double childAspectRatio;
 
   const WidgetGridViewVertical({
     super.key,
     required this.mediaItems,
+    this.gridCount = 3,
+    this.crossAxisSpacing = 24,
+    this.childAspectRatio = 0.45,
   });
 
   @override
@@ -15,16 +22,15 @@ class WidgetGridViewVertical extends StatelessWidget {
       child: GridView.builder(
         padding: const EdgeInsets.all(8),
         itemCount: mediaItems.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          crossAxisSpacing: 24,
-          childAspectRatio: 0.45,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: gridCount,
+          crossAxisSpacing: crossAxisSpacing,
+          childAspectRatio: childAspectRatio,
         ),
         itemBuilder: (context, index) {
           var media = mediaItems[index];
           return MediaCard(
             media: media,
-            title: media.title,
           );
         },
       ),

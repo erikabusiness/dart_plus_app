@@ -1,9 +1,8 @@
 name: dart_plus_app
-description: "A new Flutter project."
+description: An example of an entertainment stream app.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
-
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
@@ -13,6 +12,8 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.6
   google_fonts: ^6.2.1
+  carousel_slider: ^4.2.1
+  youtube_player_flutter: ^9.0.1
 
 dev_dependencies:
   flutter_test:
@@ -23,8 +24,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-  - lib\data\mock\popularMovies.json
-  - lib\data\mock\popularTvSeries.json
-  - lib\data\mock\trending.json
-  - assets\logo.png
- 
+    - lib/data/mock/popularMovies.json
+    - lib/data/mock/popularTvSeries.json
+    - lib/data/mock/trending.json
+    - assets/logo.png

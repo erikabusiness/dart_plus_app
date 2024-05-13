@@ -75,6 +75,9 @@ class DetailsPage extends StatelessWidget {
                               sizeTitle: 18.0,
                               fontWeight: FontWeight.normal,
                               padding: 4.0,
+                            ),
+                            SizedBox(
+                              width: 8.0,
                             )
                           ],
                         ),

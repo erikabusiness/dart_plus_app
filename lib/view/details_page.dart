@@ -1,6 +1,7 @@
 import 'package:dart_plus_app/classes/media.dart';
 import 'package:dart_plus_app/classes/popular_movies.dart';
 import 'package:dart_plus_app/classes/popular_series.dart';
+import 'package:dart_plus_app/widgets/grid_view_vertical.dart';
 import 'package:dart_plus_app/widgets/media_trailer.dart';
 import 'package:dart_plus_app/widgets/story_line.dart';
 import 'package:dart_plus_app/widgets/title_section.dart';
@@ -9,8 +10,9 @@ import 'package:flutter/material.dart';
 
 class DetailsPage extends StatelessWidget {
   final Media media;
+  List<Media> mediaItems;
 
-  const DetailsPage({super.key, required this.media});
+  DetailsPage({super.key, required this.media, required this.mediaItems});
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +78,8 @@ class DetailsPage extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       padding: 16,
                     ),
+                    const WidgetTitleSection(title: 'Recomendados'),
+                    WidgetGridViewVertical(mediaItems: mediaItems),
                   ],
                 ),
               ),

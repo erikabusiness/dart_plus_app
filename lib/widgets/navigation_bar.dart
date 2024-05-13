@@ -1,3 +1,4 @@
+import 'package:dart_plus_app/styles/colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -12,8 +13,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return BottomNavigationBar(
-      backgroundColor: Colors.grey[850],
+      backgroundColor: theme.colorScheme.background,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
@@ -29,7 +31,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
         ),
       ],
       currentIndex: selectedIndex,
-      selectedItemColor: Colors.white,
+      selectedItemColor: CustomColor.defaultTextColor,
       unselectedItemColor: Colors.grey[600],
       onTap: onItemTapped,
     );

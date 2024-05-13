@@ -5,9 +5,14 @@ import 'package:dart_plus_app/data/mock/fetch/localdataservice.dart';
 import 'package:dart_plus_app/widgets/grid_view_vertical.dart';
 import 'package:flutter/material.dart';
 
+class SeeAllPopularSeriesArguments {
+  final Future<List<Media>> media;
+
+  SeeAllPopularSeriesArguments({required this.media});
+}
+
 class SeeAllPopularSeries extends StatefulWidget {
-  const SeeAllPopularSeries({super.key, required this.title});
-  final String title;
+  const SeeAllPopularSeries({super.key,});
 
   @override
   State<SeeAllPopularSeries> createState() => _SeeAllPopularSeries();
@@ -24,6 +29,10 @@ class _SeeAllPopularSeries extends State<SeeAllPopularSeries> {
 
   @override
   Widget build(BuildContext context) {
+
+    final args = ModalRoute.of(context)?.settings.arguments as Future<List<Media>>;
+    mediaItems = args;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,

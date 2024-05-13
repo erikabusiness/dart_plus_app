@@ -1,4 +1,5 @@
 import 'package:dart_plus_app/classes/media.dart';
+import 'package:dart_plus_app/data/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:dart_plus_app/widgets/media_card.dart';
 
@@ -35,6 +36,16 @@ class WidgetListViewHorizontal extends StatelessWidget {
                 child: MediaCard(
                   media: mediaItems[index],
                   viewTitle: false,
+                  onClick: () {
+                    Navigator.pushNamed(
+                      context,
+                      NavRoutes.details,
+                      arguments: {
+                        "mediaDetails": mediaItems[index],
+                        "listMedias": mediaItems,
+                      },
+                    );
+                  },
                 ),
               ),
             );

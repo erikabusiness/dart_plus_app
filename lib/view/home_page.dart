@@ -1,8 +1,8 @@
+import 'package:dart_plus_app/classes/media.dart';
 import 'package:dart_plus_app/classes/popular_movies.dart';
 import 'package:dart_plus_app/classes/popular_series.dart';
 import 'package:dart_plus_app/widgets/list_view_horizontal.dart';
 import 'package:dart_plus_app/widgets/navigation_bar.dart';
-import 'package:dart_plus_app/widgets/search_bar.dart';
 import 'package:dart_plus_app/widgets/title_section.dart';
 import 'package:dart_plus_app/data/mock/fetch/localdataservice.dart';
 import 'package:flutter/material.dart';
@@ -19,13 +19,40 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late Future<List<dynamic>> mediaItems;
   int _selectedIndex = 0;
+  late Future<List<Media>> mediaItems;
+  late Future<List<Media>> mediaItemsCopy;
+  late Future<List<Media>> filteredElements;
+
+  final TextEditingController searchController = TextEditingController();
+
+  void searchMedia(String value) {
+    if (value.isEmpty) {
+      setState(() {
+        mediaItems = mediaItemsCopy;
+      });
+    } else {
+      mediaItems.then((data) {
+        List<Media> filteredData = data
+            .where((element) =>
+                (element is PopularMovie || element is PopularSeries))
+            .where((element) =>
+                element.title.toLowerCase().contains(value.toLowerCase()))
+            .toList();
+        filteredElements = Future.value(filteredData);
+
+        setState(() {
+          mediaItems = filteredElements;
+        });
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     mediaItems = LocalDataService().fetchData();
+    mediaItemsCopy = mediaItems;
   }
 
   void _onItemTapped(int index) {
@@ -44,7 +71,27 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-          const WidgetSearchBar(),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: SearchBar(
+              controller: searchController,
+              leading: const Icon(Icons.search),
+              trailing: <Widget>[
+                Tooltip(
+                  message: 'Busca por voz',
+                  child:
+                      IconButton(onPressed: () {}, icon: const Icon(Icons.mic)),
+                ),
+              ],
+              hintText: 'Procure um filme ou série',
+              onChanged: (value) => {
+                searchMedia(value),
+              },
+              padding: const MaterialStatePropertyAll<EdgeInsets>(
+                  EdgeInsets.symmetric(horizontal: 16.0)),
+            ),
+          ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -77,8 +124,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
 Widget _buildSection(
   String title,
-  List<dynamic> Function(List<dynamic>) filterFunction,
-  Future<List<dynamic>> mediaItems,
+  List<Media> Function(List<Media>) filterFunction,
+  Future<List<Media>> mediaItems,
   VoidCallback verTodos,
 ) {
   return Column(
@@ -92,7 +139,7 @@ Widget _buildSection(
           },
         ),
       ]),
-      FutureBuilder<List<dynamic>>(
+      FutureBuilder<List<Media>>(
         future: mediaItems,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
@@ -100,12 +147,16 @@ Widget _buildSection(
               return Center(child: Text('Erro: ${snapshot.error}'));
             }
             if (snapshot.hasData) {
-              List<dynamic> filteredMediaItems = filterFunction(snapshot.data!);
-              return WidgetListViewHorizontal(
-                mediaItems: filteredMediaItems,
-              );
+              List<Media> filteredMediaItems = filterFunction(snapshot.data!);
+              if (filteredMediaItems.isNotEmpty) {
+                return WidgetListViewHorizontal(
+                  mediaItems: filteredMediaItems,
+                );
+              } else {
+                return const Center(child: Text('Nenhum resultado encontrado'));
+              }
             } else {
-              return const Center(child: Text('Nenhum dado disponível'));
+              return const Center(child: CircularProgressIndicator());
             }
           } else {
             return const Center(child: CircularProgressIndicator());

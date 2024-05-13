@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dart_plus_app/classes/media.dart';
 import 'package:dart_plus_app/data/mock/fetch/localdataservice.dart';
 import 'package:dart_plus_app/widgets/grid_view_vertical.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class ContentDisplayScreen extends StatefulWidget {
 }
 
 class _ContentDisplayScreenState extends State<ContentDisplayScreen> {
-  List<dynamic> items = [];
+  List<Media> items = [];
 
   @override
   void initState() {
@@ -53,7 +54,7 @@ class _ContentDisplayScreenState extends State<ContentDisplayScreen> {
 }
 
 List<Widget> processMetadata(String jsonString) {
-  Map<String, dynamic> data = jsonDecode(jsonString);
+  Map<String, Media> data = jsonDecode(jsonString);
   List<Widget> widgets = [];
 
   List<dynamic> items = [];

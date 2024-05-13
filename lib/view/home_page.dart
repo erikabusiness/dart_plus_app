@@ -1,12 +1,12 @@
 import 'package:dart_plus_app/classes/media.dart';
 import 'package:dart_plus_app/classes/popular_movies.dart';
 import 'package:dart_plus_app/classes/popular_series.dart';
+import 'package:dart_plus_app/widgets/caroseul.dart';
 import 'package:dart_plus_app/widgets/list_view_horizontal.dart';
 import 'package:dart_plus_app/widgets/navigation_bar.dart';
 import 'package:dart_plus_app/widgets/title_section.dart';
 import 'package:dart_plus_app/data/mock/fetch/localdataservice.dart';
 import 'package:flutter/material.dart';
-
 import '../widgets/clickable_text.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -91,6 +91,25 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const MaterialStatePropertyAll<EdgeInsets>(
                   EdgeInsets.symmetric(horizontal: 16.0)),
             ),
+          ),
+          FutureBuilder<List<Media>>(
+            future: mediaItems,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Center(child: Text('Erro: ${snapshot.error}'));
+                }
+                if (snapshot.hasData) {
+                  List<Media> filteredMediaItems =
+                      snapshot.data!.whereType<PopularMovie>().toList();
+                  return WidgetCarousel(mediaItems: filteredMediaItems);
+                } else {
+                  return const Center(child: Text('Nenhum dado disponível'));
+                }
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
           ),
           Expanded(
             child: SingleChildScrollView(

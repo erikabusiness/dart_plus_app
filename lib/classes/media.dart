@@ -9,6 +9,8 @@ abstract class Media {
   final double popularity;
   final double voteAverage;
   final int voteCount;
+  final String releaseDate = "";
+  final String firstAirDate = "";
 
   Media({
     required this.title,

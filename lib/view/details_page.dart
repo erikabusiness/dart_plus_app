@@ -13,14 +13,14 @@ class DetailsPage extends StatelessWidget {
   final Media media;
   List<Media> mediaItems;
 
-  DetailsPage({super.key, required this.media, required this.mediaItems});
+  DetailsPage({
+    super.key,
+    required this.media,
+    required this.mediaItems,
+  });
 
   @override
   Widget build(BuildContext context) {
-    String releaseDate = media is PopularMovie
-        ? media.releaseDate
-        : (media as PopularSeries).firstAirDate;
-
     String dateFormat(String date) {
       String dateMedia = date;
       List<String> modifiedDate = dateMedia.split('-').reversed.toList();
@@ -57,7 +57,7 @@ class DetailsPage extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 8.0),
                           child: WidgetTitleSection(
                             title:
-                                'Data de lançamento: ${dateFormat(releaseDate)}',
+                                'Data de lançamento: ${dateFormat(media.releaseDate)}',
                             sizeTitle: 14.0,
                             fontWeight: FontWeight.normal,
                             padding: 4.0,

@@ -1,49 +1,41 @@
-class PopularMovie {
-  final String title;
-  final String posterPath;
+import 'media.dart';
+
+class PopularMovie extends Media {
   final String releaseDate;
-  final bool adult;
-  final String backdropPath;
-  final List<int> genreIds;
-  final String originalLanguage;
   final String originalTitle;
-  final String overview;
-  final double popularity;
   final bool video;
-  final double voteAverage;
-  final int voteCount;
 
   PopularMovie({
-    required this.title,
-    required this.posterPath,
     required this.releaseDate,
-    this.adult = false,
-    this.backdropPath = "",
-    this.genreIds = const [],
-    this.originalLanguage = "",
-    this.originalTitle = "",
-    this.overview = "",
-    this.popularity = 0.0,
-    this.video = false,
-    this.voteAverage = 0.0,
-    this.voteCount = 0,
+    required this.originalTitle,
+    required this.video,
+    super.title = '',
+    super.posterPath = '',
+    super.adult,
+    super.backdropPath,
+    super.genreIds,
+    super.originalLanguage,
+    super.overview,
+    super.popularity,
+    super.voteAverage,
+    super.voteCount,
   });
 
-  factory PopularMovie.fromJson(Map<String, dynamic> json) {
-  return PopularMovie(
-  title: json['title'] ?? '',
-  posterPath: json['poster_path'] ?? '',
-  releaseDate: json['release_date'] ?? '',
-  adult: json['adult'] ?? false,
-  backdropPath: json['backdrop_path'] ?? '',
-  genreIds: List<int>.from(json['genre_ids'] ?? []),
-  originalLanguage: json['original_language'] ?? '',
-  originalTitle: json['original_title'] ?? '',
-  overview: json['overview'] ?? '',
-  popularity: json['popularity']?.toDouble() ?? 0.0,
-  video: json['video'] ?? false,
-  voteAverage: json['vote_average']?.toDouble() ?? 0.0,
-  voteCount: json['vote_count'] ?? 0,
-  );
-}
+  static PopularMovie fromJson(Map<String, dynamic> json) {
+    return PopularMovie(
+      releaseDate: json['release_date'] ?? '',
+      originalTitle: json['original_title'] ?? '',
+      video: json['video'] ?? false,
+      title: json['title'] ?? '',
+      posterPath: json['poster_path'] ?? '',
+      adult: json['adult'] ?? false,
+      backdropPath: json['backdrop_path'] ?? '',
+      genreIds: List<int>.from(json['genre_ids'] ?? []),
+      originalLanguage: json['original_language'] ?? '',
+      overview: json['overview'] ?? '',
+      popularity: json['popularity']?.toDouble() ?? 0.0,
+      voteAverage: json['vote_average']?.toDouble() ?? 0.0,
+      voteCount: json['vote_count'] ?? 0,
+    );
+  }
 }

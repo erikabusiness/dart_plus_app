@@ -20,12 +20,13 @@ class _MyHomePageState extends State<MyHomePage> {
   late Future<List<dynamic>> mediaItems;
   late Future<List<dynamic>> mediaItemsCopy;
   late Future<List<dynamic>> filteredElements;
+  bool showMessage = false;
 
   final TextEditingController searchController = TextEditingController();
-  final SearchController controller = SearchController();
 
   void searchMedia(String value) {
     if (value.isEmpty) {
+      showMessage = false;
       setState(() {
         mediaItems = mediaItemsCopy;
       });
@@ -38,6 +39,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 element.title.toLowerCase().contains(value.toLowerCase()))
             .toList();
         filteredElements = Future.value(filteredData);
+        if(filteredData.isEmpty) {
+          showMessage = true;
+        }
         setState(() {
           mediaItems = filteredElements;
         });
@@ -62,23 +66,28 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-          //const WidgetSearchBar(),
-          SearchBar(
-            controller: searchController,
-            leading: const Icon(Icons.search),
-            trailing: <Widget>[
-              Tooltip(
-                message: 'Busca por voz',
-                child:
-                    IconButton(onPressed: () {}, icon: const Icon(Icons.mic)),
-              ),
-            ],
-            hintText: 'Procure um filme',
-            //onTap: () => controller.openView(),
-            onChanged: (value) => {searchMedia(value)},
-            padding: const MaterialStatePropertyAll<EdgeInsets>(
-                EdgeInsets.symmetric(horizontal: 16.0)),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: SearchBar(
+              controller: searchController,
+              leading: const Icon(Icons.search),
+              trailing: <Widget>[
+                Tooltip(
+                  message: 'Busca por voz',
+                  child:
+                      IconButton(onPressed: () {}, icon: const Icon(Icons.mic)),
+                ),
+              ],
+              hintText: 'Procure um filme ou série',
+              onChanged: (value) => {
+                searchMedia(value),
+              },
+              padding: const MaterialStatePropertyAll<EdgeInsets>(
+                  EdgeInsets.symmetric(horizontal: 16.0)),
+            ),
           ),
+           if (showMessage) 
+             Text('Nenhum filme ou série encontrado'),
           Expanded(
             child: SingleChildScrollView(
               child: Column(

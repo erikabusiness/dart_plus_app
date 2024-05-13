@@ -20,13 +20,11 @@ class _MyHomePageState extends State<MyHomePage> {
   late Future<List<dynamic>> mediaItems;
   late Future<List<dynamic>> mediaItemsCopy;
   late Future<List<dynamic>> filteredElements;
-  bool showMessage = false;
 
   final TextEditingController searchController = TextEditingController();
 
   void searchMedia(String value) {
     if (value.isEmpty) {
-      showMessage = false;
       setState(() {
         mediaItems = mediaItemsCopy;
       });
@@ -39,9 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 element.title.toLowerCase().contains(value.toLowerCase()))
             .toList();
         filteredElements = Future.value(filteredData);
-        if(filteredData.isEmpty) {
-          showMessage = true;
-        }
+
         setState(() {
           mediaItems = filteredElements;
         });
@@ -67,7 +63,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: SearchBar(
               controller: searchController,
               leading: const Icon(Icons.search),
@@ -86,8 +83,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   EdgeInsets.symmetric(horizontal: 16.0)),
             ),
           ),
-           if (showMessage) 
-             Text('Nenhum filme ou série encontrado'),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -140,11 +135,15 @@ Widget _buildSection(
             }
             if (snapshot.hasData) {
               List<dynamic> filteredMediaItems = filterFunction(snapshot.data!);
-              return WidgetListViewHorizontal(
-                mediaItems: filteredMediaItems,
-              );
+              if (filteredMediaItems.isNotEmpty) {
+                return WidgetListViewHorizontal(
+                  mediaItems: filteredMediaItems,
+                );
+              } else {
+                return const Center(child: Text('Nenhum resultado encontrado'));
+              }
             } else {
-              return const Center(child: Text('Nenhum dado disponível'));
+              return const Center(child: CircularProgressIndicator());
             }
           } else {
             return const Center(child: CircularProgressIndicator());

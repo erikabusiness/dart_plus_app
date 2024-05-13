@@ -3,12 +3,11 @@ import 'package:dart_plus_app/classes/media.dart';
 
 class MediaCard extends StatelessWidget {
   final Media media;
-  final dynamic? title;
-
+  final bool viewTitle;
   const MediaCard({
     super.key,
     required this.media,
-    this.title,
+    this.viewTitle = true,
   });
 
   @override
@@ -68,11 +67,11 @@ class MediaCard extends StatelessWidget {
             ],
           ),
         ),
-        if (title != null)
+        if (viewTitle != false)
           Padding(
             padding: const EdgeInsets.only(top: 4),
             child: Text(
-              title!,
+              media.title,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.normal,

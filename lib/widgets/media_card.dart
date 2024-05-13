@@ -16,6 +16,10 @@ class MediaCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String voteStar(double vote) {
+      var voteStar = vote / 2;
+      return voteStar.toStringAsFixed(1);
+    }
     return InkWell(
         onTap: () {
           Navigator.push(
@@ -67,7 +71,7 @@ class MediaCard extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            media.voteAverage.toStringAsFixed(1),
+                            voteStar(media.voteAverage),
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.normal,

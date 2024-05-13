@@ -20,7 +20,7 @@ class ClickableText extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: GestureDetector(
         onTap: () {
-          onClick;
+          onClick();
         },
         child: Text(
           text,

@@ -1,6 +1,7 @@
 import 'package:dart_plus_app/classes/media.dart';
 import 'package:dart_plus_app/widgets/media_card.dart';
 import 'package:flutter/material.dart';
+import '../data/routes.dart';
 
 class WidgetGridViewVertical extends StatelessWidget {
   final List<Media> mediaItems;
@@ -31,6 +32,16 @@ class WidgetGridViewVertical extends StatelessWidget {
           var media = mediaItems[index];
           return MediaCard(
             media: media,
+            onClick: () {
+              Navigator.pushNamed(
+                context,
+                NavRoutes.details,
+                arguments: {
+                  "mediaDetails": mediaItems[index],
+                  "listMedias": mediaItems,
+                },
+              );
+            },
           );
         },
       ),

@@ -6,20 +6,52 @@ import 'package:dart_plus_app/widgets/grid_view_vertical.dart';
 import 'package:flutter/material.dart';
 
 class SeeAllPopularSeries extends StatefulWidget {
-  const SeeAllPopularSeries({super.key, required this.title});
-  final String title;
+  const SeeAllPopularSeries({Key? key}) : super(key: key);
 
   @override
-  State<SeeAllPopularSeries> createState() => _SeeAllPopularSeries();
+  State<SeeAllPopularSeries> createState() => _SeeAllPopularSeriesState();
 }
 
-class _SeeAllPopularSeries extends State<SeeAllPopularSeries> {
+class _SeeAllPopularSeriesState extends State<SeeAllPopularSeries> {
   late Future<List<Media>> mediaItems;
+  late Future<List<Media>> filteredElements;
+  final TextEditingController searchController = TextEditingController();
+  bool _isSearchBarVisible = false;
 
   @override
   void initState() {
     super.initState();
     mediaItems = LocalDataService().fetchData();
+    filteredElements = mediaItems;
+  }
+
+  void searchMedia(String value) {
+    if (value.isEmpty) {
+      setState(() {
+        filteredElements = mediaItems;
+      });
+    } else {
+      mediaItems.then((data) {
+        List<Media> filteredData = data
+            .where((element) => element is PopularSeries)
+            .where((element) =>
+            element.title.toLowerCase().contains(value.toLowerCase()))
+            .toList();
+        setState(() {
+          filteredElements = Future.value(filteredData);
+        });
+      });
+    }
+  }
+
+  void _toggleSearchBarVisibility() {
+    setState(() {
+      _isSearchBarVisible = !_isSearchBarVisible;
+      if (!_isSearchBarVisible) {
+        searchController.clear();
+        searchMedia('');
+      }
+    });
   }
 
   @override
@@ -27,29 +59,45 @@ class _SeeAllPopularSeries extends State<SeeAllPopularSeries> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
-        title: const WidgetTitleSection(title: 'Séries Populares'),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
+        title: _isSearchBarVisible
+            ? TextField(
+          controller: searchController,
+          onChanged: searchMedia,
+          decoration: const InputDecoration(
+            hintText: 'Buscar...',
+            prefixIcon: Icon(Icons.search),
+          ),
+        )
+            : const WidgetTitleSection(title: 'Séries Populares'),
+        actions: [
+          IconButton(
+            onPressed: _toggleSearchBarVisibility,
+            icon: const Icon(Icons.search),
+          ),
+        ],
       ),
       body: Column(
         children: [
-          FutureBuilder<List<Media>>(
-            future: mediaItems,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasError) {
-                  return Center(child: Text('Erro: ${snapshot.error}'));
-                }
-                if (snapshot.hasData) {
-                  List<Media> filteredMediaItems =
-                      snapshot.data!.whereType<PopularSeries>().toList();
-                  return WidgetGridViewVertical(mediaItems: filteredMediaItems);
+          Expanded(
+            child: FutureBuilder<List<Media>>(
+              future: filteredElements,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Erro: ${snapshot.error}'));
+                  }
+                  if (snapshot.hasData) {
+                    return WidgetGridViewVertical(
+                      mediaItems: snapshot.data as List<Media>,
+                    );
+                  } else {
+                    return const Center(child: Text('Nenhum dado disponível'));
+                  }
                 } else {
-                  return const Center(child: Text('Nenhum dado disponível'));
+                  return const Center(child: CircularProgressIndicator());
                 }
-              } else {
-                return const Center(child: CircularProgressIndicator());
-              }
-            },
+              },
+            ),
           ),
         ],
       ),

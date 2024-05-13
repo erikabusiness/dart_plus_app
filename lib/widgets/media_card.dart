@@ -1,3 +1,4 @@
+import 'package:dart_plus_app/view/details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:dart_plus_app/classes/media.dart';
 
@@ -13,7 +14,16 @@ class MediaCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailsPage(media: media),
+          ),
+        );
+      },
+      child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         AspectRatio(
@@ -85,6 +95,7 @@ class MediaCard extends StatelessWidget {
             ),
           ),
       ],
+    )
     );
   }
 }

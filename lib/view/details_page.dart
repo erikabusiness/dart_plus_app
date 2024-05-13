@@ -29,7 +29,7 @@ class DetailsPage extends StatelessWidget {
 
     String voteStar(double vote) {
       var voteStar = vote / 2;
-      return voteStar.toStringAsFixed(2);
+      return voteStar.toStringAsFixed(1);
     }
 
     return Scaffold(
@@ -53,23 +53,31 @@ class DetailsPage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        WidgetTitleSection(
-                          title:
-                              'Data de lançamento: ${dateFormat(releaseDate)}',
-                          sizeTitle: 14.0,
-                          fontWeight: FontWeight.normal,
-                          padding: 4.0,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: WidgetTitleSection(
+                            title:
+                                'Data de lançamento: ${dateFormat(releaseDate)}',
+                            sizeTitle: 14.0,
+                            fontWeight: FontWeight.normal,
+                            padding: 4.0,
+                          ),
                         ),
-                        const Icon(
-                          Icons.star,
-                          color: Colors.yellow,
-                          size: 18.0,
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.star,
+                              color: Colors.yellow,
+                              size: 18.0,
+                            ),
+                            WidgetTitleSection(
+                              title: voteStar(media.voteAverage),
+                              sizeTitle: 18.0,
+                              fontWeight: FontWeight.normal,
+                              padding: 4.0,
+                            )
+                          ],
                         ),
-                        WidgetTitleSection(
-                          title: voteStar(media.voteAverage),
-                          sizeTitle: 18.0,
-                          fontWeight: FontWeight.normal,
-                        )
                       ],
                     ),
                     //WidgetTitleSection(title: media.genreIds, ), //genero
@@ -80,6 +88,9 @@ class DetailsPage extends StatelessWidget {
                       padding: 16,
                     ),
                     const WidgetTitleSection(title: 'Recomendados'),
+                    SizedBox(
+                      height: 4.0,
+                    ),
                     WidgetListViewHorizontal(mediaItems: mediaItems),
                   ],
                 ),

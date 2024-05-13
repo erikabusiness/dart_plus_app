@@ -1,16 +1,63 @@
-# dart_plus_app
+<p align="center">
+<img src="./assets/integrantes/capa_modulo_4.png"" width="100%">
+</p>
 
-A new Flutter project.
+<p align="center">
+<img src="./assets/integrantes/homepage.png"" width="35%">    <img src="./assets/integrantes/details.png"" width="35%">
+</p>
 
-## Getting Started
+> [!NOTE]
+> Este repositório faz parte do Projeto de Aprendizagem - Módulo 4. A atividade foi realizada no curso de Desenvolvimento Mobile, durante o Programa Desenvolve 2024, do Grupo Boticário em parceria com a Escola Korú.</span>
 
-This project is a starting point for a Flutter application.
+## Índice
+* [Objetivo](#objetivo)
+* [Tecnologias usadas](#tecnologias-usadas)
+* [Features](#features)
+* [Links](#links)
+* [Squad DartVaders](#squad-dartvaders)
+* [Instalação](#instalação)
 
-A few resources to get you started if this is your first Flutter project:
+## Objetivo
+Construir a versão inicial completa de um aplicativo que permite aos usuários visualizar uma lista de filmes e séries populares e acessar informações detalhadas sobre cada título. Esta etapa é essencial para estabelecer uma base sólida para futuras iterações do projeto, incluindo a integração de dados reais da API TMDb e o desenvolvimento de funcionalidades mais avançadas nas próximas fases.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Tecnologias Usadas:
+[![My Skills](https://skillicons.dev/icons?i=dart,flutter,figma)](https://skillicons.dev)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Features
+* Visualização de filmes e séries populares
+* Navegação e visualização dos detalhes de cada filme ou série
+
+#### **Extra:**
+* Visualização de filmes e séries em tendência
+* Pesquisa por título de filmes ou séries utilizando a SearchBar
+* Tratamento de mensagem para o usuário caso não seja encontrado nenhum título de filme ou série não corresponder a nenhum item encontrado
+* Visualização de ranking com estrelas
+* Visualização de trailer em vídeo 
+* Recomendações de filmes ou séries similares 
+
+## Links
+* [Apresentação disponível no Figma](https://www.figma.com/file/5syuNnFIP2xm7y6V64zP9K/Dart%2B-App?type=design&node-id=171-66&mode=design&t=MkQ5SrPDCfC3utHp-0)
+
+
+## Squad DartVaders 💜
+| Emerson Mendes | Erika Alves Malaquias | Franciéllen Sousa | Jaqueline Dreyer | Jhonny Valente | João Rebouças | Kamila Teófilo |  Leidiane Silva | 
+|  :---:  |  :---:  |  :---:  |  :---:  |  :---:  |  :---:  |  :---:  |  :---:  |
+|<img src="./assets/integrantes/eme.png" height="80" width="80">|<img src="./assets/integrantes/erika.png" height="80" width="80">|<img src="./assets/integrantes/fran.png" height="80" width="80">|<img src="./assets/integrantes/jaque.png" height="80" width="80">| <img src="./assets/integrantes/jhonny.png" height="80" width="80">|<img src="./assets/integrantes/reboucas.png" height="80" width="80">|<img src="./assets/integrantes/kami.png" height="80" width="80">|<img src="./assets/integrantes/leidi.jpeg" height="80" width="80">|
+
+## Instalação
+
+Primeiramente você precisa ter instalado o [Flutter SDK](https://docs.flutter.dev/get-started/install) e, em seguida, para realizar o clone do projeto via HTTPS, execute o comando:
+
+```git clone https://github.com/erikabusiness/dart_plus_app.git```
+
+Se você tiver uma chave SSH registrada em sua conta do GitHub, clone o projeto usando este comando:
+
+```git clone git@github.com:erikabusiness/dart_plus_app.git```
+
+Execute o seguinte comando para iniciar a aplicação em um ambiente de desenvolvimento:
+
+```
+// Inicie a aplicação
+dart run main.dart
+```
+

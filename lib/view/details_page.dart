@@ -10,17 +10,20 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class DetailsPage extends StatelessWidget {
-  final Media media;
-  List<Media> mediaItems;
-
-  DetailsPage({
+  const DetailsPage({
     super.key,
-    required this.media,
-    required this.mediaItems,
   });
 
   @override
   Widget build(BuildContext context) {
+
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final Media mediaArgsDetail = args["mediaDetails"];
+    final List<Media> moviesList = args["listMedias"];
+
+    final Media media = mediaArgsDetail;
+    List<Media> mediaItems = moviesList;
+
     String dateFormat(String date) {
       String dateMedia = date;
       List<String> modifiedDate = dateMedia.split('-').reversed.toList();

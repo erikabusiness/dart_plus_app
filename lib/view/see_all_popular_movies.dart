@@ -5,16 +5,21 @@ import 'package:dart_plus_app/data/mock/fetch/localdataservice.dart';
 import 'package:dart_plus_app/widgets/grid_view_vertical.dart';
 import 'package:flutter/material.dart';
 
+import '../classes/popular_series.dart';
+
 class SeeAllPopularMovies extends StatefulWidget {
-  const SeeAllPopularMovies({super.key, required this.title});
-  final String title;
+  const SeeAllPopularMovies({
+    super.key,
+  });
 
   @override
   State<SeeAllPopularMovies> createState() => _SeeAllPopularMovies();
 }
 
 class _SeeAllPopularMovies extends State<SeeAllPopularMovies> {
+
   late Future<List<Media>> mediaItems;
+
 
   @override
   void initState() {
@@ -24,11 +29,17 @@ class _SeeAllPopularMovies extends State<SeeAllPopularMovies> {
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Future<List<Media>>;
+    mediaItems = args;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
         title: const WidgetTitleSection(title: 'Filmes Populares'),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
+        actions: [IconButton(onPressed: () {
+
+        }, icon: const Icon(Icons.search))],
       ),
       body: Column(
         children: [

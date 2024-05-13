@@ -2,6 +2,7 @@ import 'package:dart_plus_app/classes/media.dart';
 import 'package:dart_plus_app/classes/popular_movies.dart';
 import 'package:dart_plus_app/classes/popular_series.dart';
 import 'package:dart_plus_app/widgets/grid_view_vertical.dart';
+import 'package:dart_plus_app/widgets/list_view_horizontal.dart';
 import 'package:dart_plus_app/widgets/media_trailer.dart';
 import 'package:dart_plus_app/widgets/story_line.dart';
 import 'package:dart_plus_app/widgets/title_section.dart';
@@ -79,7 +80,7 @@ class DetailsPage extends StatelessWidget {
                       padding: 16,
                     ),
                     const WidgetTitleSection(title: 'Recomendados'),
-                    WidgetGridViewVertical(mediaItems: mediaItems),
+                    WidgetListViewHorizontal(mediaItems: mediaItems),
                   ],
                 ),
               ),

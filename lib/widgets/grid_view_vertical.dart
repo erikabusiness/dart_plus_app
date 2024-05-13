@@ -1,8 +1,9 @@
+import 'package:dart_plus_app/classes/media.dart';
 import 'package:dart_plus_app/widgets/media_card.dart';
 import 'package:flutter/material.dart';
 
 class WidgetGridViewVertical extends StatelessWidget {
-  final List<dynamic> mediaItems;
+  final List<Media> mediaItems;
 
   const WidgetGridViewVertical({
     super.key,
@@ -25,6 +26,7 @@ class WidgetGridViewVertical extends StatelessWidget {
           return MediaCard(
             media: media,
             title: media.title,
+            mediaItems: mediaItems,
           );
         },
       ),

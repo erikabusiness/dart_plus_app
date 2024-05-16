@@ -1,12 +1,13 @@
-import 'package:dart_plus_app/classes/media.dart';
-import 'package:dart_plus_app/classes/popular_series.dart';
 import 'package:dart_plus_app/widgets/title_section.dart';
 import 'package:dart_plus_app/data/mock/fetch/localdataservice.dart';
 import 'package:dart_plus_app/widgets/grid_view_vertical.dart';
 import 'package:flutter/material.dart';
 
+import '../models/media.dart';
+import '../models/popular_series.dart';
+
 class SeeAllPopularSeries extends StatefulWidget {
-  const SeeAllPopularSeries({Key? key}) : super(key: key);
+  const SeeAllPopularSeries({super.key});
 
   @override
   State<SeeAllPopularSeries> createState() => _SeeAllPopularSeriesState();
@@ -33,7 +34,7 @@ class _SeeAllPopularSeriesState extends State<SeeAllPopularSeries> {
     } else {
       mediaItems.then((data) {
         List<Media> filteredData = data
-            .where((element) => element is PopularSeries)
+            .whereType<PopularSeries>()
             .where((element) =>
             element.title.toLowerCase().contains(value.toLowerCase()))
             .toList();
@@ -63,6 +64,7 @@ class _SeeAllPopularSeriesState extends State<SeeAllPopularSeries> {
             ? TextField(
           controller: searchController,
           onChanged: searchMedia,
+          autofocus: true,
           decoration: const InputDecoration(
             hintText: 'Buscar...',
             prefixIcon: Icon(Icons.search),

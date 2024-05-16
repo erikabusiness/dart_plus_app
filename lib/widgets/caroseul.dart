@@ -1,5 +1,4 @@
-import 'package:dart_plus_app/classes/media.dart';
-import 'package:dart_plus_app/widgets/media_card.dart';
+import 'package:dart_plus_app/models/media.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 

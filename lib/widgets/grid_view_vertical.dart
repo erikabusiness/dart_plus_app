@@ -1,7 +1,7 @@
-import 'package:dart_plus_app/classes/media.dart';
 import 'package:dart_plus_app/widgets/media_card.dart';
 import 'package:flutter/material.dart';
-import '../data/routes.dart';
+import '../models/media.dart';
+import '../routes/routes.dart';
 
 class WidgetGridViewVertical extends StatelessWidget {
   final List<Media> mediaItems;

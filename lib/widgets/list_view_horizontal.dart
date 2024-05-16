@@ -1,7 +1,8 @@
-import 'package:dart_plus_app/classes/media.dart';
-import 'package:dart_plus_app/data/routes.dart';
+import 'package:dart_plus_app/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:dart_plus_app/widgets/media_card.dart';
+
+import '../models/media.dart';
 
 class WidgetListViewHorizontal extends StatelessWidget {
   final List<Media> mediaItems;
@@ -25,7 +26,7 @@ class WidgetListViewHorizontal extends StatelessWidget {
         margin: EdgeInsets.zero,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: mediaItems.length,
+          itemCount: itemCount,
           itemBuilder: (BuildContext context, int index) {
             return AspectRatio(
               aspectRatio: aspectRatio,

@@ -1,31 +1,50 @@
-import 'package:dart_plus_app/data/routes.dart';
+import 'package:dart_plus_app/movies/bloc/videos_popular_movie/videos_popular_movie_bloc.dart';
+import 'package:dart_plus_app/routes/routes.dart';
+import 'package:dart_plus_app/movies/bloc/popular_movies/popular_movies_bloc.dart';
+import 'package:dart_plus_app/movies/bloc/top_rated_movies/top_rated_movies_bloc.dart';
+import 'package:dart_plus_app/series/bloc/popular_series/popular_series_bloc.dart';
 import 'package:dart_plus_app/view/details_page.dart';
 import 'package:dart_plus_app/view/home_page.dart';
 import 'package:dart_plus_app/view/see_all_popular_movies.dart';
 import 'package:dart_plus_app/view/see_all_popular_series.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: NavRoutes.homePage,
-      routes: {
-        NavRoutes.homePage: (context) => const MyHomePage(),
-        NavRoutes.details: (context) => const DetailsPage(),
-        NavRoutes.seeAllMovies: (context) => const SeeAllPopularMovies(),
-        NavRoutes.seeAllSeries: (context) => const SeeAllPopularSeries(),
-      },
-      title: 'Dart Plus',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(
-        useMaterial3: true,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => PopularMoviesBloc()),
+        BlocProvider(create: (context) => TopRatedMoviesBloc()),
+        BlocProvider(create: (context) => PopularSeriesBloc()),
+        BlocProvider(create: (context) => VideosPopularMovieBloc()),
+      ],
+      child: MaterialApp(
+        initialRoute: NavRoutes.homePage,
+        routes: {
+          NavRoutes.homePage: (context) => const MyHomePage(),
+          NavRoutes.details: (context) => const DetailsPage(),
+          NavRoutes.seeAllMovies: (context) => const SeeAllPopularMovies(),
+          NavRoutes.seeAllSeries: (context) => const SeeAllPopularSeries(),
+        },
+        title: 'Dart Plus',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.dark(
+          useMaterial3: true,
+        ),
       ),
     );
   }

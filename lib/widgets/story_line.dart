@@ -23,8 +23,8 @@ class WidgetStoryLine extends StatelessWidget {
       padding: EdgeInsets.all(padding),
       width: width,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           WidgetTitleSection(
             title: synopsisTitle,

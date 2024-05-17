@@ -22,14 +22,14 @@ class WidgetTitleSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
         Container(
           padding: EdgeInsets.all(padding),
           margin: EdgeInsets.all(margin),
           child: Text(
             title,
-            textAlign: TextAlign.left,
+            textAlign: TextAlign.start,
             style: TextStyle(
               fontSize: sizeTitle,
               color: fontColor,

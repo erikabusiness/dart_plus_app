@@ -64,7 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       if (state is PopularMoviesLoaded) {
                         final movies = state.movies;
                         allMedias.addAll(movies);
-                        print("AllMediasMovies ${allMedias.length}");
                         return _buildSection(
                           context,
                           "Filmes Populares",
@@ -99,7 +98,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       if (state is PopularSeriesLoaded) {
                         final series = state.series;
                         allMedias.addAll(series);
-                        print("AllMediasSeries ${allMedias.length}");
                         return _buildSection(
                           context,
                           "Series Populares",

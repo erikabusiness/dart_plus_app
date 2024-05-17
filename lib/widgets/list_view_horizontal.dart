@@ -53,7 +53,6 @@ class WidgetListViewHorizontal extends StatelessWidget {
           },
         ),
       ),
-      //),
     );
   }
 }

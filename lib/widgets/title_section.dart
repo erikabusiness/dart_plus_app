@@ -1,3 +1,4 @@
+import 'package:dart_plus_app/styles/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,7 @@ class WidgetTitleSection extends StatelessWidget {
     this.padding = 16,
     this.sizeTitle = 18,
     this.fontWeight = FontWeight.bold,
-    this.fontColor = Colors.white,
+    this.fontColor = CustomColor.defaultTextColor,
     this.margin = 0,
   });
 

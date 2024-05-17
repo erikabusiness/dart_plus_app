@@ -14,8 +14,8 @@ class WidgetListViewHorizontal extends StatelessWidget {
     super.key,
     required this.mediaItems,
     this.itemCount = 6,
-    this.aspectRatio = 0.8,
-    this.heightPercentage = 0.2,
+    this.aspectRatio = 0.6,
+    this.heightPercentage = 0.25,
   });
 
   @override
@@ -32,11 +32,11 @@ class WidgetListViewHorizontal extends StatelessWidget {
               aspectRatio: aspectRatio,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 12.0,
+                  horizontal: 8.0,
                 ),
                 child: MediaCard(
                   media: mediaItems[index],
-                  viewTitle: false,
+                  viewTitle: true,
                   onClick: () {
                     Navigator.pushNamed(
                       context,

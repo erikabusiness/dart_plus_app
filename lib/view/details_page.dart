@@ -1,3 +1,4 @@
+import 'package:dart_plus_app/utils/utils_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../models/media.dart';
@@ -15,12 +16,9 @@ class DetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final videoPopularMovieBloc =
-    BlocProvider.of<VideosPopularMovieBloc>(context);
+        BlocProvider.of<VideosPopularMovieBloc>(context);
     final args =
-    ModalRoute
-        .of(context)!
-        .settings
-        .arguments as Map<String, dynamic>;
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final Media mediaArgsDetail = args["mediaDetails"];
     final List<Media> moviesList = args["listMedias"];
 
@@ -31,10 +29,7 @@ class DetailsPage extends StatelessWidget {
 
     String dateFormat(String date) {
       String dateMedia = date;
-      List<String> modifiedDate = dateMedia
-          .split('-')
-          .reversed
-          .toList();
+      List<String> modifiedDate = dateMedia.split('-').reversed.toList();
       return modifiedDate.join('-');
     }
 
@@ -43,14 +38,13 @@ class DetailsPage extends StatelessWidget {
       return voteStar.toStringAsFixed(1);
     }
 
+    List<String?> genres = UtilsFunctions.genreMap(media.genreIds);
+
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            expandedHeight: MediaQuery
-                .of(context)
-                .size
-                .height * 0.6,
+            expandedHeight: MediaQuery.of(context).size.height * 0.6,
             pinned: true,
             stretch: true,
             flexibleSpace: FlexibleSpaceBar(
@@ -83,16 +77,26 @@ class DetailsPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      WidgetTitleSection(title: media.title,
-                          sizeTitle: 22.0,
-                          padding: 0,),
+                      WidgetTitleSection(
+                        title: media.title,
+                        sizeTitle: 22.0,
+                        padding: 0,
+                      ),
+                      const SizedBox(height: 8.0),
+                      Text(
+                        'Gêneros: ${genres.join(', ')}',
+                        style: const TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.white,
+                        ),
+                      ),
                       const SizedBox(height: 8.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Data de lançamento: ${dateFormat(media
-                                .releaseDate)}',
+                            'Data de lançamento: ${dateFormat(media.releaseDate)}',
                             style: const TextStyle(
                                 fontSize: 14.0,
                                 fontWeight: FontWeight.normal,
@@ -123,10 +127,7 @@ class DetailsPage extends StatelessWidget {
                       WidgetStoryLine(
                         synopsisTitle: 'Sinopse',
                         synopsisText: media.overview,
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width,
+                        width: MediaQuery.of(context).size.width,
                         padding: 0,
                         textColor: Colors.white,
                       ),
@@ -153,7 +154,9 @@ class DetailsPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 16.0),
                       const WidgetTitleSection(
-                        title: 'Recomendados', padding: 5,),
+                        title: 'Recomendados',
+                        padding: 5,
+                      ),
                       const SizedBox(height: 4.0),
                       WidgetListViewHorizontal(mediaItems: mediaItems),
                     ],

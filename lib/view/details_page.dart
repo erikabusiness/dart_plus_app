@@ -1,3 +1,4 @@
+import 'package:dart_plus_app/styles/colors.dart';
 import 'package:dart_plus_app/utils/utils_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -83,13 +84,14 @@ class DetailsPage extends StatelessWidget {
                         padding: 0,
                       ),
                       const SizedBox(height: 8.0),
-                      Text(
-                        'Gêneros: ${genres.join(', ')}',
-                        style: const TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.white,
-                        ),
+                      Wrap(
+                        spacing: 8.0,
+                        runSpacing: 4.0,
+                        children: genres.map((genre) {
+                          return Chip(
+                              label: Text(genre!),
+                              backgroundColor: Colors.grey.shade800);
+                        }).toList(),
                       ),
                       const SizedBox(height: 8.0),
                       Row(

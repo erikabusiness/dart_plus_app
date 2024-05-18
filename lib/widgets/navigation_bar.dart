@@ -25,7 +25,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             Navigator.pushNamed(context, NavRoutes.homePage);
             break;
           // case 1:
-          //   Navigator.pushNamed(context, NavRoutes.searchPage);
+          //   Navigator.pushNamed(context, NavRoutes.catalogoPage);
           //   break;
           // case 2:
           //   Navigator.pushNamed(context, NavRoutes.favoritesPage);
@@ -39,7 +39,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
         ),
         NavigationDestination(
           icon: Icon(Icons.search),
-          label: 'Buscar',
+          label: 'Catálogo',
         ),
         NavigationDestination(
           icon: Icon(Icons.star),

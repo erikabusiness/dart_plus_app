@@ -9,6 +9,7 @@ import '../widgets/clickable_text.dart';
 import '../widgets/list_view_horizontal.dart';
 import '../widgets/title_section.dart';
 import '../routes/routes.dart';
+import '../widgets/navigation_bar.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -21,6 +22,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Media> allMedias = [];
   List<Media> displayedMedias = [];
   TextEditingController searchController = TextEditingController();
+  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -31,11 +33,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
-
         title: Image.asset('assets/logo.png'),
         centerTitle: true,
       ),
@@ -126,6 +126,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
+      ),
     );
   }
 
@@ -152,6 +156,12 @@ class _MyHomePageState extends State<MyHomePage> {
         displayedMedias.addAll(allMedias.where((media) =>
             media.title.toLowerCase().contains(query.toLowerCase())));
       }
+    });
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
     });
   }
 

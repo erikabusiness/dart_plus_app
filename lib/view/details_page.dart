@@ -1,4 +1,3 @@
-import 'package:dart_plus_app/styles/colors.dart';
 import 'package:dart_plus_app/utils/utils_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,8 +88,8 @@ class DetailsPage extends StatelessWidget {
                         runSpacing: 4.0,
                         children: genres.map((genre) {
                           return Chip(
-                              label: Text(genre!),
-                              backgroundColor: Colors.grey.shade800);
+                            label: Text(genre!),
+                          );
                         }).toList(),
                       ),
                       const SizedBox(height: 8.0),

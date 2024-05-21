@@ -5,8 +5,7 @@ import 'package:dart_plus_app/movies/bloc/top_rated_movies/top_rated_movies_bloc
 import 'package:dart_plus_app/series/bloc/popular_series/popular_series_bloc.dart';
 import 'package:dart_plus_app/view/details_page.dart';
 import 'package:dart_plus_app/view/home_page.dart';
-import 'package:dart_plus_app/view/see_all_popular_movies.dart';
-import 'package:dart_plus_app/view/see_all_popular_series.dart';
+import 'package:dart_plus_app/view/see_all_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,8 +36,7 @@ class _MyAppState extends State<MyApp> {
         routes: {
           NavRoutes.homePage: (context) => const MyHomePage(),
           NavRoutes.details: (context) => const DetailsPage(),
-          NavRoutes.seeAllMovies: (context) => const SeeAllPopularMovies(),
-          NavRoutes.seeAllSeries: (context) => const SeeAllPopularSeries(),
+          NavRoutes.seeAll: (context) => const SeeAll(),
         },
         title: 'Dart Plus',
         debugShowCheckedModeBanner: false,

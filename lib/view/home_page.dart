@@ -71,8 +71,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           () {
                             Navigator.pushNamed(
                               context,
-                              NavRoutes.seeAllMovies,
-                              arguments: movies,
+                              NavRoutes.seeAll,
+                              arguments: {
+                                "medias": movies,
+                                "tela": "Filmes Populares"
+                              },
                             );
                           },
                         );
@@ -105,8 +108,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           () {
                             Navigator.pushNamed(
                               context,
-                              NavRoutes.seeAllMovies,
-                              arguments: series,
+                              NavRoutes.seeAll,
+                              arguments: {
+                                "medias": series,
+                                "tela": "Series Populares"
+                              },
                             );
                           },
                         );
@@ -144,19 +150,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void _loadSeries(BuildContext context) {
     final popularSeriesBloc = BlocProvider.of<PopularSeriesBloc>(context);
     popularSeriesBloc.add(const GetAllPopularSeries());
-  }
-
-  void _filterMedias(String query) {
-    setState(() {
-      if (query.isEmpty) {
-        displayedMedias.clear();
-        displayedMedias.addAll(allMedias);
-      } else {
-        displayedMedias.clear();
-        displayedMedias.addAll(allMedias.where((media) =>
-            media.title.toLowerCase().contains(query.toLowerCase())));
-      }
-    });
   }
 
   void _onItemTapped(int index) {

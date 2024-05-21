@@ -27,12 +27,6 @@ class DetailsPage extends StatelessWidget {
 
     videoPopularMovieBloc.add(GetTrailerPopularMovies(media.id));
 
-    String dateFormat(String date) {
-      String dateMedia = date;
-      List<String> modifiedDate = dateMedia.split('-').reversed.toList();
-      return modifiedDate.join('-');
-    }
-
     String voteStar(double vote) {
       var voteStar = vote / 2;
       return voteStar.toStringAsFixed(1);
@@ -96,13 +90,6 @@ class DetailsPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Data de lançamento: ${dateFormat(media.releaseDate)}',
-                            style: const TextStyle(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.white),
-                          ),
                           Row(
                             children: [
                               const Icon(
@@ -111,11 +98,11 @@ class DetailsPage extends StatelessWidget {
                                 size: 18.0,
                               ),
                               Text(
-                                voteStar(media.voteAverage),
+                                "${voteStar(media.voteAverage)}/5.0",
                                 style: const TextStyle(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.normal,
-                                    color: Colors.white),
+                                    color: Colors.white,),
                               ),
                               const SizedBox(
                                 width: 8.0,

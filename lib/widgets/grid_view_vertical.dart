@@ -19,32 +19,36 @@ class WidgetGridViewVertical extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: GridView.builder(
-        padding: const EdgeInsets.all(8),
-        itemCount: mediaItems.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: gridCount,
-          crossAxisSpacing: crossAxisSpacing,
-          childAspectRatio: childAspectRatio,
-        ),
-        itemBuilder: (context, index) {
-          var media = mediaItems[index];
-          return MediaCard(
-            media: media,
-            onClick: () {
-              Navigator.pushNamed(
-                context,
-                NavRoutes.details,
-                arguments: {
-                  "mediaDetails": mediaItems[index],
-                  "listMedias": mediaItems,
+    return Column(
+      children: [
+        Expanded(
+          child: GridView.builder(
+            padding: const EdgeInsets.all(8),
+            itemCount: mediaItems.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: gridCount,
+              crossAxisSpacing: crossAxisSpacing,
+              childAspectRatio: childAspectRatio,
+            ),
+            itemBuilder: (context, index) {
+              var media = mediaItems[index];
+              return MediaCard(
+                media: media,
+                onClick: () {
+                  Navigator.pushNamed(
+                    context,
+                    NavRoutes.details,
+                    arguments: {
+                      "mediaDetails": mediaItems[index],
+                      "listMedias": mediaItems,
+                    },
+                  );
                 },
               );
             },
-          );
-        },
-      ),
+          ),
+        ),
+      ],
     );
   }
 }

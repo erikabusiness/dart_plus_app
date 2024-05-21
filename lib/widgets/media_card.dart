@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:dart_plus_app/classes/media.dart';
+
+import '../models/media.dart';
 
 class MediaCard extends StatelessWidget {
   final Media media;
@@ -12,6 +13,11 @@ class MediaCard extends StatelessWidget {
     this.viewTitle = true,
     required this.onClick,
   });
+
+  String voteStar(double vote) {
+    var voteStar = vote / 2;
+    return voteStar.toStringAsFixed(1);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +65,7 @@ class MediaCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          media.voteAverage.toStringAsFixed(1),
+                          voteStar(media.voteAverage),
                           style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.normal,

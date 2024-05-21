@@ -1,8 +1,10 @@
 import 'dart:convert';
-import 'package:dart_plus_app/classes/media.dart';
 import 'package:flutter/services.dart';
-import 'package:dart_plus_app/classes/popular_movies.dart';
-import 'package:dart_plus_app/classes/popular_series.dart';
+
+
+import '../../../models/media.dart';
+import '../../../models/popular_movies.dart';
+import '../../../models/popular_series.dart';
 
 class LocalDataService {
   Future<List<Media>> fetchData() async {

@@ -1,5 +1,5 @@
-import 'package:dart_plus_app/styles/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:dart_plus_app/routes/routes.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   final int selectedIndex;
@@ -14,26 +14,38 @@ class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    return BottomNavigationBar(
+
+    return NavigationBar(
       backgroundColor: theme.colorScheme.background,
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
+      selectedIndex: selectedIndex,
+      onDestinationSelected: (index) {
+        onItemTapped(index);
+        switch (index) {
+          case 0:
+            Navigator.pushNamed(context, NavRoutes.homePage);
+            break;
+          // case 1:
+          //   Navigator.pushNamed(context, NavRoutes.catalogoPage);
+          //   break;
+          // case 2:
+          //   Navigator.pushNamed(context, NavRoutes.favoritesPage);
+          //   break;
+        }
+      },
+      destinations: const [
+        NavigationDestination(
           icon: Icon(Icons.home),
           label: 'Início',
         ),
-        BottomNavigationBarItem(
+        NavigationDestination(
           icon: Icon(Icons.search),
-          label: 'Buscar',
+          label: 'Catálogo',
         ),
-        BottomNavigationBarItem(
+        NavigationDestination(
           icon: Icon(Icons.star),
           label: 'Favoritos',
         ),
       ],
-      currentIndex: selectedIndex,
-      selectedItemColor: CustomColor.defaultTextColor,
-      unselectedItemColor: Colors.grey[600],
-      onTap: onItemTapped,
     );
   }
 }

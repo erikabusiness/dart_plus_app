@@ -3,6 +3,7 @@ import '../models/media.dart';
 import '../widgets/grid_view_vertical.dart';
 import '../widgets/search_bar.dart';
 import '../widgets/title_section.dart';
+import '../services/voice_command_service.dart';
 
 class SeeAll extends StatefulWidget {
   const SeeAll({super.key});
@@ -17,16 +18,14 @@ class _SeeAllState extends State<SeeAll> {
   TextEditingController searchController = TextEditingController();
   bool isSearching = false;
   String tela = "";
+  final VoiceCommandService _voiceCommandService = VoiceCommandService();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final Map<String, dynamic> args =
-      ModalRoute
-          .of(context)!
-          .settings
-          .arguments as Map<String, dynamic>;
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       final List<Media> mediaItems = args["medias"] as List<Media>;
       tela = args["tela"] as String;
       setState(() {
@@ -36,6 +35,11 @@ class _SeeAllState extends State<SeeAll> {
     });
 
     searchController.addListener(_filterMediaItems);
+    _initializeVoiceCommandService();
+  }
+
+  void _initializeVoiceCommandService() async {
+    await _voiceCommandService.initialize();
   }
 
   @override
@@ -63,20 +67,31 @@ class _SeeAllState extends State<SeeAll> {
     });
   }
 
+  void _startListening() {
+    _voiceCommandService.startListening((text) {
+      setState(() {
+        searchController.text = text;
+        _filterMediaItems();
+      });
+    }, (status) {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme
-            .of(context)
-            .colorScheme
-            .background,
+        backgroundColor: Theme.of(context).colorScheme.background,
         title: WidgetTitleSection(title: tela),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: _toggleSearch,
           ),
+          if (isSearching)
+            IconButton(
+              icon: const Icon(Icons.mic),
+              onPressed: _startListening,
+            ),
         ],
       ),
       body: Column(
@@ -87,6 +102,7 @@ class _SeeAllState extends State<SeeAll> {
               onChanged: (query) {
                 _filterMediaItems();
               },
+              onMicPressed: _startListening,
             ),
           Expanded(
             child: filteredMediaItems.isNotEmpty

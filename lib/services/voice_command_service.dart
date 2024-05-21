@@ -33,7 +33,7 @@ class VoiceCommandService {
 
   void startListening(
       Function(String) onResult, Function(String) onStatusChange,
-      {int listenFor = 30, int pauseFor = 3}) {
+      {int listenFor = 60, int pauseFor = 30}) {
     _onResult = onResult;
     _onStatusChange = onStatusChange;
     if (_hasSpeech && !_speech.isListening) {
@@ -60,9 +60,10 @@ class VoiceCommandService {
   }
 
   void resultListener(SpeechRecognitionResult result) {
-    _lastWords = result.recognizedWords;
-    if (_onResult != null) {
-      _onResult!(_lastWords);
+    _lastWords = result.recognizedWords.toLowerCase();
+    if (_onResult != null && _lastWords.contains('buscar')) {
+      String searchTerm = _lastWords.replaceFirst('buscar', '').trim();
+      _onResult!(searchTerm);
     }
   }
 

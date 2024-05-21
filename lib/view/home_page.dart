@@ -1,72 +1,38 @@
-import 'package:dart_plus_app/classes/media.dart';
-import 'package:dart_plus_app/classes/popular_movies.dart';
-import 'package:dart_plus_app/classes/popular_series.dart';
-import 'package:dart_plus_app/widgets/caroseul.dart';
-import 'package:dart_plus_app/data/routes.dart';
-import 'package:dart_plus_app/view/see_all_popular_series.dart';
-import 'package:dart_plus_app/widgets/list_view_horizontal.dart';
-import 'package:dart_plus_app/widgets/navigation_bar.dart';
-import 'package:dart_plus_app/widgets/title_section.dart';
-import 'package:dart_plus_app/data/mock/fetch/localdataservice.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../models/media.dart';
+import '../movies/bloc/popular_movies/popular_movies_bloc.dart';
+import '../movies/bloc/top_rated_movies/top_rated_movies_bloc.dart';
+import '../series/bloc/popular_series/popular_series_bloc.dart';
+import '../widgets/caroseul.dart';
 import '../widgets/clickable_text.dart';
+import '../widgets/list_view_horizontal.dart';
+import '../widgets/title_section.dart';
+import '../routes/routes.dart';
+import '../widgets/navigation_bar.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({
-    super.key,
-  });
+  const MyHomePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<Media> allMedias = [];
+  List<Media> displayedMedias = [];
+  TextEditingController searchController = TextEditingController();
   int _selectedIndex = 0;
-  late Future<List<Media>> mediaItems;
-  late Future<List<Media>> mediaItemsCopy;
-  late Future<List<Media>> filteredElements;
-
-  final TextEditingController searchController = TextEditingController();
-
-  void searchMedia(String value) {
-    if (value.isEmpty) {
-      setState(() {
-        mediaItems = mediaItemsCopy;
-      });
-    } else {
-      mediaItems.then((data) {
-        List<Media> filteredData = data
-            .where((element) =>
-                (element is PopularMovie || element is PopularSeries))
-            .where((element) =>
-                element.title.toLowerCase().contains(value.toLowerCase()))
-            .toList();
-        filteredElements = Future.value(filteredData);
-
-        setState(() {
-          mediaItems = filteredElements;
-        });
-      });
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-    mediaItems = LocalDataService().fetchData();
-    mediaItemsCopy = mediaItems;
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    _loadMovies(context);
+    _loadSeries(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    final String title;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -75,72 +41,89 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: SearchBar(
-              controller: searchController,
-              leading: const Icon(Icons.search),
-              trailing: <Widget>[
-                Tooltip(
-                  message: 'Busca por voz',
-                  child:
-                      IconButton(onPressed: () {}, icon: const Icon(Icons.mic)),
-                ),
-              ],
-              hintText: 'Procure um filme ou série',
-              onChanged: (value) => {
-                searchMedia(value),
-              },
-              padding: const MaterialStatePropertyAll<EdgeInsets>(
-                  EdgeInsets.symmetric(horizontal: 16.0)),
-            ),
-          ),
-          FutureBuilder<List<Media>>(
-            future: mediaItems,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasError) {
-                  return Center(child: Text('Erro: ${snapshot.error}'));
-                }
-                if (snapshot.hasData) {
-                  List<Media> filteredMediaItems =
-                      snapshot.data!.whereType<PopularMovie>().toList();
-                  return WidgetCarousel(mediaItems: filteredMediaItems);
-                } else {
-                  return const Center(child: Text('Nenhum dado disponível'));
-                }
-              } else {
-                return const Center(child: CircularProgressIndicator());
+          BlocBuilder<TopRatedMoviesBloc, TrhendMoviesState>(
+            builder: (context, state) {
+              if (state is TrhendMoviesLoaded) {
+                final movies = state.movies;
+                return WidgetCarousel(mediaItems: movies);
               }
+              if (state is TrhendMoviesError) {
+                return const Center(
+                  child: Text('Erro ao carregar filmes.'),
+                );
+              }
+              return const CircularProgressIndicator();
             },
           ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  _buildSection(
-                    'Filmes Populares',
-                    (data) => data.whereType<PopularMovie>().toList(),
-                    mediaItems,
-                    () {
-                      Navigator.pushNamed(
-                        context,
-                        NavRoutes.seeAllMovies,
-                        arguments: mediaItems,
+                  BlocBuilder<PopularMoviesBloc, PopularMoviesState>(
+                    builder: (context, state) {
+                      if (state is PopularMoviesLoaded) {
+                        final movies = state.movies;
+                        allMedias.addAll(movies);
+                        return _buildSection(
+                          context,
+                          "Filmes Populares",
+                          movies,
+                          () {
+                            Navigator.pushNamed(
+                              context,
+                              NavRoutes.seeAll,
+                              arguments: {
+                                "medias": movies,
+                                "tela": "Filmes Populares"
+                              },
+                            );
+                          },
+                        );
+                      }
+
+                      if (state is PopularMoviesError) {
+                        return const Center(
+                          child: Text('Erro ao carregar filmes.'),
+                        );
+                      }
+
+                      if (state is PopularMoviesLoading) {
+                        return const CircularProgressIndicator();
+                      }
+
+                      return const Center(
+                        child: Text('Erro inesperado.'),
                       );
                     },
                   ),
-                  _buildSection(
-                    'Séries Populares',
-                    (data) => data.whereType<PopularSeries>().toList(),
-                    mediaItems,
-                    () {
-                      Navigator.pushNamed(
-                        context,
-                        NavRoutes.seeAllSeries,
-                        arguments: mediaItems,
-                      );
+                  BlocBuilder<PopularSeriesBloc, PopularSeriesState>(
+                    builder: (context, state) {
+                      if (state is PopularSeriesLoaded) {
+                        final series = state.series;
+                        allMedias.addAll(series);
+                        return _buildSection(
+                          context,
+                          "Series Populares",
+                          series,
+                          () {
+                            Navigator.pushNamed(
+                              context,
+                              NavRoutes.seeAll,
+                              arguments: {
+                                "medias": series,
+                                "tela": "Series Populares"
+                              },
+                            );
+                          },
+                        );
+                      }
+
+                      if (state is PopularSeriesError) {
+                        return const Center(
+                          child: Text('Erro ao carregar series.'),
+                        );
+                      }
+                      return const CircularProgressIndicator();
                     },
                   ),
                 ],
@@ -155,49 +138,48 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-}
 
-Widget _buildSection(
-  String title,
-  List<Media> Function(List<Media>) filterFunction,
-  Future<List<Media>> mediaItems,
-  VoidCallback verTodos,
-) {
-  return Column(
-    children: [
-      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        WidgetTitleSection(title: title),
-        ClickableText(
-          text: "Ver todos",
-          onClick: () {
-            verTodos();
-          },
+  void _loadMovies(BuildContext context) {
+    final popularMoviesBloc = BlocProvider.of<PopularMoviesBloc>(context);
+    final topratedMoviesBloc = BlocProvider.of<TopRatedMoviesBloc>(context);
+
+    popularMoviesBloc.add(const GetAllPopularMovies());
+    topratedMoviesBloc.add(const GetAllTrhendMovies());
+  }
+
+  void _loadSeries(BuildContext context) {
+    final popularSeriesBloc = BlocProvider.of<PopularSeriesBloc>(context);
+    popularSeriesBloc.add(const GetAllPopularSeries());
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  Widget _buildSection(
+    BuildContext context,
+    String title,
+    List<Media> mediaItems,
+    VoidCallback verTodos,
+  ) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            WidgetTitleSection(title: title),
+            ClickableText(
+              text: "Ver todos",
+              onClick: verTodos,
+            ),
+          ],
         ),
-      ]),
-      FutureBuilder<List<Media>>(
-        future: mediaItems,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasError) {
-              return Center(child: Text('Erro: ${snapshot.error}'));
-            }
-            if (snapshot.hasData) {
-              List<Media> filteredMediaItems = filterFunction(snapshot.data!);
-              if (filteredMediaItems.isNotEmpty) {
-                return WidgetListViewHorizontal(
-                  mediaItems: filteredMediaItems,
-                );
-              } else {
-                return const Center(child: Text('Nenhum resultado encontrado'));
-              }
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
-    ],
-  );
+        mediaItems.isNotEmpty
+            ? WidgetListViewHorizontal(mediaItems: mediaItems)
+            : const Center(child: Text('Nenhum resultado encontrado')),
+      ],
+    );
+  }
 }

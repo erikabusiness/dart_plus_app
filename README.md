@@ -1,5 +1,5 @@
 <p align="center">
-<img src="./assets/integrantes/capa_modulo_4.png"" width="100%">
+<img src="./assets/integrantes/capa_modulo_5.png"" width="100%">
 </p>
 
 <p align="center">

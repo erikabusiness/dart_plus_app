@@ -1,6 +1,5 @@
 import 'package:dart_plus_app/styles/colors.dart';
 import 'package:dart_plus_app/widgets/title_section.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class WidgetStoryLine extends StatelessWidget {
@@ -24,8 +23,8 @@ class WidgetStoryLine extends StatelessWidget {
       padding: EdgeInsets.all(padding),
       width: width,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           WidgetTitleSection(
             title: synopsisTitle,

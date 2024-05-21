@@ -1,3 +1,4 @@
+import 'package:dart_plus_app/styles/colors.dart';
 import 'package:flutter/material.dart';
 
 class ClickableText extends StatelessWidget {
@@ -11,7 +12,7 @@ class ClickableText extends StatelessWidget {
     required this.text,
     required this.onClick,
     this.fontSize = 12,
-    this.textColor = Colors.white
+    this.textColor = CustomColor.defaultTextColor,
   });
 
   @override

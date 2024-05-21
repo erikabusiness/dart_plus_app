@@ -1,12 +1,12 @@
-import 'package:dart_plus_app/classes/media.dart';
-import 'package:dart_plus_app/widgets/media_card.dart';
+import 'package:dart_plus_app/models/media.dart';
+import 'package:dart_plus_app/widgets/title_section.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class WidgetCarousel extends StatelessWidget {
   final List<Media> mediaItems;
 
-  const WidgetCarousel({Key? key, required this.mediaItems}) : super(key: key);
+  const WidgetCarousel({super.key, required this.mediaItems});
 
   @override
   Widget build(BuildContext context) {
@@ -14,21 +14,55 @@ class WidgetCarousel extends StatelessWidget {
       items: mediaItems.map((media) {
         return Container(
           width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.symmetric(horizontal: 5.0),
-          padding: EdgeInsets.all(8.0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(16.0),
-            child: Image.network(
-              'https://image.tmdb.org/t/p/w500${media.backdropPath}',
-              fit: BoxFit.cover,
-            ),
+          margin: const EdgeInsets.symmetric(horizontal: 5.0),
+          padding: const EdgeInsets.all(8.0),
+          child: Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(16.0),
+                child: Image.network(
+                  'https://image.tmdb.org/t/p/w500${media.backdropPath}',
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: 70,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.black.withOpacity(0),
+                        Colors.black.withOpacity(0.9)
+                      ],
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(16),
+                      bottomRight: Radius.circular(16),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 15,
+                left: 10,
+                right: 10,
+                child: WidgetTitleSection(
+                  title: media.title,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
           ),
         );
       }).toList(),
       options: CarouselOptions(
         height: 200,
         autoPlay: true,
-        autoPlayInterval: Duration(seconds: 5),
+        autoPlayInterval: const Duration(seconds: 5),
       ),
     );
   }

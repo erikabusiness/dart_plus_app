@@ -19,10 +19,12 @@ class PopularMovie extends Media {
     super.popularity,
     super.voteAverage,
     super.voteCount,
+    required super.id,
   });
 
   static PopularMovie fromJson(Map<String, dynamic> json) {
     return PopularMovie(
+      id: json["id"],
       releaseDate: json['release_date'] ?? '',
       originalTitle: json['original_title'] ?? '',
       video: json['video'] ?? false,

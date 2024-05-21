@@ -1,4 +1,5 @@
 abstract class Media {
+  final int id;
   final String title;
   final String posterPath;
   final bool adult;
@@ -12,6 +13,7 @@ abstract class Media {
   final String releaseDate;
 
   Media({
+    required this.id,
     required this.title,
     required this.posterPath,
     this.adult = false,

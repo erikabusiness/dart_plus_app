@@ -9,6 +9,7 @@ class WidgetTitleSection extends StatelessWidget {
   final double sizeTitle;
   final FontWeight fontWeight;
   final Color fontColor;
+  final TextAlign textAlign; 
 
   const WidgetTitleSection({
     super.key,
@@ -18,6 +19,7 @@ class WidgetTitleSection extends StatelessWidget {
     this.fontWeight = FontWeight.bold,
     this.fontColor = CustomColor.defaultTextColor,
     this.margin = 0,
+    this.textAlign = TextAlign.start
   });
 
   @override
@@ -29,7 +31,7 @@ class WidgetTitleSection extends StatelessWidget {
           margin: EdgeInsets.all(margin),
           child: Text(
             title,
-            textAlign: TextAlign.start,
+            textAlign: textAlign,
             style: TextStyle(
               fontSize: sizeTitle,
               color: fontColor,

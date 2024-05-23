@@ -71,11 +71,22 @@ class DetailsPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      WidgetTitleSection(
-                        title: media.title,
-                        sizeTitle: 22.0,
-                        padding: 0,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: WidgetTitleSection(
+                              title: media.title,
+                              sizeTitle: 22.0,
+                              padding: 0,
+                            ),
+                          ),
+                          IconButton(onPressed:(){
+                            //chamar estado.togglefavorite();
+                          }, 
+                          icon: const Icon(Icons.favorite_border_outlined, size: 32,))
+                        ],
                       ),
+                      
                       const SizedBox(height: 8.0),
                       Wrap(
                         spacing: 8.0,

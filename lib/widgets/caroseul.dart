@@ -29,6 +29,7 @@ class WidgetCarousel extends StatelessWidget {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
+                  margin: const EdgeInsets.only(bottom: 22),
                   height: 70,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -36,6 +37,8 @@ class WidgetCarousel extends StatelessWidget {
                       end: Alignment.bottomCenter,
                       colors: [
                         Colors.black.withOpacity(0),
+                        Colors.black.withOpacity(0.5),
+                        Colors.black.withOpacity(0.7),
                         Colors.black.withOpacity(0.9)
                       ],
                     ),

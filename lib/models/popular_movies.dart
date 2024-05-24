@@ -1,12 +1,12 @@
+import 'dart:convert';
+
 import 'media.dart';
 
 class PopularMovie extends Media {
-  final String releaseDate;
   final String originalTitle;
   final bool video;
 
   PopularMovie({
-    required this.releaseDate,
     required this.originalTitle,
     required this.video,
     super.title = '',
@@ -19,8 +19,28 @@ class PopularMovie extends Media {
     super.popularity,
     super.voteAverage,
     super.voteCount,
+    super.releaseDate,
     required super.id,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'release_date': releaseDate,
+      'original_title': originalTitle,
+      'video': video ? 'true' : 'false',
+      'title': title,
+      'poster_path': posterPath,
+      'adult': adult ? 'true' : 'false',
+      'backdrop_path': backdropPath,
+      'genre_ids': jsonEncode(genreIds),
+      'original_language': originalLanguage,
+      'overview': overview,
+      'popularity': popularity,
+      'vote_average': voteAverage,
+      'vote_count': voteCount,
+    };
+  }
 
   static PopularMovie fromJson(Map<String, dynamic> json) {
     return PopularMovie(

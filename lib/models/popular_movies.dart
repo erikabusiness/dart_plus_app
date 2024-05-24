@@ -20,6 +20,7 @@ class PopularMovie extends Media {
     super.voteAverage,
     super.voteCount,
     super.releaseDate,
+    super.isFavorite,
     required super.id,
   });
 
@@ -39,6 +40,7 @@ class PopularMovie extends Media {
       'popularity': popularity,
       'vote_average': voteAverage,
       'vote_count': voteCount,
+      'is_favorite': isFavorite,
     };
   }
 
@@ -58,6 +60,7 @@ class PopularMovie extends Media {
       popularity: json['popularity']?.toDouble() ?? 0.0,
       voteAverage: json['vote_average']?.toDouble() ?? 0.0,
       voteCount: json['vote_count'] ?? 0,
+      isFavorite: json['is_favorite'] ?? false,
     );
   }
 }

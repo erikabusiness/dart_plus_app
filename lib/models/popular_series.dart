@@ -20,6 +20,7 @@ class PopularSeries extends Media {
     super.voteAverage,
     super.releaseDate,
     super.voteCount,
+    super.isFavorite,
     required super.id,
   });
 
@@ -39,6 +40,7 @@ class PopularSeries extends Media {
       'popularity': popularity,
       'vote_average': voteAverage,
       'vote_count': voteCount,
+      'is_favorite': isFavorite ? 'true' : 'false',
     };
   }
 
@@ -58,6 +60,7 @@ class PopularSeries extends Media {
       popularity: json['popularity']?.toDouble() ?? 0.0,
       voteAverage: json['vote_average']?.toDouble() ?? 0.0,
       voteCount: json['vote_count'] ?? 0,
+      isFavorite: json['is_favorite'] ?? false,
     );
   }
 }

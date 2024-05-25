@@ -40,7 +40,7 @@ class PopularMovie extends Media {
       'popularity': popularity,
       'vote_average': voteAverage,
       'vote_count': voteCount,
-      'is_favorite': isFavorite,
+      'is_favorite': isFavorite ? 'true' : 'false',
     };
   }
 

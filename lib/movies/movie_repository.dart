@@ -16,7 +16,7 @@ class MovieRepository {
           moviesJson.map((movie) => PopularMovie.fromJson(movie)).toList();
 
       for (var movie in movies) {
-        await PopularMoviesDao().insertMovie(movie);
+        await PopularMoviesDao().createPopularMovies(movie);
       }
 
       return movies;
@@ -32,7 +32,14 @@ class MovieRepository {
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = json.decode(response.body);
       List<dynamic> moviesJson = jsonResponse['results'];
-      return moviesJson.map((movie) => PopularMovie.fromJson(movie)).toList();
+      List<PopularMovie> movies =
+          moviesJson.map((movie) => PopularMovie.fromJson(movie)).toList();
+
+      for (var movie in movies) {
+        await PopularMoviesDao().createPopularMovies(movie);
+      }
+
+      return movies;
     } else {
       throw Exception("Falha ao carregar os filmes mais votados");
     }

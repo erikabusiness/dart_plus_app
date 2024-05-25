@@ -29,7 +29,7 @@ class PopularSeries extends Media {
       'id': id,
       'release_date': releaseDate,
       'original_name': originalName,
-      'origin_country': originCountry,
+      'origin_country': originCountry.toString(),
       'title': title,
       'poster_path': posterPath,
       'adult': adult ? 'true' : 'false',

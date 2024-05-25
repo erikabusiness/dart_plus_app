@@ -1,45 +1,60 @@
-import 'package:dart_plus_app/models/popular_Series.dart';
+import 'dart:convert';
+import 'package:dart_plus_app/models/popular_series.dart';
 import '../database.dart';
 import 'package:sqflite/sqflite.dart';
 
 class PopularSeriesDao {
   final dbHelper = DatabaseHelper();
 
-  Future<int> insertSeries(PopularSeries newSeries) async {
+  Future<int> createPopularSeries(PopularSeries newSerie) async {
     final db = await dbHelper.database;
     if (db == null) {
-      throw Exception("Database is null");
+      throw Exception('O banco de dados não foi inicializado corretamente');
     }
 
-    final res = await db.insert(
+    final result = await db.insert(
       'PopularSeries',
-      newSeries.toJson(),
+      newSerie.toJson(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
-    return res;
+    return result;
   }
 
-  Future<List<PopularSeries>> getAllSeries() async {
+  Future<List<PopularSeries>> readPopularSeries() async {
     final db = await dbHelper.database;
-    if (db == null) {
-      throw Exception("Database is null");
-    }
-    final res = await db.rawQuery("SELECT * FROM Series");
-    List<PopularSeries> list = res.isNotEmpty
-        ? res.map((c) => PopularSeries.fromJson(c)).toList()
-        : [];
 
-    return list;
-  }
-
-  Future<int> deleteAllSeries() async {
-    final db = await dbHelper.database;
     if (db == null) {
-      throw Exception("Database is null");
+      throw Exception('O banco de dados não foi inicializado corretamente');
     }
 
-    final res = await db.rawDelete('DELETE FROM Series');
-    return res;
+    List<Map<String, dynamic>> maps = await db.query('PopularSeries');
+
+    List<PopularSeries> popularSerie = List.generate(maps.length, (i) {
+      List<int> genreIds = jsonDecode(maps[i]['genre_ids']).cast<int>();
+      List<String> originCountry = [
+        maps[i]['origin_country'].split('[').last.split(']').first
+      ];
+
+      return PopularSeries(
+        id: maps[i]['id'],
+        releaseDate: maps[i]['release_date'],
+        originalLanguage: maps[i]['original_language'],
+        overview: maps[i]['overview'],
+        popularity: maps[i]['popularity'],
+        voteAverage: maps[i]['vote_average'],
+        voteCount: maps[i]['vote_count'],
+        posterPath: maps[i]['poster_path'],
+        backdropPath: maps[i]['backdrop_path'],
+        adult: maps[i]['adult'] == 'true',
+        title: maps[i]['title'],
+        genreIds: genreIds,
+        isFavorite: maps[i]['is_favorite'] == 'true',
+        originalName: maps[i]['original_name'],
+        originCountry: originCountry,
+      );
+    });
+
+    return popularSerie;
   }
 }

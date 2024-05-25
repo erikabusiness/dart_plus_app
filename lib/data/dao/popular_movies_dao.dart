@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dart_plus_app/models/popular_movies.dart';
 import '../database.dart';
 import 'package:sqflite/sqflite.dart';
@@ -5,40 +7,50 @@ import 'package:sqflite/sqflite.dart';
 class PopularMoviesDao {
   final dbHelper = DatabaseHelper();
 
-  Future<int> insertMovie(PopularMovie newMovie) async {
+  Future<int> createPopularMovies(PopularMovie newMovie) async {
     final db = await dbHelper.database;
     if (db == null) {
-      throw Exception("Database is null");
+      throw Exception('O banco de dados não foi inicializado corretamente');
     }
 
-    final res = await db.insert(
+    final result = await db.insert(
       'PopularMovies',
       newMovie.toJson(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
-    return res;
+    return result;
   }
 
-  Future<List<PopularMovie>> getAllMovies() async {
+  Future<List<PopularMovie>> readPopularMovies() async {
     final db = await dbHelper.database;
     if (db == null) {
-      throw Exception("Database is null");
+      throw Exception('O banco de dados não foi inicializado corretamente');
     }
-    final res = await db.rawQuery("SELECT * FROM Movies");
-    List<PopularMovie> list =
-        res.isNotEmpty ? res.map((c) => PopularMovie.fromJson(c)).toList() : [];
+    List<Map<String, dynamic>> maps = await db.query('PopularMovies');
 
-    return list;
-  }
+    List<PopularMovie> popularMovie = List.generate(maps.length, (i) {
+      List<int> genreIds = jsonDecode(maps[i]['genre_ids']).cast<int>();
 
-  Future<int> deleteAllMovies() async {
-    final db = await dbHelper.database;
-    if (db == null) {
-      throw Exception("Database is null");
-    }
+      return PopularMovie(
+        originalTitle: maps[i]['origin_title'] ?? '',
+        video: maps[i]['video'] == 'true',
+        id: maps[i]['id'],
+        releaseDate: maps[i]['release_date'],
+        originalLanguage: maps[i]['original_language'],
+        overview: maps[i]['overview'],
+        popularity: maps[i]['popularity'],
+        voteAverage: maps[i]['vote_average'],
+        voteCount: maps[i]['vote_count'],
+        posterPath: maps[i]['poster_path'],
+        backdropPath: maps[i]['backdrop_path'],
+        adult: maps[i]['adult'] == 'true',
+        title: maps[i]['title'],
+        genreIds: genreIds,
+        isFavorite: maps[i]['is_favorite'] == 'true',
+      );
+    });
 
-    final res = await db.rawDelete('DELETE FROM Movies');
-    return res;
+    return popularMovie;
   }
 }

@@ -29,6 +29,7 @@ class WidgetTitleSection extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(padding),
           margin: EdgeInsets.all(margin),
+          width: double.infinity,
           child: Text(
             title,
             textAlign: textAlign,

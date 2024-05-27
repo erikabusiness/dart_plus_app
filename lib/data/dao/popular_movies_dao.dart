@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:dart_plus_app/models/popular_movies.dart';
 import '../database.dart';
 import 'package:sqflite/sqflite.dart';
@@ -63,10 +61,47 @@ class PopularMoviesDao {
         adult: maps[i]['adult'] == 'true',
         title: maps[i]['title'],
         genreIds: genreIds,
-        isFavorite: maps[i]['is_favorite'] == 'true',
+        isFavorite: maps[i]['is_favorite'] == 1,
       );
     });
 
     return popularMovie;
+  }
+
+  Future<List<PopularMovie>> readPopularMoviesFavorites() async {
+    final db = await dbHelper.database;
+    if (db == null) {
+      throw Exception('O banco de dados não foi inicializado corretamente');
+    }
+
+    List<Map<String, dynamic>> maps = await db.query(
+      'PopularMovies',
+      where: 'is_favorite = ?',
+      whereArgs: [1],
+    );
+
+    List<PopularMovie> favoritePopularMovie = List.generate(maps.length, (i) {
+      List<int> genreIds = jsonDecode(maps[i]['genre_ids']).cast<int>();
+
+      return PopularMovie(
+        originalTitle: maps[i]['origin_title'] ?? '',
+        video: maps[i]['video'] == 'true',
+        id: maps[i]['id'],
+        releaseDate: maps[i]['release_date'],
+        originalLanguage: maps[i]['original_language'],
+        overview: maps[i]['overview'],
+        popularity: maps[i]['popularity'],
+        voteAverage: maps[i]['vote_average'],
+        voteCount: maps[i]['vote_count'],
+        posterPath: maps[i]['poster_path'],
+        backdropPath: maps[i]['backdrop_path'],
+        adult: maps[i]['adult'] == 'true',
+        title: maps[i]['title'],
+        genreIds: genreIds,
+        isFavorite: maps[i]['is_favorite'] == 1,
+      );
+    });
+
+    return favoritePopularMovie;
   }
 }

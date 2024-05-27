@@ -35,7 +35,7 @@ class DatabaseHelper {
             vote_average REAL,
             popularity REAL,
             vote_count INTEGER,
-            is_favorite TEXT
+            is_favorite INTEGER
           )
         ''');
         await db.execute('''
@@ -54,7 +54,7 @@ class DatabaseHelper {
             vote_average REAL,
             popularity REAL,
             vote_count INTEGER,
-            is_favorite TEXT
+            is_favorite INTEGER
           )
         ''');
       },

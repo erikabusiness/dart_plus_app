@@ -11,7 +11,7 @@ abstract class Media {
   final double voteAverage;
   final int voteCount;
   final String releaseDate;
-  final bool isFavorite;
+  bool isFavorite;
 
   Media({
     required this.id,

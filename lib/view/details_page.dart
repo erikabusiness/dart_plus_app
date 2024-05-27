@@ -87,26 +87,9 @@ class DetailsPage extends StatelessWidget {
                          BlocProvider(
                             create: (context) => FavoriteBloc()..add(LoadFavorite(media.id)),
                             child: FavoriteIconWidget(mediaId: media.id,),
-                            // child: BlocBuilder<FavoriteBloc, FavoriteState>(
-                            //   builder: (context, state) {
-                            //     bool isFavorite = (state as FavoriteInitial).isFavorite;
-                            //     return IconButton(
-                            //       onPressed: () {
-                            //         BlocProvider.of<FavoriteBloc>(context).add(ToggleFavorite(media.id));
-                            //       },
-                            //       icon: Icon(
-                            //         isFavorite ? Icons.favorite : Icons.favorite_border_outlined,
-                            //         size: 32,
-                            //         color: isFavorite ? Colors.red : null,
-                            //       ),
-                            //     );
-                            //   },
-                            // ),
                           ),
-
                         ],
-                      ),
-                      
+                      ), 
                       const SizedBox(height: 8.0),
                       Wrap(
                         spacing: 8.0,

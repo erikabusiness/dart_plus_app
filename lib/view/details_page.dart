@@ -7,6 +7,9 @@ import '../widgets/list_view_horizontal.dart';
 import '../widgets/media_trailer.dart';
 import '../widgets/story_line.dart';
 import '../widgets/title_section.dart';
+import '../favorite_bloc/favorite_bloc.dart';
+import '../favorite_bloc/favorite_event.dart';
+import '../favorite_bloc/favorite_state.dart';
 
 class DetailsPage extends StatelessWidget {
   const DetailsPage({
@@ -80,10 +83,25 @@ class DetailsPage extends StatelessWidget {
                               padding: 0,
                             ),
                           ),
-                          IconButton(onPressed:(){
-                            //chamar estado.togglefavorite();
-                          }, 
-                          icon: const Icon(Icons.favorite_border_outlined, size: 32,))
+                         BlocProvider(
+                            create: (context) => FavoriteBloc()..add(LoadFavorite(media.id)),
+                            child: BlocBuilder<FavoriteBloc, FavoriteState>(
+                              builder: (context, state) {
+                                bool isFavorite = (state as FavoriteInitial).isFavorite;
+                                return IconButton(
+                                  onPressed: () {
+                                    BlocProvider.of<FavoriteBloc>(context).add(ToggleFavorite(media.id));
+                                  },
+                                  icon: Icon(
+                                    isFavorite ? Icons.favorite : Icons.favorite_border_outlined,
+                                    size: 32,
+                                    color: isFavorite ? Colors.red : null,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+
                         ],
                       ),
                       

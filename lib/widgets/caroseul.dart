@@ -24,12 +24,12 @@ class WidgetCarousel extends StatelessWidget {
                   'https://image.tmdb.org/t/p/w500${media.backdropPath}',
                   fit: BoxFit.cover,
                   width: double.infinity,
+                  height: double.infinity,
                 ),
               ),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  margin: const EdgeInsets.only(bottom: 22),
                   height: 70,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -50,9 +50,9 @@ class WidgetCarousel extends StatelessWidget {
                 ),
               ),
               Positioned(
-                bottom: 15,
-                left: 10,
-                right: 10,
+                bottom: 0,
+                left: 8,
+                right: 8,
                 child: WidgetTitleSection(
                   title: media.title,
                   textAlign: TextAlign.center,

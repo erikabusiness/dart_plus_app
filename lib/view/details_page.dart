@@ -1,4 +1,5 @@
 import 'package:dart_plus_app/utils/utils_functions.dart';
+import 'package:dart_plus_app/widgets/favorite_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../models/media.dart';
@@ -85,21 +86,22 @@ class DetailsPage extends StatelessWidget {
                           ),
                          BlocProvider(
                             create: (context) => FavoriteBloc()..add(LoadFavorite(media.id)),
-                            child: BlocBuilder<FavoriteBloc, FavoriteState>(
-                              builder: (context, state) {
-                                bool isFavorite = (state as FavoriteInitial).isFavorite;
-                                return IconButton(
-                                  onPressed: () {
-                                    BlocProvider.of<FavoriteBloc>(context).add(ToggleFavorite(media.id));
-                                  },
-                                  icon: Icon(
-                                    isFavorite ? Icons.favorite : Icons.favorite_border_outlined,
-                                    size: 32,
-                                    color: isFavorite ? Colors.red : null,
-                                  ),
-                                );
-                              },
-                            ),
+                            child: FavoriteIconWidget(mediaId: media.id,),
+                            // child: BlocBuilder<FavoriteBloc, FavoriteState>(
+                            //   builder: (context, state) {
+                            //     bool isFavorite = (state as FavoriteInitial).isFavorite;
+                            //     return IconButton(
+                            //       onPressed: () {
+                            //         BlocProvider.of<FavoriteBloc>(context).add(ToggleFavorite(media.id));
+                            //       },
+                            //       icon: Icon(
+                            //         isFavorite ? Icons.favorite : Icons.favorite_border_outlined,
+                            //         size: 32,
+                            //         color: isFavorite ? Colors.red : null,
+                            //       ),
+                            //     );
+                            //   },
+                            // ),
                           ),
 
                         ],

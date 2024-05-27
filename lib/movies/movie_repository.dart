@@ -16,7 +16,7 @@ class MovieRepository {
           moviesJson.map((movie) => PopularMovie.fromJson(movie)).toList();
 
       for (var movie in movies) {
-        await PopularMoviesDao().createPopularMovies(movie);
+        await PopularMoviesDao().insertPopularMovies(movie);
       }
 
       return movies;
@@ -36,7 +36,7 @@ class MovieRepository {
           moviesJson.map((movie) => PopularMovie.fromJson(movie)).toList();
 
       for (var movie in movies) {
-        await PopularMoviesDao().createPopularMovies(movie);
+        await PopularMoviesDao().insertPopularMovies(movie);
       }
 
       return movies;

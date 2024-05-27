@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:dart_plus_app/models/popular_movies.dart';
 import '../database.dart';
@@ -7,7 +8,7 @@ import 'package:sqflite/sqflite.dart';
 class PopularMoviesDao {
   final dbHelper = DatabaseHelper();
 
-  Future<int> createPopularMovies(PopularMovie newMovie) async {
+  Future<int> insertPopularMovies(PopularMovie newMovie) async {
     final db = await dbHelper.database;
     if (db == null) {
       throw Exception('O banco de dados não foi inicializado corretamente');
@@ -20,6 +21,21 @@ class PopularMoviesDao {
     );
 
     return result;
+  }
+
+  Future<void> updatePopularMovies(PopularMovie updateMovie) async {
+    final db = await dbHelper.database;
+    if (db == null) {
+      throw Exception('O banco de dados não foi inicializado corretamente');
+    }
+
+    await db.update(
+      'PopularMovies',
+      updateMovie.toJson(),
+      where: 'id = ?',
+      whereArgs: [updateMovie.id],
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   Future<List<PopularMovie>> readPopularMovies() async {

@@ -18,7 +18,7 @@ class SeriesRepository {
       List<PopularSeries> series =
           seriesJson.map((series) => PopularSeries.fromJson(series)).toList();
       for (var serie in series) {
-        await PopularSeriesDao().createPopularSeries(serie);
+        await PopularSeriesDao().insertPopularSeries(serie);
       }
       return series;
     } else {

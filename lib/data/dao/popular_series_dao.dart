@@ -6,7 +6,7 @@ import 'package:sqflite/sqflite.dart';
 class PopularSeriesDao {
   final dbHelper = DatabaseHelper();
 
-  Future<int> createPopularSeries(PopularSeries newSerie) async {
+  Future<int> insertPopularSeries(PopularSeries newSerie) async {
     final db = await dbHelper.database;
     if (db == null) {
       throw Exception('O banco de dados não foi inicializado corretamente');
@@ -19,6 +19,21 @@ class PopularSeriesDao {
     );
 
     return result;
+  }
+
+  Future<void> updatePopularSeries(PopularSeries updateSerie) async {
+    final db = await dbHelper.database;
+    if (db == null) {
+      throw Exception('O banco de dados não foi inicializado corretamente');
+    }
+
+    await db.update(
+      'PopularSeries',
+      updateSerie.toJson(),
+      where: 'id = ?',
+      whereArgs: [updateSerie.id],
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   Future<List<PopularSeries>> readPopularSeries() async {

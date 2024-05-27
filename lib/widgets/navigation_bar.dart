@@ -22,13 +22,15 @@ class CustomBottomNavigationBar extends StatelessWidget {
         onItemTapped(index);
         switch (index) {
           case 0:
-            Navigator.pushNamed(context, NavRoutes.homePage);
+            index == 0
+                ? null
+                : Navigator.pushNamed(context, NavRoutes.homePage);
             break;
           // case 1:
-          //   Navigator.pushNamed(context, NavRoutes.catalogoPage);
+          //   index == 1 ? null : Navigator.pushNamed(context, NavRoutes.catalogoPage);
           //   break;
           // case 2:
-          //   Navigator.pushNamed(context, NavRoutes.favoritesPage);
+          //   index == 1 ? null : Navigator.pushNamed(context, NavRoutes.favoritesPage);
           //   break;
         }
       },
@@ -40,10 +42,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
         NavigationDestination(
           icon: Icon(Icons.search),
           label: 'Catálogo',
+          enabled: false,
         ),
         NavigationDestination(
           icon: Icon(Icons.star),
           label: 'Favoritos',
+          enabled: false,
         ),
       ],
     );

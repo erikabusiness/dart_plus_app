@@ -57,6 +57,25 @@ class DatabaseHelper {
             is_favorite INTEGER
           )
         ''');
+        await db.execute('''
+  CREATE TABLE Favorites (
+    id INTEGER PRIMARY KEY,
+    release_date TEXT, 
+    original_title TEXT,
+    video TEXT,
+    title TEXT,
+    poster_path TEXT,
+    adult TEXT,
+    backdrop_path TEXT,
+    genre_ids TEXT, 
+    original_language TEXT,
+    overview TEXT,
+    vote_average REAL,
+    popularity REAL,
+    vote_count INTEGER,
+    is_favorite INTEGER
+  )
+''');
       },
     );
   }

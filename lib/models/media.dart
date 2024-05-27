@@ -28,4 +28,22 @@ abstract class Media {
     this.releaseDate = "",
     this.isFavorite = false,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'poster_path': posterPath,
+      'adult': adult ? 1 : 0,
+      'backdrop_path': backdropPath,
+      'genre_ids': genreIds.join(','),
+      'original_language': originalLanguage,
+      'overview': overview,
+      'popularity': popularity,
+      'vote_average': voteAverage,
+      'vote_count': voteCount,
+      'release_date': releaseDate,
+      'is_favorite': isFavorite ? 1 : 0,
+    };
+  }
 }

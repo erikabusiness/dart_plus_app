@@ -1,29 +1,18 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dart_plus_app/data/dao/favorites_dao.dart';
 
 class FavoriteManager {
-  static const String _favoritesKey = 'favorites';
+  final _favoriteDao = FavoriteDao();
 
   Future<void> toggleFavorite(int mediaId) async {
-    final prefs = await SharedPreferences.getInstance();
-    final favorites = prefs.getStringList(_favoritesKey) ?? [];
-    final mediaIdStr = mediaId.toString();
-    if (favorites.contains(mediaIdStr)) {
-      favorites.remove(mediaIdStr);
-    } else {
-      favorites.add(mediaIdStr);
-    }
-    await prefs.setStringList(_favoritesKey, favorites);
+    final isFavorite = await this.isFavorite(mediaId);
+    await _favoriteDao.toggleFavorite(mediaId, !isFavorite);
   }
 
   Future<bool> isFavorite(int mediaId) async {
-    final prefs = await SharedPreferences.getInstance();
-    final favorites = prefs.getStringList(_favoritesKey) ?? [];
-    return favorites.contains(mediaId.toString());
+    return await _favoriteDao.isFavorite(mediaId);
   }
 
   Future<List<int>> getFavorites() async {
-    final prefs = await SharedPreferences.getInstance();
-    final favorites = prefs.getStringList(_favoritesKey) ?? [];
-    return favorites.map((id) => int.parse(id)).toList();
+    return await _favoriteDao.getFavorites();
   }
 }

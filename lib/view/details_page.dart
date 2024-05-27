@@ -7,9 +7,9 @@ import '../widgets/list_view_horizontal.dart';
 import '../widgets/media_trailer.dart';
 import '../widgets/story_line.dart';
 import '../widgets/title_section.dart';
-import '../favorite/favorite_bloc.dart';
-import '../favorite/favorite_event.dart';
-import '../favorite/favorite_state.dart';
+import '../favorites/favorite_bloc.dart';
+import '../favorites/favorite_event.dart';
+import '../favorites/favorite_state.dart';
 
 class DetailsPage extends StatelessWidget {
   const DetailsPage({

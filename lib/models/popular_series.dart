@@ -1,13 +1,13 @@
+import 'dart:convert';
+
 import 'media.dart';
 
 class PopularSeries extends Media {
   final String originalName;
-  final String releaseDate;
   final List<String> originCountry;
 
   PopularSeries({
     required this.originalName,
-    required this.releaseDate,
     required this.originCountry,
     super.title = '',
     super.posterPath = '',
@@ -18,8 +18,31 @@ class PopularSeries extends Media {
     super.overview,
     super.popularity,
     super.voteAverage,
-    super.voteCount, required super.id,
+    super.releaseDate,
+    super.voteCount,
+    super.isFavorite,
+    required super.id,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'release_date': releaseDate,
+      'original_name': originalName,
+      'origin_country': originCountry.toString(),
+      'title': title,
+      'poster_path': posterPath,
+      'adult': adult ? 'true' : 'false',
+      'backdrop_path': backdropPath,
+      'genre_ids': jsonEncode(genreIds),
+      'original_language': originalLanguage,
+      'overview': overview,
+      'popularity': popularity,
+      'vote_average': voteAverage,
+      'vote_count': voteCount,
+      'is_favorite': isFavorite ? 1 : 0,
+    };
+  }
 
   factory PopularSeries.fromJson(Map<String, dynamic> json) {
     return PopularSeries(
@@ -37,6 +60,7 @@ class PopularSeries extends Media {
       popularity: json['popularity']?.toDouble() ?? 0.0,
       voteAverage: json['vote_average']?.toDouble() ?? 0.0,
       voteCount: json['vote_count'] ?? 0,
+      isFavorite: json['is_favorite'] ?? false,
     );
   }
 }

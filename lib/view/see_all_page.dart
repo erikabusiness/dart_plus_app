@@ -1,8 +1,9 @@
+import 'package:dart_plus_app/widgets/title_section.dart';
 import 'package:flutter/material.dart';
 import '../models/media.dart';
 import '../widgets/grid_view_vertical.dart';
 import '../widgets/search_bar.dart';
-import '../widgets/title_section.dart';
+import '../services/voiceControl.dart';
 
 class SeeAll extends StatefulWidget {
   const SeeAll({super.key});
@@ -17,10 +18,13 @@ class _SeeAllState extends State<SeeAll> {
   TextEditingController searchController = TextEditingController();
   bool isSearching = false;
   String tela = "";
+  late VoiceControl voiceControl;
 
   @override
   void initState() {
     super.initState();
+    voiceControl = VoiceControl();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final Map<String, dynamic> args =
           ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
@@ -81,7 +85,12 @@ class _SeeAllState extends State<SeeAll> {
               onChanged: (query) {
                 _filterMediaItems();
               },
-              onMicPressed: () {},
+              onMicPressed: () {
+                voiceControl.startListening((text) {
+                  searchController.text = text;
+                  _filterMediaItems();
+                });
+              },
             ),
           Expanded(
             child: filteredMediaItems.isNotEmpty

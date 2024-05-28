@@ -24,6 +24,7 @@ class WidgetCarousel extends StatelessWidget {
                   'https://image.tmdb.org/t/p/w500${media.backdropPath}',
                   fit: BoxFit.cover,
                   width: double.infinity,
+                  height: double.infinity,
                 ),
               ),
               Align(
@@ -36,6 +37,8 @@ class WidgetCarousel extends StatelessWidget {
                       end: Alignment.bottomCenter,
                       colors: [
                         Colors.black.withOpacity(0),
+                        Colors.black.withOpacity(0.5),
+                        Colors.black.withOpacity(0.7),
                         Colors.black.withOpacity(0.9)
                       ],
                     ),
@@ -47,9 +50,9 @@ class WidgetCarousel extends StatelessWidget {
                 ),
               ),
               Positioned(
-                bottom: 15,
-                left: 10,
-                right: 10,
+                bottom: 0,
+                left: 8,
+                right: 8,
                 child: WidgetTitleSection(
                   title: media.title,
                   textAlign: TextAlign.center,

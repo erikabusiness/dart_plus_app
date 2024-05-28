@@ -1,4 +1,5 @@
 import 'package:dart_plus_app/utils/utils_functions.dart';
+import 'package:dart_plus_app/widgets/favorite_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../models/media.dart';
@@ -7,6 +8,8 @@ import '../widgets/list_view_horizontal.dart';
 import '../widgets/media_trailer.dart';
 import '../widgets/story_line.dart';
 import '../widgets/title_section.dart';
+import '../favorites/favorite_bloc.dart';
+import '../favorites/favorite_event.dart';
 
 class DetailsPage extends StatelessWidget {
   const DetailsPage({
@@ -71,10 +74,27 @@ class DetailsPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      WidgetTitleSection(
-                        title: media.title,
-                        sizeTitle: 22.0,
-                        padding: 0,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: WidgetTitleSection(
+                                title: media.title,
+                                sizeTitle: 22.0,
+                                padding: 0,
+                              ),
+                            ),
+                          ),
+                          BlocProvider(
+                            create: (context) =>
+                                FavoriteBloc()..add(LoadFavorite(media.id)),
+                            child: FavoriteIconWidget(
+                              mediaId: media.id,
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 8.0),
                       Wrap(
@@ -100,9 +120,10 @@ class DetailsPage extends StatelessWidget {
                               Text(
                                 "${voteStar(media.voteAverage)}/5.0",
                                 style: const TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.white,),
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.white,
+                                ),
                               ),
                               const SizedBox(
                                 width: 8.0,

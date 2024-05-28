@@ -4,6 +4,7 @@ import 'package:dart_plus_app/movies/bloc/popular_movies/popular_movies_bloc.dar
 import 'package:dart_plus_app/movies/bloc/top_rated_movies/top_rated_movies_bloc.dart';
 import 'package:dart_plus_app/series/bloc/popular_series/popular_series_bloc.dart';
 import 'package:dart_plus_app/view/details_page.dart';
+import 'package:dart_plus_app/view/favorites_page.dart';
 import 'package:dart_plus_app/view/home_page.dart';
 import 'package:dart_plus_app/view/see_all_page.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,7 @@ class _MyAppState extends State<MyApp> {
           NavRoutes.homePage: (context) => const MyHomePage(),
           NavRoutes.details: (context) => const DetailsPage(),
           NavRoutes.seeAll: (context) => const SeeAll(),
+          NavRoutes.favoritesPage: (context) => const FavoritesPage(),
         },
         title: 'Dart Plus',
         debugShowCheckedModeBanner: false,

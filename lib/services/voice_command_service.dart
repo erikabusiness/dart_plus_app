@@ -42,7 +42,10 @@ class VoiceCommandService {
         listenFor: Duration(seconds: listenFor),
         pauseFor: Duration(seconds: pauseFor),
         localeId: _currentLocaleId,
-        partialResults: true,
+        listenMode: ListenMode.confirmation,
+        listenOptions: SpeechListenOptions(
+          partialResults: true,
+        ),
       );
     }
   }
@@ -61,9 +64,8 @@ class VoiceCommandService {
 
   void resultListener(SpeechRecognitionResult result) {
     _lastWords = result.recognizedWords.toLowerCase();
-    if (_onResult != null && _lastWords.contains('buscar')) {
-      String searchTerm = _lastWords.replaceFirst('buscar', '').trim();
-      _onResult!(searchTerm);
+    if (_onResult != null) {
+      _onResult!(_lastWords);
     }
   }
 

@@ -3,7 +3,6 @@ import '../models/media.dart';
 import '../widgets/grid_view_vertical.dart';
 import '../widgets/search_bar.dart';
 import '../widgets/title_section.dart';
-import '../services/voice_command_service.dart';
 
 class SeeAll extends StatefulWidget {
   const SeeAll({super.key});
@@ -18,7 +17,6 @@ class _SeeAllState extends State<SeeAll> {
   TextEditingController searchController = TextEditingController();
   bool isSearching = false;
   String tela = "";
-  final VoiceCommandService _voiceCommandService = VoiceCommandService();
 
   @override
   void initState() {
@@ -35,11 +33,6 @@ class _SeeAllState extends State<SeeAll> {
     });
 
     searchController.addListener(_filterMediaItems);
-    _initializeVoiceCommandService();
-  }
-
-  void _initializeVoiceCommandService() async {
-    await _voiceCommandService.initialize();
   }
 
   @override
@@ -67,15 +60,6 @@ class _SeeAllState extends State<SeeAll> {
     });
   }
 
-  void _startListening() {
-    _voiceCommandService.startListening((text) {
-      setState(() {
-        searchController.text = text;
-        _filterMediaItems();
-      });
-    }, (status) {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,11 +71,6 @@ class _SeeAllState extends State<SeeAll> {
             icon: const Icon(Icons.search),
             onPressed: _toggleSearch,
           ),
-          if (isSearching)
-            IconButton(
-              icon: const Icon(Icons.mic),
-              onPressed: _startListening,
-            ),
         ],
       ),
       body: Column(
@@ -102,7 +81,7 @@ class _SeeAllState extends State<SeeAll> {
               onChanged: (query) {
                 _filterMediaItems();
               },
-              onMicPressed: _startListening,
+              onMicPressed: () {},
             ),
           Expanded(
             child: filteredMediaItems.isNotEmpty

@@ -81,7 +81,7 @@ class MediaCard extends StatelessWidget {
           ),
           if (viewTitle != false)
             Padding(
-              padding: const EdgeInsets.only(top: 4),
+              padding: const EdgeInsets.only(top: 0),
               child: Text(
                 media.title,
                 style: const TextStyle(
@@ -90,9 +90,8 @@ class MediaCard extends StatelessWidget {
                   color: Colors.white,
                 ),
                 textAlign: TextAlign.center,
-                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                softWrap: true,
+                maxLines: 2,
               ),
             ),
         ],

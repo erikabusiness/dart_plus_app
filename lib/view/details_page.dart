@@ -10,7 +10,6 @@ import '../widgets/story_line.dart';
 import '../widgets/title_section.dart';
 import '../favorites/favorite_bloc.dart';
 import '../favorites/favorite_event.dart';
-import '../favorites/favorite_state.dart';
 
 class DetailsPage extends StatelessWidget {
   const DetailsPage({
@@ -76,20 +75,27 @@ class DetailsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: WidgetTitleSection(
-                              title: media.title,
-                              sizeTitle: 22.0,
-                              padding: 0,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: WidgetTitleSection(
+                                title: media.title,
+                                sizeTitle: 22.0,
+                                padding: 0,
+                              ),
                             ),
                           ),
-                         BlocProvider(
-                            create: (context) => FavoriteBloc()..add(LoadFavorite(media.id)),
-                            child: FavoriteIconWidget(mediaId: media.id,),
+                          BlocProvider(
+                            create: (context) =>
+                                FavoriteBloc()..add(LoadFavorite(media.id)),
+                            child: FavoriteIconWidget(
+                              mediaId: media.id,
+                            ),
                           ),
                         ],
-                      ), 
+                      ),
                       const SizedBox(height: 8.0),
                       Wrap(
                         spacing: 8.0,
@@ -114,9 +120,10 @@ class DetailsPage extends StatelessWidget {
                               Text(
                                 "${voteStar(media.voteAverage)}/5.0",
                                 style: const TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.white,),
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.white,
+                                ),
                               ),
                               const SizedBox(
                                 width: 8.0,

@@ -14,7 +14,7 @@ class PopularMoviesDao {
 
     final result = await db.insert(
       'PopularMovies',
-      newMovie.toJson(),
+      newMovie.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
@@ -29,7 +29,7 @@ class PopularMoviesDao {
 
     await db.update(
       'PopularMovies',
-      updateMovie.toJson(),
+      updateMovie.toMap(),
       where: 'id = ?',
       whereArgs: [updateMovie.id],
       conflictAlgorithm: ConflictAlgorithm.replace,

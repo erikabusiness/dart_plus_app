@@ -1,7 +1,8 @@
+import 'dart:convert';
 import 'package:dart_plus_app/data/database.dart';
 import 'package:dart_plus_app/models/media.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
+import 'package:dart_plus_app/models/favorites.dart';
 
 class FavoriteDao {
   final dbHelper = DatabaseHelper();
@@ -20,7 +21,7 @@ class FavoriteDao {
     } else {
       await db.insert(
         'Favorites',
-        media.toJson(),
+        media.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }
@@ -41,16 +42,43 @@ class FavoriteDao {
     return result.isNotEmpty;
   }
 
-  Future<List<int>> getFavorites() async {
+  Future<List<Favorites>> getFavorites() async {
     final db = await dbHelper.database;
     if (db == null) {
       throw Exception('O banco de dados não foi inicializado corretamente');
     }
 
-    final result =
-        await db.rawQuery('SELECT id FROM Favorites WHERE is_favorite = 1');
-    return result.isNotEmpty
-        ? result.map<int>((e) => e['id'] as int).toList()
-        : [];
+    List<Map<String, dynamic>> maps = await db.query(
+      'Favorites',
+    );
+
+    List<Favorites> favoriteMedia = List.generate(maps.length, (i) {
+      List<int> genreIds = jsonDecode(maps[i]['genre_ids']).cast<int>();
+      List<String> originCountry = [
+        maps[i]['origin_country'].split('[').last.split(']').first
+      ];
+
+      return Favorites(
+        id: maps[i]['id'],
+        originalTitle: maps[i]['original_title'],
+        video: maps[i]['video'] == 1,
+        originalName: maps[i]['original_name'],
+        originCountry: originCountry,
+        releaseDate: maps[i]['release_date'],
+        originalLanguage: maps[i]['original_language'],
+        overview: maps[i]['overview'],
+        popularity: maps[i]['popularity'],
+        voteAverage: maps[i]['vote_average'],
+        voteCount: maps[i]['vote_count'],
+        posterPath: maps[i]['poster_path'],
+        backdropPath: maps[i]['backdrop_path'],
+        adult: maps[i]['adult'] == 'true',
+        title: maps[i]['title'],
+        genreIds: genreIds,
+        isFavorite: maps[i]['is_favorite'] == 1,
+      );
+    });
+
+    return favoriteMedia;
   }
 }

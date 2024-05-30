@@ -24,7 +24,8 @@ class PopularMovie extends Media {
     required super.id,
   });
 
-  Map<String, dynamic> toJson() {
+  @override
+  Map<String, dynamic> toMap() {
     return {
       'id': id,
       'release_date': releaseDate,

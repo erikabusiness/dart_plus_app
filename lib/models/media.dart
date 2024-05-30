@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 abstract class Media {
   final int id;
   final String title;
@@ -29,14 +31,14 @@ abstract class Media {
     this.isFavorite = false,
   });
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {
       'id': id,
       'title': title,
       'poster_path': posterPath,
       'adult': adult ? 1 : 0,
       'backdrop_path': backdropPath,
-      'genre_ids': genreIds.join(','),
+      'genre_ids': jsonEncode(genreIds),
       'original_language': originalLanguage,
       'overview': overview,
       'popularity': popularity,

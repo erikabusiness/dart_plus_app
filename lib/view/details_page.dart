@@ -89,9 +89,9 @@ class DetailsPage extends StatelessWidget {
                           ),
                           BlocProvider(
                             create: (context) =>
-                                FavoriteBloc()..add(LoadFavorite(media.id)),
+                                FavoriteBloc()..add(LoadFavorite(media)),
                             child: FavoriteIconWidget(
-                              mediaId: media.id,
+                              media: media,
                             ),
                           ),
                         ],

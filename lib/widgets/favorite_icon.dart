@@ -1,18 +1,19 @@
 import 'package:dart_plus_app/favorites/favorite_bloc.dart';
 import 'package:dart_plus_app/favorites/favorite_event.dart';
 import 'package:dart_plus_app/favorites/favorite_state.dart';
+import 'package:dart_plus_app/models/media.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoriteIconWidget extends StatelessWidget {
   final double size;
-  final int mediaId;
+  final Media media;
 
   const FavoriteIconWidget({
     super.key,
     this.size = 32,
-    required this.mediaId,
+    required this.media,
   });
 
   @override
@@ -28,8 +29,7 @@ class FavoriteIconWidget extends StatelessWidget {
             //color: isFavorite ? Colors.red : null,
           ),
           onPressed: () {
-            BlocProvider.of<FavoriteBloc>(context)
-                .add(ToggleFavorite(mediaId));
+            BlocProvider.of<FavoriteBloc>(context).add(ToggleFavorite(media));
           },
         );
       },

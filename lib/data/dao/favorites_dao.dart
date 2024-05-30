@@ -1,29 +1,32 @@
 import 'package:dart_plus_app/data/database.dart';
+import 'package:dart_plus_app/models/media.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class FavoriteDao {
   final dbHelper = DatabaseHelper();
 
-  Future<void> toggleFavorite(int mediaId, bool isFavorite) async {
+  Future<void> toggleFavorite(Media media) async {
     final db = await dbHelper.database;
     if (db == null) {
       throw Exception('O banco de dados não foi inicializado corretamente');
     }
 
     final count = Sqflite.firstIntValue(await db
-        .rawQuery('SELECT COUNT(*) FROM Favorites WHERE id = ?', [mediaId]));
+        .rawQuery('SELECT COUNT(*) FROM Favorites WHERE id = ?', [media.id]));
 
     if (count != null && count > 0) {
-      await db.rawDelete('DELETE FROM Favorites WHERE id = ?', [mediaId]);
+      await db.rawDelete('DELETE FROM Favorites WHERE id = ?', [media.id]);
     } else {
-      await db.rawInsert(
-          'INSERT INTO Favorites (id, is_favorite) VALUES (?, ?)',
-          [mediaId, 1]);
+      await db.insert(
+        'Favorites',
+        media.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
     }
   }
 
-  Future<bool> isFavorite(int mediaId) async {
+  Future<bool> isFavorite(Media media) async {
     final db = await dbHelper.database;
     if (db == null) {
       throw Exception('O banco de dados não foi inicializado corretamente');
@@ -33,12 +36,9 @@ class FavoriteDao {
       'Favorites',
       columns: ['id'],
       where: 'id = ?',
-      whereArgs: [mediaId],
+      whereArgs: [media.id],
     );
-    if (result.isNotEmpty) {
-      return true;
-    }
-    return false;
+    return result.isNotEmpty;
   }
 
   Future<List<int>> getFavorites() async {

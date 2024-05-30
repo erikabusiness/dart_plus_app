@@ -15,8 +15,8 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     ToggleFavorite event,
     Emitter<FavoriteState> emit,
   ) async {
-    await _favoriteManager.toggleFavorite(event.mediaId);
-    final isFavorite = await _favoriteManager.isFavorite(event.mediaId);
+    await _favoriteManager.toggleFavorite(event.media);
+    final isFavorite = await _favoriteManager.isFavorite(event.media);
     emit(FavoriteInitial(isFavorite));
   }
 
@@ -24,7 +24,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     LoadFavorite event,
     Emitter<FavoriteState> emit,
   ) async {
-    final isFavorite = await _favoriteManager.isFavorite(event.mediaId);
+    final isFavorite = await _favoriteManager.isFavorite(event.media);
     emit(FavoriteInitial(isFavorite));
   }
 }

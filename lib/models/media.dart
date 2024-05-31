@@ -13,6 +13,10 @@ abstract class Media {
   final double voteAverage;
   final int voteCount;
   final String releaseDate;
+  final String originalTitle;
+  final String originalName;
+  final List<String> originCountry;
+  final bool video;
   bool isFavorite;
 
   Media({
@@ -29,6 +33,10 @@ abstract class Media {
     this.voteCount = 0,
     this.releaseDate = "",
     this.isFavorite = false,
+    this.originalTitle = "",
+    this.originalName = "",
+    this.originCountry = const [],
+    this.video = false,
   });
 
   Map<String, dynamic> toMap() {
@@ -46,6 +54,10 @@ abstract class Media {
       'vote_count': voteCount,
       'release_date': releaseDate,
       'is_favorite': isFavorite ? 1 : 0,
+      'original_title': originalTitle,
+      'original_name': originalName,
+      'origin_country': jsonEncode(originCountry),
+      'video': video ? 1 : 0,
     };
   }
 }

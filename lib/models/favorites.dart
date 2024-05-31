@@ -1,16 +1,11 @@
 import 'package:dart_plus_app/models/media.dart';
 
 class Favorites extends Media {
-  final String originalTitle;
-  final bool video;
-  final String originalName;
-  final List<String> originCountry;
-
   Favorites({
-    this.originalTitle = '',
-    this.video = false,
-    this.originalName = '',
-    this.originCountry = const [],
+    super.originalTitle = '',
+    super.video = false,
+    super.originalName = '',
+    super.originCountry = const [],
     super.title = '',
     super.posterPath = '',
     super.adult = false,

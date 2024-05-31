@@ -1,17 +1,14 @@
-import 'package:dart_plus_app/models/media.dart';
-import 'package:equatable/equatable.dart';
+part of 'favorite_bloc.dart';
 
 abstract class FavoriteEvent extends Equatable {
-  const FavoriteEvent();
-
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class ToggleFavorite extends FavoriteEvent {
   final Media media;
 
-  const ToggleFavorite(this.media);
+  ToggleFavorite(this.media);
 
   @override
   List<Object> get props => [media];
@@ -20,8 +17,14 @@ class ToggleFavorite extends FavoriteEvent {
 class LoadFavorite extends FavoriteEvent {
   final Media media;
 
-  const LoadFavorite(this.media);
+  LoadFavorite(this.media);
 
   @override
   List<Object> get props => [media];
+}
+
+class GetFavoritesEvent extends FavoriteEvent {
+  final List<Favorites> listFavorites;
+
+  GetFavoritesEvent({required this.listFavorites});
 }

@@ -1,7 +1,12 @@
+import 'dart:async';
+import 'package:dart_plus_app/models/favorites.dart';
+import 'package:dart_plus_app/models/media.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'favorite_manager.dart';
-import 'favorite_event.dart';
-import 'favorite_state.dart';
+
+part 'favorite_event.dart';
+part 'favorite_state.dart';
 
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   final FavoriteManager _favoriteManager = FavoriteManager();
@@ -9,15 +14,15 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   FavoriteBloc() : super(const FavoriteInitial(false)) {
     on<ToggleFavorite>(_onToggleFavorite);
     on<LoadFavorite>(_onLoadFavorite);
+    on<GetFavoritesEvent>(_getFavorites);
   }
-
   Future<void> _onToggleFavorite(
     ToggleFavorite event,
     Emitter<FavoriteState> emit,
   ) async {
-    await _favoriteManager.toggleFavorite(event.media);
     final isFavorite = await _favoriteManager.isFavorite(event.media);
-    emit(FavoriteInitial(isFavorite));
+    await _favoriteManager.toggleFavorite(event.media);
+    emit(FavoriteInitial(!isFavorite));
   }
 
   Future<void> _onLoadFavorite(
@@ -26,5 +31,20 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   ) async {
     final isFavorite = await _favoriteManager.isFavorite(event.media);
     emit(FavoriteInitial(isFavorite));
+  }
+
+  FutureOr<void> _getFavorites(
+    GetFavoritesEvent event,
+    Emitter<FavoriteState> emit,
+  ) async {
+    emit(const FavoriteLoading());
+    await Future.delayed(const Duration(seconds: 3));
+    try {
+      final favorites = await _favoriteManager.getFavorites();
+      emit(FavoriteLoaded(favorites: favorites));
+    } catch (e) {
+      emit(
+          const FavoriteError(message: 'Falha ao carregar lista de favoritos'));
+    }
   }
 }

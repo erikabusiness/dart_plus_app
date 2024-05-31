@@ -14,6 +14,12 @@ class FavoriteManager {
   }
 
   Future<List<Favorites>> getFavorites() async {
-    return await _favoriteDao.getFavorites();
+    try {
+      List<Favorites> favorites = await _favoriteDao.getFavorites();
+      return favorites;
+    } catch (e) {
+      return [];
+    }
+    
   }
 }

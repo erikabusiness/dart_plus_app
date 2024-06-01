@@ -18,7 +18,12 @@ class FavoriteIconWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FavoriteBloc, FavoriteState>(
       builder: (context, state) {
-        bool isFavorite = (state as FavoriteInitial).isFavorite;
+        bool isFavorite;
+        if(state is FavoriteInitial) {
+          isFavorite = state.isFavorite;
+        } else {
+          isFavorite = true;
+        }
 
         return IconButton(
           icon: Icon(

@@ -55,7 +55,7 @@ class FavoriteDao {
     List<Favorites> favoriteMedia = List.generate(maps.length, (i) {
       List<int> genreIds = jsonDecode(maps[i]['genre_ids']).cast<int>();
       List<String> originCountry = [];
-      if (maps[i]['origin_country'].isNotEmpty) {
+      if (maps[i]['origin_country'] != null) {
         originCountry = [
           maps[i]['origin_country'].split('[').last.split(']').first
         ];

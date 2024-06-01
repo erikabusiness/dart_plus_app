@@ -1,6 +1,4 @@
 import 'package:dart_plus_app/favorites/favorite_bloc.dart';
-import 'package:dart_plus_app/favorites/favorite_event.dart';
-import 'package:dart_plus_app/favorites/favorite_state.dart';
 import 'package:dart_plus_app/models/media.dart';
 
 import 'package:flutter/material.dart';

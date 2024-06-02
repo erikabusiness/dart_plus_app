@@ -29,7 +29,6 @@ class FavoriteIconWidget extends StatelessWidget {
           icon: Icon(
             isFavorite ? Icons.favorite : Icons.favorite_border_outlined,
             size: size,
-            //color: isFavorite ? Colors.red : null,
           ),
           onPressed: () {
             BlocProvider.of<FavoriteBloc>(context).add(ToggleFavorite(media));

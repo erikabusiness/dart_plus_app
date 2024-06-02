@@ -1,6 +1,6 @@
 import 'package:dart_plus_app/favorites/favorite_bloc.dart';
-import 'package:dart_plus_app/utils/utils_functions.dart';
 import 'package:dart_plus_app/widgets/favorite_icon.dart';
+import 'package:dart_plus_app/widgets/genre_label.dart';
 import 'package:dart_plus_app/widgets/navigation_bar.dart';
 import 'package:dart_plus_app/widgets/title_section.dart';
 import 'package:flutter/material.dart';
@@ -51,8 +51,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
             return ListView.builder(
               itemCount: favorites.length,
               itemBuilder: (BuildContext context, int index) {
-                List<String?> generos =
-                UtilsFunctions.genreMap(favorites[index].genreIds);
                 return ListTile(
                   leading: favorites[index].posterPath.isNotEmpty
                       ? Image.network(
@@ -60,7 +58,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   )
                       : const Icon(Icons.favorite),
                   title: Text(favorites[index].title),
-                  subtitle: Text(generos.join(", ")),
+                  subtitle: GenreLabelWidget(media: favorites[index], isCompact: true,),
                   trailing: FavoriteIconWidget(media: favorites[index]),
                 );
               },

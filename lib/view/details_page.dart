@@ -1,5 +1,5 @@
-import 'package:dart_plus_app/utils/utils_functions.dart';
 import 'package:dart_plus_app/widgets/favorite_icon.dart';
+import 'package:dart_plus_app/widgets/genre_label.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../models/media.dart';
@@ -33,8 +33,6 @@ class DetailsPage extends StatelessWidget {
       var voteStar = vote / 2;
       return voteStar.toStringAsFixed(1);
     }
-
-    List<String?> genres = UtilsFunctions.genreMap(media.genreIds);
 
     return Scaffold(
       body: CustomScrollView(
@@ -96,15 +94,7 @@ class DetailsPage extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 8.0),
-                      Wrap(
-                        spacing: 8.0,
-                        runSpacing: 4.0,
-                        children: genres.map((genre) {
-                          return Chip(
-                            label: Text(genre!),
-                          );
-                        }).toList(),
-                      ),
+                      GenreLabelWidget(media: media, isCompact: false,),
                       const SizedBox(height: 8.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

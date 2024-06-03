@@ -22,6 +22,7 @@ class GenreLabelWidget extends StatelessWidget {
             genre!,
             style: TextStyle(fontSize: isCompact ? 12.0 : 14.0),
           ),
+          padding: const EdgeInsets.all(2.0),
           materialTapTargetSize: isCompact
               ? MaterialTapTargetSize.shrinkWrap
               : MaterialTapTargetSize.padded,

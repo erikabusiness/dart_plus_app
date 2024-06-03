@@ -6,6 +6,7 @@ import 'package:dart_plus_app/routes/routes.dart';
 import 'package:dart_plus_app/movies/bloc/popular_movies/popular_movies_bloc.dart';
 import 'package:dart_plus_app/movies/bloc/top_rated_movies/top_rated_movies_bloc.dart';
 import 'package:dart_plus_app/series/bloc/popular_series/popular_series_bloc.dart';
+import 'package:dart_plus_app/view/catalogo_page.dart';
 import 'package:dart_plus_app/view/details_page.dart';
 import 'package:dart_plus_app/view/favorites_page.dart';
 import 'package:dart_plus_app/view/home_page.dart';
@@ -18,14 +19,13 @@ main() {
 }
 
 class MyApp extends StatefulWidget {
-   const MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -43,6 +43,7 @@ class _MyAppState extends State<MyApp> {
           NavRoutes.details: (context) => const DetailsPage(),
           NavRoutes.seeAll: (context) => const SeeAll(),
           NavRoutes.favoritesPage: (context) => const FavoritesPage(),
+          NavRoutes.catalogoPage: (context) => const CatalogoPage(),
         },
         title: 'Dart Plus',
         debugShowCheckedModeBanner: false,

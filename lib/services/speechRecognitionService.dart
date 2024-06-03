@@ -49,16 +49,13 @@ class SpeechRecognitionService {
           if (onResultCallback != null) {
             onResultCallback!(text);
           }
-          if (text.contains("abrir configurações")) {
-            onCommand?.call("abrirConfiguracoes");
-          } else if (text.contains("voltar")) {
-            onCommand?.call("voltar");
-          }
         },
         listenFor: const Duration(seconds: 30),
       );
     } else {
-      print('Speech recognition is not initialized or already listening.');
+      if (kDebugMode) {
+        print('Speech recognition is not initialized or already listening.');
+      }
     }
   }
 

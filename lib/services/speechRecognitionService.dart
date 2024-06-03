@@ -5,6 +5,7 @@ class SpeechRecognitionService {
   late stt.SpeechToText _speech;
   bool _isListening = false;
   bool _isInitialized = false;
+  void Function(String)? onErrorCallback;
 
   void init() async {
     _speech = stt.SpeechToText();
@@ -23,9 +24,8 @@ class SpeechRecognitionService {
         }
         _isListening = false;
         if (error.permanent) {
-          // Handle permanent errors appropriately
+          onErrorCallback?.call('Erro permanente: ${error.errorMsg}');
         } else {
-          // Try to restart listening if the error is not permanent
           start();
         }
       },

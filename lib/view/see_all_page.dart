@@ -64,6 +64,11 @@ class _SeeAllState extends State<SeeAll> {
     });
   }
 
+  void _onVoiceResult(String text) {
+    searchController.text = text;
+    _filterMediaItems();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,10 +91,7 @@ class _SeeAllState extends State<SeeAll> {
                 _filterMediaItems();
               },
               onMicPressed: () {
-                voiceControl.startListening((text) {
-                  searchController.text = text;
-                  _filterMediaItems();
-                });
+                voiceControl.startListening(_onVoiceResult);
               },
             ),
           Expanded(

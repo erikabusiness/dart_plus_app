@@ -23,14 +23,18 @@ class CustomBottomNavigationBar extends StatelessWidget {
         switch (index) {
           case 0:
             index == 0
-                ? null
-                : Navigator.pushNamed(context, NavRoutes.homePage);
+                ? Navigator.pushNamed(context, NavRoutes.homePage)
+                : null;
             break;
-          // case 1:
-          //   index == 1 ? null : Navigator.pushNamed(context, NavRoutes.catalogoPage);
-          //   break;
+          case 1:
+            index == 1
+                ? Navigator.pushNamed(context, NavRoutes.catalogoPage)
+                : null;
+            break;
           case 2:
-            index == 1 ? null : Navigator.pushNamed(context, NavRoutes.favoritesPage); //TODO Alterar o index quando houver catalago
+            index == 2
+                ? Navigator.pushNamed(context, NavRoutes.favoritesPage)
+                : null;
             break;
         }
       },
@@ -40,9 +44,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
           label: 'Início',
         ),
         NavigationDestination(
-          icon: Icon(Icons.search),
+          icon: Icon(Icons.view_comfy_alt),
           label: 'Catálogo',
-          enabled: false,
         ),
         NavigationDestination(
           icon: Icon(Icons.favorite),

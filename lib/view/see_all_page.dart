@@ -69,6 +69,12 @@ class _SeeAllState extends State<SeeAll> {
     _filterMediaItems();
   }
 
+  void _onVoiceError(String errorMsg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(errorMsg)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,7 +97,7 @@ class _SeeAllState extends State<SeeAll> {
                 _filterMediaItems();
               },
               onMicPressed: () {
-                voiceControl.startListening(_onVoiceResult);
+                voiceControl.startListening(_onVoiceResult, _onVoiceError);
               },
             ),
           Expanded(

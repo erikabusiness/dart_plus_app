@@ -8,8 +8,10 @@ class VoiceControl {
     _speechRecognitionService.init();
   }
 
-  void startListening(Function(String) onResultCallback) {
+  void startListening(
+      Function(String) onResultCallback, Function(String) onErrorCallback) {
     _speechRecognitionService.onResultCallback = onResultCallback;
+    _speechRecognitionService.onResultCallback = onErrorCallback;
     _speechRecognitionService.start();
   }
 

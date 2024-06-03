@@ -51,6 +51,13 @@ class SpeechRecognitionService {
           }
         },
         listenFor: const Duration(seconds: 30),
+        pauseFor: const Duration(seconds: 5),
+        partialResults: true,
+        onSoundLevelChange: (level) {
+          if (kDebugMode) {
+            print('Sound level: $level');
+          }
+        },
       );
     } else {
       if (kDebugMode) {

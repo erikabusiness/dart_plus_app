@@ -1,6 +1,4 @@
-import 'package:dart_plus_app/data/dao/favorites_dao.dart';
 import 'package:dart_plus_app/favorites/favorite_bloc.dart';
-import 'package:dart_plus_app/models/favorites.dart';
 import 'package:dart_plus_app/movies/bloc/videos_popular_movie/videos_popular_movie_bloc.dart';
 import 'package:dart_plus_app/routes/routes.dart';
 import 'package:dart_plus_app/movies/bloc/popular_movies/popular_movies_bloc.dart';

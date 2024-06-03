@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:dart_plus_app/routes/routes.dart';
 
+import '../models/media.dart';
+
 class CustomBottomNavigationBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
+  final List<Media> allMedias;
 
   const CustomBottomNavigationBar({
     super.key,
     required this.selectedIndex,
     required this.onItemTapped,
+    required this.allMedias,
   });
 
   @override
@@ -19,19 +23,29 @@ class CustomBottomNavigationBar extends StatelessWidget {
       backgroundColor: theme.colorScheme.background,
       selectedIndex: selectedIndex,
       onDestinationSelected: (index) {
-        onItemTapped(index);
-        switch (index) {
-          case 0:
-            index == 0
-                ? null
-                : Navigator.pushNamed(context, NavRoutes.homePage);
-            break;
-          // case 1:
-          //   index == 1 ? null : Navigator.pushNamed(context, NavRoutes.catalogoPage);
-          //   break;
-          case 2:
-            index == 1 ? null : Navigator.pushNamed(context, NavRoutes.favoritesPage); //TODO Alterar o index quando houver catalago
-            break;
+        if (index != selectedIndex) {
+          onItemTapped(index);
+          switch (index) {
+            case 0:
+              Navigator.pushNamed(
+                context,
+                NavRoutes.homePage,
+              );
+              break;
+            case 1:
+              Navigator.pushNamed(
+                context,
+                NavRoutes.catalogoPage,
+                arguments: {'allMedias': allMedias},
+              );
+              break;
+            case 2:
+              Navigator.pushNamed(
+                context,
+                NavRoutes.favoritesPage,
+              );
+              break;
+          }
         }
       },
       destinations: const [
@@ -40,9 +54,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
           label: 'Início',
         ),
         NavigationDestination(
-          icon: Icon(Icons.search),
+          icon: Icon(Icons.view_comfy_alt),
           label: 'Catálogo',
-          enabled: false,
         ),
         NavigationDestination(
           icon: Icon(Icons.favorite),

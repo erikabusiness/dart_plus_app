@@ -19,6 +19,8 @@ class WidgetGridViewVertical extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    mediaItems.sort((a, b) => b.voteAverage.compareTo(a.voteAverage));
+
     return Column(
       children: [
         Expanded(

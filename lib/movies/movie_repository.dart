@@ -6,21 +6,26 @@ import '../routes/api_conections.dart';
 
 class MovieRepository {
   Future<List<PopularMovie>> getAllPopularMovies() async {
-    final response =
-        await http.get(Uri.parse(ApiConectionsUrl.getAllPopularMoviesUrl));
+    try {
+      final response =
+          await http.get(Uri.parse(ApiConectionsUrl.getAllPopularMoviesUrl));
 
-    if (response.statusCode == 200) {
-      Map<String, dynamic> jsonResponse = json.decode(response.body);
-      List<dynamic> moviesJson = jsonResponse['results'];
-      List<PopularMovie> movies =
-          moviesJson.map((movie) => PopularMovie.fromJson(movie)).toList();
+      if (response.statusCode == 200) {
+        Map<String, dynamic> jsonResponse = json.decode(response.body);
+        List<dynamic> moviesJson = jsonResponse['results'];
+        List<PopularMovie> movies =
+            moviesJson.map((movie) => PopularMovie.fromJson(movie)).toList();
 
-      for (var movie in movies) {
-        await PopularMoviesDao().insertPopularMovies(movie);
+        for (var movie in movies) {
+          await PopularMoviesDao().insertPopularMovies(movie);
+        }
+        return movies;
+      } else {
+        List<PopularMovie> movies =
+            await PopularMoviesDao().getAllPopularMovies();
+        return movies;
       }
-
-      return movies;
-    } else {
+    } catch (e) {
       throw Exception("Falha ao carregar os filmes populares");
     }
   }

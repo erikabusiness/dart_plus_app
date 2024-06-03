@@ -104,4 +104,6 @@ class PopularMoviesDao {
 
     return favoritePopularMovie;
   }
+
+  getAllPopularMovies() {}
 }

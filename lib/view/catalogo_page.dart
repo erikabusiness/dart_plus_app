@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:dart_plus_app/utils/utils_functions.dart';
-import 'package:dart_plus_app/widgets/favorite_icon.dart';
-import 'package:dart_plus_app/widgets/genre_label.dart';
 import 'package:dart_plus_app/widgets/navigation_bar.dart';
 import 'package:dart_plus_app/widgets/title_section.dart';
 import '../models/media.dart';
+import '../widgets/grid_view_vertical.dart';
 
 class CatalogoPage extends StatefulWidget {
   const CatalogoPage({super.key});
@@ -16,7 +15,6 @@ class CatalogoPage extends StatefulWidget {
 class _CatalogoPageState extends State<CatalogoPage>
     with SingleTickerProviderStateMixin {
   int _selectedIndex = 1;
-  List<Media> media = [];
   late TabController _tabController;
 
   @override
@@ -32,13 +30,30 @@ class _CatalogoPageState extends State<CatalogoPage>
     super.dispose();
   }
 
+  List<Media> _filterMediaByGenre(String genre) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final List<Media> allMedias = args["allMedias"];
+    return allMedias
+        .where(
+            (media) => UtilsFunctions.genreMap(media.genreIds).contains(genre))
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final List<Media> allMedias = args["allMedias"];
+
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).colorScheme.background,
         title: const WidgetTitleSection(title: 'Catálogo'),
         bottom: TabBar(
+          tabAlignment: TabAlignment.start,
           controller: _tabController,
           isScrollable: true,
           tabs: UtilsFunctions.genre.values.map((String genre) {
@@ -46,39 +61,17 @@ class _CatalogoPageState extends State<CatalogoPage>
           }).toList(),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: UtilsFunctions.genre.keys.map((int genreId) {
-                return Expanded(
-                  child: ListView.builder(
-                    itemCount: media.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        leading: media[index].posterPath.isNotEmpty
-                            ? Image.network(
-                                'https://image.tmdb.org/t/p/w500${media[index].posterPath}',
-                              )
-                            : const Icon(Icons.movie),
-                        title: Text(media[index].title),
-                        subtitle: GenreLabelWidget(
-                          media: media[index],
-                          isCompact: true,
-                        ),
-                      );
-                    },
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-        ],
+      body: TabBarView(
+        controller: _tabController,
+        children: UtilsFunctions.genre.values.map((String genre) {
+          final filteredMedia = _filterMediaByGenre(genre);
+          return WidgetGridViewVertical(mediaItems: filteredMedia);
+        }).toList(),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
+        allMedias: allMedias,
       ),
     );
   }

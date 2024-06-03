@@ -1,26 +1,30 @@
-import 'package:equatable/equatable.dart';
+part of 'favorite_bloc.dart';
 
 abstract class FavoriteEvent extends Equatable {
-  const FavoriteEvent();
-
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class ToggleFavorite extends FavoriteEvent {
-  final int mediaId;
+  final Media media;
 
-  const ToggleFavorite(this.mediaId);
+  ToggleFavorite(this.media);
 
   @override
-  List<Object> get props => [mediaId];
+  List<Object> get props => [media];
 }
 
 class LoadFavorite extends FavoriteEvent {
-  final int mediaId;
+  final Media media;
 
-  const LoadFavorite(this.mediaId);
+  LoadFavorite(this.media);
 
   @override
-  List<Object> get props => [mediaId];
+  List<Object> get props => [media];
+}
+
+class GetFavoritesEvent extends FavoriteEvent {
+  final List<Favorites> listFavorites;
+
+  GetFavoritesEvent({required this.listFavorites});
 }

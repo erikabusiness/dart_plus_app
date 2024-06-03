@@ -29,9 +29,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
           // case 1:
           //   index == 1 ? null : Navigator.pushNamed(context, NavRoutes.catalogoPage);
           //   break;
-          // case 2:
-          //   index == 1 ? null : Navigator.pushNamed(context, NavRoutes.favoritesPage);
-          //   break;
+          case 2:
+            index == 1 ? null : Navigator.pushNamed(context, NavRoutes.favoritesPage); //TODO Alterar o index quando houver catalago
+            break;
         }
       },
       destinations: const [
@@ -45,9 +45,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
           enabled: false,
         ),
         NavigationDestination(
-          icon: Icon(Icons.star),
+          icon: Icon(Icons.favorite),
           label: 'Favoritos',
-          enabled: false,
         ),
       ],
     );

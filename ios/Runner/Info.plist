@@ -48,7 +48,7 @@
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Reason for using speech recognition</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Reason for using the microphone</string>
+	<string>Descrição do uso do microfone no seu aplicativo</string>
 
 </dict>
 </plist>

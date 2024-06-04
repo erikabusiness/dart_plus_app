@@ -42,11 +42,10 @@ android {
 
     defaultConfig {
         applicationId "com.example.dart_plus_app"
-        minSdkVersion 21  
+        minSdkVersion 24  
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        minSdkVersion 21
     }
 
     buildTypes {

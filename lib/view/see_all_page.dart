@@ -1,9 +1,9 @@
-import 'package:dart_plus_app/widgets/title_section.dart';
 import 'package:flutter/material.dart';
 import '../models/media.dart';
+import '../services/VoiceCommandService.dart';
 import '../widgets/grid_view_vertical.dart';
 import '../widgets/search_bar.dart';
-import '../services/voiceControl.dart';
+import '../widgets/title_section.dart';
 
 class SeeAll extends StatefulWidget {
   const SeeAll({super.key});
@@ -18,12 +18,13 @@ class _SeeAllState extends State<SeeAll> {
   TextEditingController searchController = TextEditingController();
   bool isSearching = false;
   String tela = "";
-  late VoiceControl voiceControl;
+  late VoiceCommandService voiceCommandService;
 
   @override
   void initState() {
     super.initState();
-    voiceControl = VoiceControl();
+    voiceCommandService = VoiceCommandService();
+    voiceCommandService.initialize();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final Map<String, dynamic> args =
@@ -65,14 +66,18 @@ class _SeeAllState extends State<SeeAll> {
   }
 
   void _onVoiceResult(String text) {
-    searchController.text = text;
+    setState(() {
+      searchController.text = text;
+    });
     _filterMediaItems();
   }
 
-  void _onVoiceError(String errorMsg) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(errorMsg)),
-    );
+  void _onVoiceStatus(String status) {
+    print('Voice status: $status');
+  }
+
+  void _startListening() {
+    voiceCommandService.startListening(_onVoiceResult, _onVoiceStatus);
   }
 
   @override
@@ -96,9 +101,7 @@ class _SeeAllState extends State<SeeAll> {
               onChanged: (query) {
                 _filterMediaItems();
               },
-              onMicPressed: () {
-                voiceControl.startListening(_onVoiceResult, _onVoiceError);
-              },
+              onMicPressed: _startListening,
             ),
           Expanded(
             child: filteredMediaItems.isNotEmpty

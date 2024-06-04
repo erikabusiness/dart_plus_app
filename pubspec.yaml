@@ -21,7 +21,9 @@ dependencies:
   sqflite: ^2.3.3+1
   path: ^1.9.0
   connectivity_plus: ^6.0.3
-  
+  permission_handler: ^11.3.1
+  speech_to_text_ultra: ^0.0.3
+
 
 dev_dependencies:
   flutter_test:

@@ -3,11 +3,11 @@
 </p>
 
 <p align="center">
-<img src="./assets/integrantes/homepage.png"" width="35%">    <img src="./assets/integrantes/details.png"" width="35%">
+<img src="./assets/integrantes/homepage.png"" width="35%">    <img src="./assets/integrantes/favoritos.png"" width="35%">
 </p>
 
 > [!NOTE]
-> Este repositório faz parte do Projeto de Aprendizagem - Módulo 4. A atividade foi realizada no curso de Desenvolvimento Mobile, durante o Programa Desenvolve 2024, do Grupo Boticário em parceria com a Escola Korú.</span>
+> Este repositório faz parte do Projeto de Aprendizagem - Módulo 5. A atividade foi realizada no curso de Desenvolvimento Mobile, durante o Programa Desenvolve 2024, do Grupo Boticário em parceria com a Escola Korú.</span>
 
 ## Índice
 * [Objetivo](#objetivo)
@@ -18,7 +18,7 @@
 * [Instalação](#instalação)
 
 ## Objetivo
-Construir a versão inicial completa de um aplicativo que permite aos usuários visualizar uma lista de filmes e séries populares e acessar informações detalhadas sobre cada título. Esta etapa é essencial para estabelecer uma base sólida para futuras iterações do projeto, incluindo a integração de dados reais da API TMDb e o desenvolvimento de funcionalidades mais avançadas nas próximas fases.
+O objetivo deste projeto foi desenvolver um aplicativo que oferece aos usuários uma experiência completa para explorar e descobrir filmes e séries populares. Através da integração com a API TMDb, os usuários podem visualizar uma lista atualizada de títulos, bem como acessar informações detalhadas sobre cada um deles. A aplicação permite interações dinâmicas, como favoritar filmes e séries preferidos, além de fornecer a funcionalidade de filtragem por gênero, possibilitando uma experiência personalizada de acordo com as preferências de cada usuário.
 
 ## Tecnologias Usadas:
 [![My Skills](https://skillicons.dev/icons?i=dart,flutter,figma)](https://skillicons.dev)
@@ -26,6 +26,8 @@ Construir a versão inicial completa de um aplicativo que permite aos usuários 
 ## Features
 * Visualização de filmes e séries populares
 * Navegação e visualização dos detalhes de cada filme ou série
+* Visualização de filmes e séries vindos de uma API
+* Adição de filmes ou séries aos favoritos e seu gerenciamento
 
 #### **Extra:**
 * Visualização de filmes e séries em tendência
@@ -34,6 +36,9 @@ Construir a versão inicial completa de um aplicativo que permite aos usuários 
 * Visualização de ranking com estrelas
 * Visualização de trailer em vídeo 
 * Recomendações de filmes ou séries similares 
+* Filtragem por gênero
+* Persistência de dados com sqflite
+* Sistema de Offline First
 
 ## Links
 * [Apresentação disponível no Figma](https://www.figma.com/file/5syuNnFIP2xm7y6V64zP9K/Dart%2B-App?type=design&node-id=171-66&mode=design&t=MkQ5SrPDCfC3utHp-0)

@@ -28,6 +28,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).colorScheme.background,
         title: const WidgetTitleSection(title: 'Favoritos'),
       ),
@@ -71,6 +73,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
       bottomNavigationBar: CustomBottomNavigationBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
+        allMedias: const [],
       ),
     );
   }

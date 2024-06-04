@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 abstract class Media {
   final int id;
   final String title;
@@ -11,6 +13,10 @@ abstract class Media {
   final double voteAverage;
   final int voteCount;
   final String releaseDate;
+  final String originalTitle;
+  final String originalName;
+  final List<String> originCountry;
+  final bool video;
   bool isFavorite;
 
   Media({
@@ -27,16 +33,20 @@ abstract class Media {
     this.voteCount = 0,
     this.releaseDate = "",
     this.isFavorite = false,
+    this.originalTitle = "",
+    this.originalName = "",
+    this.originCountry = const [],
+    this.video = false,
   });
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {
       'id': id,
       'title': title,
       'poster_path': posterPath,
       'adult': adult ? 1 : 0,
       'backdrop_path': backdropPath,
-      'genre_ids': genreIds.join(','),
+      'genre_ids': jsonEncode(genreIds),
       'original_language': originalLanguage,
       'overview': overview,
       'popularity': popularity,
@@ -44,6 +54,10 @@ abstract class Media {
       'vote_count': voteCount,
       'release_date': releaseDate,
       'is_favorite': isFavorite ? 1 : 0,
+      'original_title': originalTitle,
+      'original_name': originalName,
+      'origin_country': jsonEncode(originCountry),
+      'video': video ? 1 : 0,
     };
   }
 }

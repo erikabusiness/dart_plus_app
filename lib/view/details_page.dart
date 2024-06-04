@@ -1,5 +1,5 @@
-import 'package:dart_plus_app/utils/utils_functions.dart';
 import 'package:dart_plus_app/widgets/favorite_icon.dart';
+import 'package:dart_plus_app/widgets/genre_label.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../models/media.dart';
@@ -9,7 +9,6 @@ import '../widgets/media_trailer.dart';
 import '../widgets/story_line.dart';
 import '../widgets/title_section.dart';
 import '../favorites/favorite_bloc.dart';
-import '../favorites/favorite_event.dart';
 
 class DetailsPage extends StatelessWidget {
   const DetailsPage({
@@ -34,8 +33,6 @@ class DetailsPage extends StatelessWidget {
       var voteStar = vote / 2;
       return voteStar.toStringAsFixed(1);
     }
-
-    List<String?> genres = UtilsFunctions.genreMap(media.genreIds);
 
     return Scaffold(
       body: CustomScrollView(
@@ -89,23 +86,15 @@ class DetailsPage extends StatelessWidget {
                           ),
                           BlocProvider(
                             create: (context) =>
-                                FavoriteBloc()..add(LoadFavorite(media.id)),
+                                FavoriteBloc()..add(LoadFavorite(media)),
                             child: FavoriteIconWidget(
-                              mediaId: media.id,
+                              media: media,
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 8.0),
-                      Wrap(
-                        spacing: 8.0,
-                        runSpacing: 4.0,
-                        children: genres.map((genre) {
-                          return Chip(
-                            label: Text(genre!),
-                          );
-                        }).toList(),
-                      ),
+                      GenreLabelWidget(media: media, isCompact: false,),
                       const SizedBox(height: 8.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

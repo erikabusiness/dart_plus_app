@@ -62,6 +62,8 @@ class DatabaseHelper {
     id INTEGER PRIMARY KEY,
     release_date TEXT, 
     original_title TEXT,
+    original_name TEXT,
+    origin_country TEXT,
     video TEXT,
     title TEXT,
     poster_path TEXT,

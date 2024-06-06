@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:dart_plus_app/data/database.dart';
-import 'package:dart_plus_app/models/media.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:dart_plus_app/models/favorites.dart';
+
+import '../../domain/interfaces/models/favorites.dart';
+import '../../domain/interfaces/models/media.dart';
 
 class FavoriteDao {
   final dbHelper = DatabaseHelper();

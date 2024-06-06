@@ -21,12 +21,12 @@ dependencies:
   sqflite: ^2.3.3+1
   path: ^1.9.0
   connectivity_plus: ^6.0.3
-  get_it:
-  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mocktail: ^1.0.3
+  faker: ^2.1.0
 
 
   flutter_lints: ^3.0.0

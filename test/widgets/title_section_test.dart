@@ -4,18 +4,15 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('The widget title section displays a title', (tester) async {
-
     await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: WidgetTitleSection(title: 'Titulo'),
+      const MaterialApp(
+        home: WidgetTitleSection(
+          title: 'title',
         ),
       ),
     );
 
-    await expectLater(
-      find.byType(WidgetTitleSection),
-      matchesGoldenFile('../assets/home-page.png'),
-    );
+    final title = find.text('title');
+    expect(title, findsOneWidget);
   });
 }

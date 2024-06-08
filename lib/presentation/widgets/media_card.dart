@@ -1,7 +1,5 @@
+import 'package:dart_plus_app/domain/interfaces/models/media.dart';
 import 'package:flutter/material.dart';
-
-import '../../domain/interfaces/models/media.dart';
-
 
 class MediaCard extends StatelessWidget {
   final Media media;
@@ -9,11 +7,11 @@ class MediaCard extends StatelessWidget {
   final void Function() onClick;
 
   const MediaCard({
-    super.key,
+    Key? key,
     required this.media,
     this.viewTitle = true,
     required this.onClick,
-  });
+  }) : super(key: key);
 
   String voteStar(double vote) {
     var voteStar = vote / 2;
@@ -33,17 +31,15 @@ class MediaCard extends StatelessWidget {
             aspectRatio: 0.7,
             child: Stack(
               children: [
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        'https://image.tmdb.org/t/p/w500${media.posterPath}',
-                      ),
+                Image.network(
+                  'https://image.tmdb.org/t/p/w500${media.posterPath}',
+                  fit: BoxFit.fill,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                      'assets/placeholder.png',
                       fit: BoxFit.fill,
-                    ),
-                  ),
+                    );
+                  },
                 ),
                 Positioned(
                   bottom: 0,
@@ -56,7 +52,8 @@ class MediaCard extends StatelessWidget {
                         bottomLeft: Radius.circular(8),
                       ),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                     child: Row(
                       children: [
                         const Icon(

@@ -5,13 +5,14 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/interfaces/models/popular_movies.dart';
-import '../../../domain/interfaces/repositories/movie_repository.dart';
 
 part 'popular_movies_event.dart';
-
 part 'popular_movies_state.dart';
 
 class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
+
+  //todo adicionar estrutura de injeção de dependências para o Repository e o Dao
+
   final _movieRepository = MovieRepositoryImpl();
   final dbRepository = PopularMoviesDao();
 

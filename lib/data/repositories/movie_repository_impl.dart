@@ -1,16 +1,29 @@
 import 'dart:convert';
+
 import 'package:dart_plus_app/data/dao/popular_movies_dao.dart';
 import 'package:dart_plus_app/domain/interfaces/repositories/movie_repository.dart';
 import 'package:http/http.dart' as http;
+
 import '../../domain/interfaces/models/popular_movies.dart';
 import '../api_conections.dart';
 
 class MovieRepositoryImpl implements MovieRepository {
+  MovieRepositoryImpl(
+      [Future<http.Response> get(Uri url, {Map<String, String>? headers})?, PopularMoviesDaoInterface? popularMoviesDao])
+      : get = get ?? http.get, popularMoviesDao = popularMoviesDao ?? PopularMoviesDao();
+
+  final Future<http.Response> Function(Uri url, {Map<String, String>? headers})
+      get;
+
+  final PopularMoviesDaoInterface popularMoviesDao;
+
+  //todo adicionar injeção de dependencia do banco e adicionar o mock no teste para não quebrar.
+
   @override
   Future<List<PopularMovie>> getAllPopularMovies() async {
     try {
       final response =
-          await http.get(Uri.parse(ApiConectionsUrl.getAllPopularMoviesUrl));
+          await get(Uri.parse(ApiConectionsUrl.getAllPopularMoviesUrl));
 
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
@@ -19,12 +32,12 @@ class MovieRepositoryImpl implements MovieRepository {
             moviesJson.map((movie) => PopularMovie.fromJson(movie)).toList();
 
         for (var movie in movies) {
-          await PopularMoviesDao().insertPopularMovies(movie);
+          await popularMoviesDao.insertPopularMovies(movie);
         }
         return movies;
       } else {
         List<PopularMovie> movies =
-            await PopularMoviesDao().getAllPopularMovies();
+            await popularMoviesDao.readPopularMovies();
         return movies;
       }
     } catch (e) {
@@ -36,6 +49,8 @@ class MovieRepositoryImpl implements MovieRepository {
   Future<List<PopularMovie>> getAllTrhendMovies() async {
     final response =
         await http.get(Uri.parse(ApiConectionsUrl.getAllTrhendsMoviesUrl));
+
+
 
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = json.decode(response.body);

@@ -30,18 +30,18 @@ class PopularMovie extends Media {
       'id': id,
       'release_date': releaseDate,
       'original_title': originalTitle,
-      'video': video ? 'true' : 'false',
+      'video': video ? true : false,
       'title': title,
       'poster_path': posterPath,
-      'adult': adult ? 'true' : 'false',
+      'adult': adult ? true : false,
       'backdrop_path': backdropPath,
-      'genre_ids': jsonEncode(genreIds),
+      'genre_ids': genreIds,
       'original_language': originalLanguage,
       'overview': overview,
       'popularity': popularity,
       'vote_average': voteAverage,
       'vote_count': voteCount,
-      'is_favorite': isFavorite ? 1 : 0,
+      'is_favorite': isFavorite ? true : false,
     };
   }
 

@@ -3,7 +3,14 @@ import '../../domain/interfaces/models/popular_movies.dart';
 import '../database.dart';
 import 'package:sqflite/sqflite.dart';
 
-class PopularMoviesDao {
+abstract class PopularMoviesDaoInterface {
+  Future<int> insertPopularMovies(PopularMovie newMovie);
+  Future<void> updatePopularMovies(PopularMovie updateMovie);
+  Future<List<PopularMovie>> readPopularMovies();
+  Future<List<PopularMovie>> readPopularMoviesFavorites();
+}
+
+class PopularMoviesDao implements PopularMoviesDaoInterface {
   final dbHelper = DatabaseHelper();
 
   Future<int> insertPopularMovies(PopularMovie newMovie) async {

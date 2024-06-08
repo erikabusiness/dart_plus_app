@@ -8,7 +8,8 @@ part 'videos_popular_movie_state.dart';
 
 class VideosPopularMovieBloc extends Bloc<VideosPopularMovieEvent, VideosPopularMovieState> {
 
-  final _movieRepository = MovieRepositoryImpl();
+  final _movieRepository = MovieRepositoryImpl(
+  );
 
   VideosPopularMovieBloc() : super(VideosPopularMovieInitial()) {
     on<VideosPopularMovieEvent>((event, emit) async {

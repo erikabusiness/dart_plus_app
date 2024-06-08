@@ -20,7 +20,7 @@ class WidgetStoryLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width * 0.8;
+    width = MediaQuery.of(context).size.width;
 
     return Container(
       padding: EdgeInsets.all(padding),

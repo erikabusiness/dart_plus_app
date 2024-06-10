@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/interfaces/models/favorites.dart';
 import '../bloc/favorites/favorite_bloc.dart';
+import '../styles/strings.dart';
 import '../widgets/favorite_icon.dart';
 import '../widgets/genre_label.dart';
 import '../widgets/navigation_bar.dart';
@@ -31,7 +32,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
         centerTitle: true,
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).colorScheme.background,
-        title: const WidgetTitleSection(title: 'Favoritos'),
+        title: const WidgetTitleSection(title: StringsConstants.favorites),
       ),
       body: BlocBuilder<FavoriteBloc, FavoriteState>(
         builder: ((context, state) {
@@ -43,12 +44,12 @@ class _FavoritesPageState extends State<FavoritesPage> {
             return const Center(child: CircularProgressIndicator());
           }
           if (state is FavoriteError) {
-            return const Center(child: Text('Erro ao carregar favoritos'));
+            return const Center(child: Text(StringsConstants.errorFavorites));
           }
           if (state is FavoriteLoaded) {
             List<Favorites> favorites = state.favorites;
             if (favorites.isEmpty) {
-              return const Center(child: Text('Não há itens favoritados! ☹'));
+              return const Center(child: Text(StringsConstants.favoritesNotFound));
             }
             return ListView.builder(
               itemCount: favorites.length,
@@ -66,7 +67,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
               },
             );
           } else {
-            return const Center(child: Text('Estado desconhecido'));
+            return const Center(child: Text(StringsConstants.stateNotfound));
           }
         }),
       ),

@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/interfaces/models/media.dart';
 import '../bloc/favorites/favorite_bloc.dart';
 import '../bloc/videos_popular_movie/videos_popular_movie_bloc.dart';
+import '../styles/strings.dart';
 import '../widgets/favorite_icon.dart';
 import '../widgets/genre_label.dart';
 import '../widgets/list_view_horizontal.dart';
@@ -123,7 +124,7 @@ class DetailsPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 16.0),
                       WidgetStoryLine(
-                        synopsisTitle: 'Sinopse',
+                        synopsisTitle: StringsConstants.synopsis,
                         synopsisText: media.overview,
                         width: MediaQuery.of(context).size.width,
                         padding: 0,
@@ -152,7 +153,7 @@ class DetailsPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 16.0),
                       const WidgetTitleSection(
-                        title: 'Recomendados',
+                        title: StringsConstants.recommended,
                         padding: 5,
                       ),
                       const SizedBox(height: 4.0),

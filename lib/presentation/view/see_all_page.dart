@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../domain/interfaces/models/media.dart';
+import '../styles/strings.dart';
 import '../widgets/grid_view_vertical.dart';
 import '../widgets/search_bar.dart';
 import '../widgets/title_section.dart';
@@ -92,7 +93,7 @@ class _SeeAllState extends State<SeeAll> {
           Expanded(
             child: filteredMediaItems.isNotEmpty
                 ? WidgetGridViewVertical(mediaItems: filteredMediaItems)
-                : const Center(child: Text('Nenhum dado disponível')),
+                : const Center(child: Text(StringsConstants.resutlsNotFound)),
           ),
         ],
       ),

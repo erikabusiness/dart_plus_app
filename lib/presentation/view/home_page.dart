@@ -7,6 +7,7 @@ import '../../routes.dart';
 import '../bloc/popular_movies/popular_movies_bloc.dart';
 import '../bloc/popular_series/popular_series_bloc.dart';
 import '../bloc/top_rated_movies/top_rated_movies_bloc.dart';
+import '../styles/strings.dart';
 import '../widgets/caroseul.dart';
 import '../widgets/clickable_text.dart';
 import '../widgets/list_view_horizontal.dart';
@@ -72,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
               }
               if (state is TrhendMoviesError) {
                 return const Center(
-                  child: Text('Erro ao carregar filmes.'),
+                  child: Text(StringsConstants.moviesError),
                 );
               }
               return const CircularProgressIndicator();
@@ -88,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         final movies = state.movies;
                         return _buildSection(
                           context,
-                          "Filmes Populares",
+                          StringsConstants.popularMovies,
                           movies,
                               () {
                             Navigator.pushNamed(
@@ -96,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               NavRoutes.seeAll,
                               arguments: {
                                 "medias": movies,
-                                "tela": "Filmes Populares"
+                                "tela": StringsConstants.popularMovies
                               },
                             );
                           },
@@ -105,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                       if (state is PopularMoviesError) {
                         return const Center(
-                          child: Text('Erro ao carregar filmes.'),
+                          child: Text(StringsConstants.moviesError),
                         );
                       }
 
@@ -114,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       }
 
                       return const Center(
-                        child: Text('Erro inesperado.'),
+                        child: Text(StringsConstants.stateNotfound),
                       );
                     },
                   ),
@@ -124,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         final series = state.series;
                         return _buildSection(
                           context,
-                          "Series Populares",
+                          StringsConstants.popularSeries,
                           series,
                               () {
                             Navigator.pushNamed(
@@ -132,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               NavRoutes.seeAll,
                               arguments: {
                                 "medias": series,
-                                "tela": "Series Populares"
+                                "tela": StringsConstants.popularSeries
                               },
                             );
                           },
@@ -141,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                       if (state is PopularSeriesError) {
                         return const Center(
-                          child: Text('Erro ao carregar series.'),
+                          child: Text(StringsConstants.seriesError),
                         );
                       }
                       return const CircularProgressIndicator();
@@ -197,7 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         mediaItems.isNotEmpty
             ? WidgetListViewHorizontal(mediaItems: mediaItems)
-            : const Center(child: Text('Nenhum resultado encontrado')),
+            : const Center(child: Text(StringsConstants.resutlsNotFound)),
       ],
     );
   }

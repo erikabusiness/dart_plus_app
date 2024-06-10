@@ -1,3 +1,4 @@
+import 'package:dart_plus_app/presentation/styles/strings.dart';
 import 'package:flutter/material.dart';
 import '../../domain/interfaces/models/media.dart';
 import '../utils/utils_functions.dart';
@@ -51,7 +52,7 @@ class _CatalogoPageState extends State<CatalogoPage>
         centerTitle: true,
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).colorScheme.background,
-        title: const WidgetTitleSection(title: 'Catálogo'),
+        title: const WidgetTitleSection(title: StringsConstants.catalogo),
         bottom: TabBar(
           tabAlignment: TabAlignment.start,
           controller: _tabController,

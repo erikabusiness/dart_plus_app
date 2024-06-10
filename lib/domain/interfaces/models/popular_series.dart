@@ -30,18 +30,18 @@ class PopularSeries extends Media {
       'id': id,
       'release_date': releaseDate,
       'original_name': originalName,
-      'origin_country': originCountry.toString(),
+      'origin_country': originCountry,
       'title': title,
       'poster_path': posterPath,
-      'adult': adult ? 'true' : 'false',
+      'adult': adult ? true : false,
       'backdrop_path': backdropPath,
-      'genre_ids': jsonEncode(genreIds),
+      'genre_ids': genreIds,
       'original_language': originalLanguage,
       'overview': overview,
       'popularity': popularity,
       'vote_average': voteAverage,
       'vote_count': voteCount,
-      'is_favorite': isFavorite ? 1 : 0,
+      'is_favorite': isFavorite ? true : false,
     };
   }
 

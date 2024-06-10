@@ -3,9 +3,17 @@ import '../../domain/interfaces/models/popular_series.dart';
 import '../database.dart';
 import 'package:sqflite/sqflite.dart';
 
-class PopularSeriesDao {
+abstract class PopularSeriesDaoInterface {
+  Future<int> insertPopularSeries(PopularSeries newSerie);
+  Future<void> updatePopularSeries(PopularSeries updateSerie);
+  Future<List<PopularSeries>> readPopularSeries();
+  Future<List<PopularSeries>> readPopularSeriesFavorites();
+}
+
+class PopularSeriesDao implements PopularSeriesDaoInterface{
   final dbHelper = DatabaseHelper();
 
+  @override
   Future<int> insertPopularSeries(PopularSeries newSerie) async {
     final db = await dbHelper.database;
     if (db == null) {
@@ -21,6 +29,7 @@ class PopularSeriesDao {
     return result;
   }
 
+  @override
   Future<void> updatePopularSeries(PopularSeries updateSerie) async {
     final db = await dbHelper.database;
     if (db == null) {
@@ -36,7 +45,8 @@ class PopularSeriesDao {
     );
   }
 
-  Future<List<PopularSeries>> readPopularseriesFavorites() async {
+  @override
+  Future<List<PopularSeries>> readPopularSeriesFavorites() async {
     final db = await dbHelper.database;
     if (db == null) {
       throw Exception('O banco de dados não foi inicializado corretamente');
@@ -76,6 +86,7 @@ class PopularSeriesDao {
     return favoritePopularSeries;
   }
 
+  @override
   Future<List<PopularSeries>> readPopularSeries() async {
     final db = await dbHelper.database;
 

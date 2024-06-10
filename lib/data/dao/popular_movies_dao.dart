@@ -13,6 +13,7 @@ abstract class PopularMoviesDaoInterface {
 class PopularMoviesDao implements PopularMoviesDaoInterface {
   final dbHelper = DatabaseHelper();
 
+  @override
   Future<int> insertPopularMovies(PopularMovie newMovie) async {
     final db = await dbHelper.database;
     if (db == null) {
@@ -28,6 +29,7 @@ class PopularMoviesDao implements PopularMoviesDaoInterface {
     return result;
   }
 
+  @override
   Future<void> updatePopularMovies(PopularMovie updateMovie) async {
     final db = await dbHelper.database;
     if (db == null) {
@@ -43,6 +45,7 @@ class PopularMoviesDao implements PopularMoviesDaoInterface {
     );
   }
 
+  @override
   Future<List<PopularMovie>> readPopularMovies() async {
     final db = await dbHelper.database;
     if (db == null) {
@@ -75,6 +78,7 @@ class PopularMoviesDao implements PopularMoviesDaoInterface {
     return popularMovie;
   }
 
+  @override
   Future<List<PopularMovie>> readPopularMoviesFavorites() async {
     final db = await dbHelper.database;
     if (db == null) {

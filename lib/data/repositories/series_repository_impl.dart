@@ -7,13 +7,19 @@ import 'package:http/http.dart' as http;
 import '../../domain/interfaces/models/popular_series.dart';
 import '../api_conections.dart';
 
-class SeriesRepositoryImpl implements SeriesRepository{
-  final String _getAllPopularSeriesUrl =
-      ApiConectionsUrl.getAllPopularSeriesUrl;
+class SeriesRepositoryImpl implements SeriesRepository {
+  SeriesRepositoryImpl(
+      [Future<http.Response> get(Uri url, {Map<String, String>? headers})?, PopularSeriesDaoInterface? popularSeriesDao])
+      : get = get ?? http.get, popularSeriesDao = popularSeriesDao ?? PopularSeriesDao();
+
+  final Future<http.Response> Function(Uri url, {Map<String, String>? headers})
+      get;
+  
+  final PopularSeriesDaoInterface popularSeriesDao;
 
   @override
   Future<List<PopularSeries>> getAllPopularSeries() async {
-    final response = await http.get(Uri.parse(_getAllPopularSeriesUrl));
+    final response = await get(Uri.parse(ApiConectionsUrl.getAllPopularSeriesUrl));
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = json.decode(response.body);
       List<dynamic> seriesJson = jsonResponse['results'];
@@ -21,7 +27,7 @@ class SeriesRepositoryImpl implements SeriesRepository{
       List<PopularSeries> series =
           seriesJson.map((series) => PopularSeries.fromJson(series)).toList();
       for (var serie in series) {
-        await PopularSeriesDao().insertPopularSeries(serie);
+        await popularSeriesDao.insertPopularSeries(serie);
       }
       return series;
     } else {

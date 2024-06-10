@@ -17,8 +17,6 @@ class MovieRepositoryImpl implements MovieRepository {
 
   final PopularMoviesDaoInterface popularMoviesDao;
 
-  //todo adicionar injeção de dependencia do banco e adicionar o mock no teste para não quebrar.
-
   @override
   Future<List<PopularMovie>> getAllPopularMovies() async {
     try {

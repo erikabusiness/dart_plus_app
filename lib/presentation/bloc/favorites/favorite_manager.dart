@@ -1,6 +1,6 @@
 import 'package:dart_plus_app/data/dao/favorites_dao.dart';
 
-import '../../../domain/interfaces/models/favorites.dart';
+import '../../../domain/interfaces/models/favorites/favorites.dart';
 import '../../../domain/interfaces/models/media.dart';
 
 

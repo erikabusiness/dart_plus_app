@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import '../media.dart';
 import 'package:json_annotation/json_annotation.dart';
 

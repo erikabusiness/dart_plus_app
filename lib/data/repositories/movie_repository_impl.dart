@@ -4,7 +4,7 @@ import 'package:dart_plus_app/data/dao/popular_movies_dao.dart';
 import 'package:dart_plus_app/domain/interfaces/repositories/movie_repository.dart';
 import 'package:http/http.dart' as http;
 
-import '../../domain/interfaces/models/popular_movies.dart';
+import '../../domain/interfaces/models/movies/popular_movies.dart';
 import '../api_conections.dart';
 
 class MovieRepositoryImpl implements MovieRepository {

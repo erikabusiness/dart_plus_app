@@ -1,7 +1,7 @@
 
 import 'package:json_annotation/json_annotation.dart';
 
-import 'media.dart';
+import '../media.dart';
 
 part 'popular_movies.g.dart';
 

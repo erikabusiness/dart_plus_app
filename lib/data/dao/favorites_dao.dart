@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:dart_plus_app/data/database.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../domain/interfaces/models/favorites.dart';
+import '../../domain/interfaces/models/favorites/favorites.dart';
 import '../../domain/interfaces/models/media.dart';
 
 class FavoriteDao {

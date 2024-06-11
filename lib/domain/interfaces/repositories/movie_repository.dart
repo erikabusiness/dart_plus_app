@@ -1,4 +1,4 @@
-import '../models/popular_movies.dart';
+import '../models/movies/popular_movies.dart';
 
 abstract class MovieRepository {
   Future<List<PopularMovie>> getAllPopularMovies();

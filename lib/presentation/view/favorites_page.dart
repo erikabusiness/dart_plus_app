@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/interfaces/models/favorites.dart';
+import '../../domain/interfaces/models/favorites/favorites.dart';
 import '../bloc/favorites/favorite_bloc.dart';
 import '../styles/strings.dart';
 import '../widgets/favorite_icon.dart';

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import '../../domain/interfaces/models/series/popular_series.dart';
 import '../database.dart';
 import 'package:sqflite/sqflite.dart';
@@ -92,7 +91,7 @@ class PopularSeriesDao implements PopularSeriesDaoInterface {
       'genre_ids': genreIds,
       'overview': series.overview,
       'vote_average': series.voteAverage,
-      'is_favorite': series.isFavorite! ? 1 : 0,
+      'is_favorite': series.isFavorite ? 1 : 0,
     };
   }
 

@@ -4,7 +4,7 @@ import 'package:dart_plus_app/data/repositories/movie_repository_impl.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../domain/interfaces/models/popular_movies.dart';
+import '../../../domain/interfaces/models/movies/popular_movies.dart';
 
 part 'top_rated_movies_event.dart';
 

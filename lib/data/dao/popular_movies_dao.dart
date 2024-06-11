@@ -1,5 +1,5 @@
 import 'dart:convert';
-import '../../domain/interfaces/models/popular_movies.dart';
+import '../../domain/interfaces/models/movies/popular_movies.dart';
 import '../database.dart';
 import 'package:sqflite/sqflite.dart';
 

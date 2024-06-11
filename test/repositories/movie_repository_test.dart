@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dart_plus_app/data/dao/popular_movies_dao.dart';
 import 'package:dart_plus_app/data/repositories/movie_repository_impl.dart';
-import 'package:dart_plus_app/domain/interfaces/models/popular_movies.dart';
+import 'package:dart_plus_app/domain/interfaces/models/movies/popular_movies.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 

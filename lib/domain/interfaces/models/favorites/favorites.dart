@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
 
-import 'media.dart';
+import '../media.dart';
 
 part 'favorites.g.dart';
 

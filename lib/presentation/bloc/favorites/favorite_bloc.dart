@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../domain/interfaces/models/favorites.dart';
+import '../../../domain/interfaces/models/favorites/favorites.dart';
 import '../../../domain/interfaces/models/media.dart';
 import 'favorite_manager.dart';
 

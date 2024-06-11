@@ -1,3 +1,4 @@
+import 'package:dart_plus_app/data/dao/favorites_dao_impl.dart';
 import 'package:dart_plus_app/presentation/bloc/favorites/favorite_bloc.dart';
 import 'package:dart_plus_app/presentation/bloc/popular_movies/popular_movies_bloc.dart';
 import 'package:dart_plus_app/presentation/bloc/popular_series/popular_series_bloc.dart';
@@ -11,33 +12,49 @@ import 'package:dart_plus_app/presentation/view/see_all_page.dart';
 import 'package:dart_plus_app/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 
-main() async {
-  runApp(const MyApp());
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+void main() async {
+  final favoriteDao = FavoritesDaoImpl();
+  final favoriteBloc = FavoriteBloc(favoriteDao);
+
+  final popularMoviesBloc = PopularMoviesBloc();
+  final topRatedMoviesBloc = TopRatedMoviesBloc();
+  final popularSeriesBloc = PopularSeriesBloc();
+  final videosPopularMovieBloc = VideosPopularMovieBloc();
+
+  runApp(MyApp(
+    favoriteBloc: favoriteBloc,
+    popularMoviesBloc: popularMoviesBloc,
+    topRatedMoviesBloc: topRatedMoviesBloc,
+    popularSeriesBloc: popularSeriesBloc,
+    videosPopularMovieBloc: videosPopularMovieBloc,
+  ));
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class MyApp extends StatelessWidget {
+  final FavoriteBloc favoriteBloc;
+  final PopularMoviesBloc popularMoviesBloc;
+  final TopRatedMoviesBloc topRatedMoviesBloc;
+  final PopularSeriesBloc popularSeriesBloc;
+  final VideosPopularMovieBloc videosPopularMovieBloc;
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
+  const MyApp({
+    required this.favoriteBloc,
+    required this.popularMoviesBloc,
+    required this.topRatedMoviesBloc,
+    required this.popularSeriesBloc,
+    required this.videosPopularMovieBloc,
+  });
 
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => PopularMoviesBloc()),
-        BlocProvider(create: (context) => TopRatedMoviesBloc()),
-        BlocProvider(create: (context) => PopularSeriesBloc()),
-        BlocProvider(create: (context) => VideosPopularMovieBloc()),
-        BlocProvider(create: (context) => FavoriteBloc()),
+        BlocProvider.value(value: favoriteBloc),
+        BlocProvider.value(value: popularMoviesBloc),
+        BlocProvider.value(value: topRatedMoviesBloc),
+        BlocProvider.value(value: popularSeriesBloc),
+        BlocProvider.value(value: videosPopularMovieBloc),
       ],
       child: MaterialApp(
         initialRoute: NavRoutes.homePage,

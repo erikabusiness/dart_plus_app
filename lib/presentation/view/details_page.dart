@@ -1,5 +1,6 @@
  import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../data/dao/favorites_dao_impl.dart';
 import '../../domain/interfaces/models/media.dart';
 import '../bloc/favorites/favorite_bloc.dart';
 import '../bloc/videos_popular_movie/videos_popular_movie_bloc.dart';
@@ -18,6 +19,8 @@ class DetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final favoriteDao = FavoritesDaoImpl();
+
     final videoPopularMovieBloc =
         BlocProvider.of<VideosPopularMovieBloc>(context);
     final args =
@@ -87,7 +90,7 @@ class DetailsPage extends StatelessWidget {
                           ),
                           BlocProvider(
                             create: (context) =>
-                                FavoriteBloc()..add(LoadFavorite(media)),
+                                FavoriteBloc(favoriteDao)..add(LoadFavorite(media)),
                             child: FavoriteIconWidget(
                               media: media,
                             ),

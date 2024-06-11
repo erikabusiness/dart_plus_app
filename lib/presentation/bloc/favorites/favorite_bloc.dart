@@ -1,50 +1,53 @@
 import 'dart:async';
+
+import 'package:dart_plus_app/domain/interfaces/dao/favorites_dao.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../domain/interfaces/models/favorites/favorites.dart';
 import '../../../domain/interfaces/models/media.dart';
-import 'favorite_manager.dart';
 
 part 'favorite_event.dart';
 part 'favorite_state.dart';
 
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
-  final FavoriteManager _favoriteManager = FavoriteManager();
+  final FavoritesDao _favoriteDao;
 
-  FavoriteBloc() : super(const FavoriteInitial(false)) {
-    on<ToggleFavorite>(_onToggleFavorite);
-    on<LoadFavorite>(_onLoadFavorite);
-    on<GetFavoritesEvent>(_getFavorites);
+  FavoriteBloc(this._favoriteDao) : super(const FavoriteInitial(false)) {
+
+    on<LoadFavorite>((event, emit) async {
+      emit(const FavoriteLoading());
+      try {
+        final isFavorite = await _favoriteDao.isFavorite(event.media);
+        emit(FavoriteInitial(isFavorite));
+      } catch (_) {
+        emit(const FavoriteError(message: "Erro na chamada do loadFavorite"));
+      }
+    });
+
+
+    on<ToggleFavorite>((event, emit) async {
+      emit(const FavoriteLoading());
+      try {
+        final isFavorite = await _favoriteDao.isFavorite(event.media);
+        await _favoriteDao.toggleFavorite(event.media);
+        emit(FavoriteInitial(!isFavorite));
+      } catch (_) {
+        emit(const FavoriteError(message: "Erro na chamada do toggleFavorite"));
+      }
+    });
+
+
+    on<GetFavoritesEvent>((event, emit) async {
+      emit(const FavoriteLoading());
+      await Future.delayed(const Duration(seconds: 1));
+      try {
+        final favorites = await _favoriteDao.getFavorites();
+        emit(FavoriteLoaded(favorites: favorites));
+      } catch (_) {
+        emit(const FavoriteError(message: "Erro na chamada do getFavorites"));
+      }
+    });
   }
 
-  Future<void> _onToggleFavorite(
-      ToggleFavorite event,
-      Emitter<FavoriteState> emit,
-      ) async {
-    final isFavorite = await _favoriteManager.isFavorite(event.media);
-    await _favoriteManager.toggleFavorite(event.media);
-    emit(FavoriteInitial(!isFavorite));
-  }
-
-  Future<void> _onLoadFavorite(
-      LoadFavorite event,
-      Emitter<FavoriteState> emit,
-      ) async {
-    final isFavorite = await _favoriteManager.isFavorite(event.media);
-    emit(FavoriteInitial(isFavorite));
-  }
-
-  FutureOr<void> _getFavorites(
-      GetFavoritesEvent event,
-      Emitter<FavoriteState> emit,
-      ) async {
-    emit(const FavoriteLoading());
-    await Future.delayed(const Duration(seconds: 1));
-    try {
-      final favorites = await _favoriteManager.getFavorites();
-      emit(FavoriteLoaded(favorites: favorites));
-    } catch (e) {
-      emit(const FavoriteError(message: 'Falha ao carregar lista de favoritos'));
-    }
-  }
 }

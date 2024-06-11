@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'package:dart_plus_app/data/database.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../../domain/interfaces/dao/favorites_dao.dart';
 import '../../domain/interfaces/models/favorites/favorites.dart';
 import '../../domain/interfaces/models/media.dart';
 
-class FavoriteDao {
+class FavoritesDaoImpl implements FavoritesDao{
   final dbHelper = DatabaseHelper();
 
   Future<void> toggleFavorite(Media media) async {

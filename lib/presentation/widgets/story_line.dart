@@ -6,20 +6,22 @@ import '../styles/colors.dart';
 class WidgetStoryLine extends StatelessWidget {
   final String synopsisTitle;
   final String synopsisText;
-  final double width;
+  double? width;
   final double padding;
   final Color textColor;
 
-  const WidgetStoryLine(
+  WidgetStoryLine(
       {super.key,
       required this.synopsisTitle,
       required this.synopsisText,
-      required this.width,
+      this.width,
       this.padding = 12,
       this.textColor = CustomColor.defaultTextColor});
 
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+
     return Container(
       padding: EdgeInsets.all(padding),
       width: width,

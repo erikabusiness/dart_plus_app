@@ -54,24 +54,17 @@ class PopularMoviesDao implements PopularMoviesDaoInterface {
     List<Map<String, dynamic>> maps = await db.query('PopularMovies');
 
     List<PopularMovie> popularMovie = List.generate(maps.length, (i) {
-      List<int> genreIds = jsonDecode(maps[i]['genre_ids']).cast<int>();
+      List<int> genreIds = (maps[i]['genre_ids']).cast<int>();
 
       return PopularMovie(
-        originalTitle: maps[i]['origin_title'] ?? '',
-        video: maps[i]['video'] == 'true',
+        video: maps[i]['video'] == true,
         id: maps[i]['id'],
-        releaseDate: maps[i]['release_date'],
-        originalLanguage: maps[i]['original_language'],
         overview: maps[i]['overview'],
-        popularity: maps[i]['popularity'],
         voteAverage: maps[i]['vote_average'],
-        voteCount: maps[i]['vote_count'],
         posterPath: maps[i]['poster_path'],
-        backdropPath: maps[i]['backdrop_path'],
-        adult: maps[i]['adult'] == 'true',
         title: maps[i]['title'],
         genreIds: genreIds,
-        isFavorite: maps[i]['is_favorite'] == 1,
+        isFavorite: maps[i]['is_favorite'] == true,
       );
     });
 
@@ -95,18 +88,11 @@ class PopularMoviesDao implements PopularMoviesDaoInterface {
       List<int> genreIds = jsonDecode(maps[i]['genre_ids']).cast<int>();
 
       return PopularMovie(
-        originalTitle: maps[i]['origin_title'] ?? '',
         video: maps[i]['video'] == 'true',
         id: maps[i]['id'],
-        releaseDate: maps[i]['release_date'],
-        originalLanguage: maps[i]['original_language'],
         overview: maps[i]['overview'],
-        popularity: maps[i]['popularity'],
         voteAverage: maps[i]['vote_average'],
-        voteCount: maps[i]['vote_count'],
         posterPath: maps[i]['poster_path'],
-        backdropPath: maps[i]['backdrop_path'],
-        adult: maps[i]['adult'] == 'true',
         title: maps[i]['title'],
         genreIds: genreIds,
         isFavorite: maps[i]['is_favorite'] == 1,

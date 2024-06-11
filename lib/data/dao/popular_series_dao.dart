@@ -1,5 +1,5 @@
 import 'dart:convert';
-import '../../domain/interfaces/models/popular_series.dart';
+import '../../domain/interfaces/models/series/popular_series.dart';
 import '../database.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -10,7 +10,7 @@ abstract class PopularSeriesDaoInterface {
   Future<List<PopularSeries>> readPopularSeriesFavorites();
 }
 
-class PopularSeriesDao implements PopularSeriesDaoInterface{
+class PopularSeriesDao implements PopularSeriesDaoInterface {
   final dbHelper = DatabaseHelper();
 
   @override
@@ -22,7 +22,7 @@ class PopularSeriesDao implements PopularSeriesDaoInterface{
 
     final result = await db.insert(
       'PopularSeries',
-      newSerie.toMap(),
+      _toMap(newSerie),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
@@ -38,7 +38,7 @@ class PopularSeriesDao implements PopularSeriesDaoInterface{
 
     await db.update(
       'PopularSeries',
-      updateSerie.toMap(),
+      _toMap(updateSerie),
       where: 'id = ?',
       whereArgs: [updateSerie.id],
       conflictAlgorithm: ConflictAlgorithm.replace,
@@ -58,30 +58,9 @@ class PopularSeriesDao implements PopularSeriesDaoInterface{
       whereArgs: [1],
     );
 
-    List<PopularSeries> favoritePopularSeries = List.generate(maps.length, (i) {
-      List<int> genreIds = jsonDecode(maps[i]['genre_ids']).cast<int>();
-      List<String> originCountry = [
-        maps[i]['origin_country'].split('[').last.split(']').first
-      ];
-
-      return PopularSeries(
-        originalName: maps[i]['original_name'],
-        originCountry: originCountry,
-        id: maps[i]['id'],
-        releaseDate: maps[i]['release_date'],
-        originalLanguage: maps[i]['original_language'],
-        overview: maps[i]['overview'],
-        popularity: maps[i]['popularity'],
-        voteAverage: maps[i]['vote_average'],
-        voteCount: maps[i]['vote_count'],
-        posterPath: maps[i]['poster_path'],
-        backdropPath: maps[i]['backdrop_path'],
-        adult: maps[i]['adult'] == 'true',
-        title: maps[i]['title'],
-        genreIds: genreIds,
-        isFavorite: maps[i]['is_favorite'] == 1,
-      );
-    });
+    List<PopularSeries> favoritePopularSeries = maps.map((map) {
+      return _fromMap(map);
+    }).toList();
 
     return favoritePopularSeries;
   }
@@ -96,31 +75,36 @@ class PopularSeriesDao implements PopularSeriesDaoInterface{
 
     List<Map<String, dynamic>> maps = await db.query('PopularSeries');
 
-    List<PopularSeries> popularSerie = List.generate(maps.length, (i) {
-      List<int> genreIds = jsonDecode(maps[i]['genre_ids']).cast<int>();
-      List<String> originCountry = [
-        maps[i]['origin_country'].split('[').last.split(']').first
-      ];
+    List<PopularSeries> popularSeries = maps.map((map) {
+      return _fromMap(map);
+    }).toList();
 
-      return PopularSeries(
-        id: maps[i]['id'],
-        releaseDate: maps[i]['release_date'],
-        originalLanguage: maps[i]['original_language'],
-        overview: maps[i]['overview'],
-        popularity: maps[i]['popularity'],
-        voteAverage: maps[i]['vote_average'],
-        voteCount: maps[i]['vote_count'],
-        posterPath: maps[i]['poster_path'],
-        backdropPath: maps[i]['backdrop_path'],
-        adult: maps[i]['adult'] == 'true',
-        title: maps[i]['title'],
-        genreIds: genreIds,
-        isFavorite: maps[i]['is_favorite'] == 1,
-        originalName: maps[i]['original_name'],
-        originCountry: originCountry,
-      );
-    });
+    return popularSeries;
+  }
 
-    return popularSerie;
+  Map<String, dynamic> _toMap(PopularSeries series) {
+    List<int> genreIds = (series.genreIds).cast<int>();
+
+    return {
+      'id': series.id,
+      'title': series.title,
+      'poster_path': series.posterPath,
+      'genre_ids': genreIds,
+      'overview': series.overview,
+      'vote_average': series.voteAverage,
+      'is_favorite': series.isFavorite! ? 1 : 0,
+    };
+  }
+
+  PopularSeries _fromMap(Map<String, dynamic> map) {
+    return PopularSeries(
+      id: map['id'],
+      title: map['title'],
+      posterPath: map['poster_path'],
+      overview: map['overview'],
+      voteAverage: map['vote_average'],
+      isFavorite: map['is_favorite'] == 1,
+      genreIds: map['genre_ids'],
+    );
   }
 }

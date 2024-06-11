@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:dart_plus_app/data/dao/popular_series_dao.dart';
 import 'package:dart_plus_app/data/repositories/series_repository_impl.dart';
-import 'package:dart_plus_app/domain/interfaces/models/popular_series.dart';
+import 'package:dart_plus_app/domain/interfaces/models/series/popular_series.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 

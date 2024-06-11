@@ -1,67 +1,28 @@
-import 'dart:convert';
+
+import 'package:json_annotation/json_annotation.dart';
 
 import 'media.dart';
 
+part 'popular_movies.g.dart';
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class PopularMovie extends Media {
-  final String originalTitle;
   final bool video;
 
   PopularMovie({
-    required this.originalTitle,
     required this.video,
     super.title = '',
     super.posterPath = '',
-    super.adult,
-    super.backdropPath,
     super.genreIds,
-    super.originalLanguage,
     super.overview,
-    super.popularity,
     super.voteAverage,
-    super.voteCount,
-    super.releaseDate,
     super.isFavorite,
     required super.id,
   });
 
   @override
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'release_date': releaseDate,
-      'original_title': originalTitle,
-      'video': video ? true : false,
-      'title': title,
-      'poster_path': posterPath,
-      'adult': adult ? true : false,
-      'backdrop_path': backdropPath,
-      'genre_ids': genreIds,
-      'original_language': originalLanguage,
-      'overview': overview,
-      'popularity': popularity,
-      'vote_average': voteAverage,
-      'vote_count': voteCount,
-      'is_favorite': isFavorite ? true : false,
-    };
-  }
+  Map<String, dynamic> toMap() => _$PopularMovieToJson(this);
 
-  static PopularMovie fromJson(Map<String, dynamic> json) {
-    return PopularMovie(
-      id: json["id"],
-      releaseDate: json['release_date'] ?? '',
-      originalTitle: json['original_title'] ?? '',
-      video: json['video'] ?? false,
-      title: json['title'] ?? '',
-      posterPath: json['poster_path'] ?? '',
-      adult: json['adult'] ?? false,
-      backdropPath: json['backdrop_path'] ?? '',
-      genreIds: List<int>.from(json['genre_ids'] ?? []),
-      originalLanguage: json['original_language'] ?? '',
-      overview: json['overview'] ?? '',
-      popularity: json['popularity']?.toDouble() ?? 0.0,
-      voteAverage: json['vote_average']?.toDouble() ?? 0.0,
-      voteCount: json['vote_count'] ?? 0,
-      isFavorite: json['is_favorite'] ?? false,
-    );
-  }
+  factory PopularMovie.fromJson(Map<String, dynamic> json) => _$PopularMovieFromJson(json);
+
 }

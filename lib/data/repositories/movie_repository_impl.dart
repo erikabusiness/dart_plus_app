@@ -26,6 +26,7 @@ class MovieRepositoryImpl implements MovieRepository {
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
         List<dynamic> moviesJson = jsonResponse['results'];
+
         List<PopularMovie> movies =
             moviesJson.map((movie) => PopularMovie.fromJson(movie)).toList();
 

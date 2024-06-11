@@ -21,16 +21,17 @@ dependencies:
   sqflite: ^2.3.3+1
   path: ^1.9.0
   connectivity_plus: ^6.0.3
+  json_annotation: ^4.9.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
   mocktail: ^1.0.3
   faker: ^2.1.0
-
-
-
   flutter_lints: ^3.0.0
+  build_runner: ^2.4.11
+  json_serializable: ^6.8.0
 
 flutter:
   uses-material-design: true

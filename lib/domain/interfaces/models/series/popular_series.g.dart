@@ -16,7 +16,7 @@ PopularSeries _$PopularSeriesFromJson(Map<String, dynamic> json) =>
           const [],
       overview: json['overview'] as String? ?? "",
       voteAverage: (json['vote_average'] as num?)?.toDouble() ?? 0.0,
-      isFavorite: json['is_favorite'] as bool? ?? false,
+      isFavorite: json['is_favorite'] as bool? ?? true,
       id: (json['id'] as num).toInt(),
     );
 

@@ -7,7 +7,7 @@ part of 'popular_movies.dart';
 // **************************************************************************
 
 PopularMovie _$PopularMovieFromJson(Map<String, dynamic> json) => PopularMovie(
-      video: json['video'] as bool,
+      video: json['video'] as bool? ?? false,
       title: json['title'] as String? ?? '',
       posterPath: json['poster_path'] as String? ?? '',
       genreIds: (json['genre_ids'] as List<dynamic>?)
@@ -16,7 +16,7 @@ PopularMovie _$PopularMovieFromJson(Map<String, dynamic> json) => PopularMovie(
           const [],
       overview: json['overview'] as String? ?? "",
       voteAverage: (json['vote_average'] as num?)?.toDouble() ?? 0.0,
-      isFavorite: json['is_favorite'] as bool? ?? false,
+      isFavorite: json['is_favorite'] as bool? ?? true,
       id: (json['id'] as num).toInt(),
     );
 
@@ -28,6 +28,6 @@ Map<String, dynamic> _$PopularMovieToJson(PopularMovie instance) =>
       'genre_ids': instance.genreIds,
       'overview': instance.overview,
       'vote_average': instance.voteAverage,
-      'is_favorite': instance.isFavorite,
       'video': instance.video,
+      'is_favorite': instance.isFavorite,
     };

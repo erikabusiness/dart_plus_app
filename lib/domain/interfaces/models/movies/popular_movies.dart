@@ -7,10 +7,9 @@ part 'popular_movies.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class PopularMovie extends Media {
-  final bool video;
 
   PopularMovie({
-    required this.video,
+    super.video = false,
     super.title = '',
     super.posterPath = '',
     super.genreIds,

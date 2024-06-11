@@ -10,7 +10,6 @@ class MockFunction extends Mock {
 
 void main() {
   final PopularMovie movieMock = PopularMovie(
-    originalTitle: 'Furiosa: Uma Saga Mad Max',
     video: false,
     id: 1,
     overview: 'Overview',

@@ -11,4 +11,16 @@ class GetAllPopularMovies extends PopularMoviesEvent {
   List<Object> get props => [];
 }
 
+class LoadingDataBasePopularMovies extends PopularMoviesEvent {
+  const LoadingDataBasePopularMovies();
 
+  @override
+  List<Object> get props => [];
+}
+
+class GetNextPopularMovies extends PopularMoviesEvent {
+  const GetNextPopularMovies();
+
+  @override
+  List<Object> get props => [];
+}

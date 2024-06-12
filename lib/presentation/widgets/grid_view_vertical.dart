@@ -1,11 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import '../../domain/interfaces/models/media.dart';
-import '../../routes.dart';
+import '../../routes/app_router.dart';
 import 'media_card.dart';
-
 
 class WidgetGridViewVertical extends StatelessWidget {
   final List<Media> mediaItems;
+  final ScrollController? scrollController;
   final int gridCount;
   final double crossAxisSpacing;
   final double childAspectRatio;
@@ -13,6 +14,7 @@ class WidgetGridViewVertical extends StatelessWidget {
   const WidgetGridViewVertical({
     super.key,
     required this.mediaItems,
+    required this.scrollController,
     this.gridCount = 3,
     this.crossAxisSpacing = 24,
     this.childAspectRatio = 0.45,
@@ -20,12 +22,11 @@ class WidgetGridViewVertical extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    mediaItems.sort((a, b) => b.voteAverage.compareTo(a.voteAverage));
-
     return Column(
       children: [
         Expanded(
           child: GridView.builder(
+            controller: scrollController,
             padding: const EdgeInsets.all(8),
             itemCount: mediaItems.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -38,14 +39,8 @@ class WidgetGridViewVertical extends StatelessWidget {
               return MediaCard(
                 media: media,
                 onClick: () {
-                  Navigator.pushNamed(
-                    context,
-                    NavRoutes.details,
-                    arguments: {
-                      "mediaDetails": mediaItems[index],
-                      "listMedias": mediaItems,
-                    },
-                  );
+                  context.pushRoute(DetailsRoute(
+                      media: mediaItems[index], moviesList: mediaItems));
                 },
               );
             },

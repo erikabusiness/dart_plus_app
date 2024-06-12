@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:dart_plus_app/presentation/styles/strings.dart';
 import 'package:flutter/material.dart';
 import '../../domain/interfaces/models/media.dart';
@@ -6,8 +7,12 @@ import '../widgets/grid_view_vertical.dart';
 import '../widgets/navigation_bar.dart';
 import '../widgets/title_section.dart';
 
+@RoutePage()
 class CatalogoPage extends StatefulWidget {
-  const CatalogoPage({super.key});
+
+  final List<Media> allMedias;
+
+  const CatalogoPage({super.key, required this.allMedias});
 
   @override
   State<CatalogoPage> createState() => _CatalogoPageState();
@@ -32,9 +37,7 @@ class _CatalogoPageState extends State<CatalogoPage>
   }
 
   List<Media> _filterMediaByGenre(String genre) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final List<Media> allMedias = args["allMedias"];
+    final List<Media> allMedias = widget.allMedias;
     return allMedias
         .where(
             (media) => UtilsFunctions.genreMap(media.genreIds).contains(genre))
@@ -43,9 +46,6 @@ class _CatalogoPageState extends State<CatalogoPage>
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final List<Media> allMedias = args["allMedias"];
 
     return Scaffold(
       appBar: AppBar(
@@ -66,13 +66,13 @@ class _CatalogoPageState extends State<CatalogoPage>
         controller: _tabController,
         children: UtilsFunctions.genre.values.map((String genre) {
           final filteredMedia = _filterMediaByGenre(genre);
-          return WidgetGridViewVertical(mediaItems: filteredMedia);
+          return WidgetGridViewVertical(mediaItems: filteredMedia, scrollController: null,);
         }).toList(),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
-        allMedias: allMedias,
+        allMedias: widget.allMedias,
       ),
     );
   }

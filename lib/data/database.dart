@@ -43,17 +43,21 @@ class DatabaseHelper {
           )
         ''');
         await db.execute('''
-  CREATE TABLE Favorites (
-    id INTEGER PRIMARY KEY,
-    video TEXT,
-    title TEXT,
-    poster_path TEXT,
-    genre_ids TEXT, 
-    overview TEXT,
-    vote_average REAL,
-    is_favorite INTEGER
-  )
-''');
+           CREATE TABLE Favorites (
+            id INTEGER PRIMARY KEY,
+            video TEXT,
+            title TEXT,
+            poster_path TEXT,
+            genre_ids TEXT, 
+            overview TEXT,
+            vote_average REAL,
+            is_favorite INTEGER
+          )
+         ''');
+        await db.execute('''
+          CREATE TABLE PopularMoviesNextPage (
+          next_page INTEGER
+          )''');
       },
     );
   }

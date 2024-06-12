@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:dart_plus_app/data/dao/popular_series_dao.dart';
+import 'package:dart_plus_app/routes/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../data/dao/popular_movies_dao.dart';
 import '../../domain/interfaces/models/media.dart';
-import '../../routes.dart';
+import '../../domain/interfaces/models/movies/popular_movies.dart';
+import '../../domain/interfaces/models/series/popular_series.dart';
 import '../bloc/popular_movies/popular_movies_bloc.dart';
 import '../bloc/popular_series/popular_series_bloc.dart';
 import '../bloc/top_rated_movies/top_rated_movies_bloc.dart';
@@ -11,9 +13,10 @@ import '../styles/strings.dart';
 import '../widgets/caroseul.dart';
 import '../widgets/clickable_text.dart';
 import '../widgets/list_view_horizontal.dart';
-import '../widgets/title_section.dart';
 import '../widgets/navigation_bar.dart';
+import '../widgets/title_section.dart';
 
+@RoutePage()
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
@@ -22,14 +25,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Media> allMedias = [];
-  List<Media> displayedMedias = [];
+  List<PopularMovie> allMovies = [];
+  List<PopularSeries> allSeries = [];
   TextEditingController searchController = TextEditingController();
   int _selectedIndex = 0;
-
-  final dbMoviePopularRepository = PopularMoviesDao();
-  final dbSeriePopularRepository = PopularSeriesDao();
-
 
   @override
   void initState() {
@@ -38,28 +37,16 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _loadData() async {
-    final allMovies = await dbMoviePopularRepository.readPopularMovies();
-    final allSeries = await dbSeriePopularRepository.readPopularSeries();
-
-    setState(() {
-      allMedias.addAll(allMovies);
-      allMedias.addAll(allSeries);
-    });
-
     _loadMovies(context);
     _loadSeries(context);
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Theme
-            .of(context)
-            .colorScheme
-            .background,
+        backgroundColor: Theme.of(context).colorScheme.background,
         title: Image.asset('assets/logo.png'),
         centerTitle: true,
       ),
@@ -85,20 +72,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   BlocBuilder<PopularMoviesBloc, PopularMoviesState>(
                     builder: (context, state) {
+                      if (state is MoviesInitial) {
+                        context
+                            .read<PopularMoviesBloc>()
+                            .add(const LoadingDataBasePopularMovies());
+                      }
                       if (state is PopularMoviesLoaded) {
                         final movies = state.movies;
+                        allMovies = movies;
                         return _buildSection(
                           context,
                           StringsConstants.popularMovies,
                           movies,
-                              () {
-                            Navigator.pushNamed(
-                              context,
-                              NavRoutes.seeAll,
-                              arguments: {
-                                "medias": movies,
-                                "tela": StringsConstants.popularMovies
-                              },
+                          () {
+                            context.pushRoute(
+                              SeeAllRoute(
+                                  mediaItems: movies,
+                                  tela: StringsConstants.popularMovies),
                             );
                           },
                         );
@@ -123,18 +113,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     builder: (context, state) {
                       if (state is PopularSeriesLoaded) {
                         final series = state.series;
+                        allSeries = series;
                         return _buildSection(
                           context,
                           StringsConstants.popularSeries,
                           series,
-                              () {
-                            Navigator.pushNamed(
-                              context,
-                              NavRoutes.seeAll,
-                              arguments: {
-                                "medias": series,
-                                "tela": StringsConstants.popularSeries
-                              },
+                          () {
+                            context.pushRoute(
+                              SeeAllRoute(
+                                  mediaItems: series,
+                                  tela: StringsConstants.popularSeries),
                             );
                           },
                         );
@@ -156,7 +144,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
         selectedIndex: _selectedIndex,
-        onItemTapped: _onItemTapped, allMedias: allMedias,
+        onItemTapped: _onItemTapped,
+        allMedias: [...allMovies, ...allSeries],
       ),
     );
   }
@@ -165,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final popularMoviesBloc = BlocProvider.of<PopularMoviesBloc>(context);
     final topratedMoviesBloc = BlocProvider.of<TopRatedMoviesBloc>(context);
 
-    popularMoviesBloc.add(const GetAllPopularMovies());
+    popularMoviesBloc.add(const LoadingDataBasePopularMovies());
     topratedMoviesBloc.add(const GetAllTrhendMovies());
   }
 
@@ -180,10 +169,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Widget _buildSection(BuildContext context,
-      String title,
-      List<Media> mediaItems,
-      VoidCallback verTodos,) {
+  Widget _buildSection(
+    BuildContext context,
+    String title,
+    List<Media> mediaItems,
+    VoidCallback verTodos,
+  ) {
     return Column(
       children: [
         Row(

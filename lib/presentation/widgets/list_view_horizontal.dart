@@ -1,7 +1,8 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:dart_plus_app/routes/app_router.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/interfaces/models/media.dart';
-import '../../routes.dart';
 import 'media_card.dart';
 
 class WidgetListViewHorizontal extends StatelessWidget {
@@ -38,13 +39,8 @@ class WidgetListViewHorizontal extends StatelessWidget {
                   media: mediaItems[index],
                   viewTitle: true,
                   onClick: () {
-                    Navigator.pushNamed(
-                      context,
-                      NavRoutes.details,
-                      arguments: {
-                        "mediaDetails": mediaItems[index],
-                        "listMedias": mediaItems,
-                      },
+                    context.pushRoute(
+                      DetailsRoute(media: mediaItems[index], moviesList: mediaItems)
                     );
                   },
                 ),

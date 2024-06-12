@@ -1,4 +1,5 @@
- import 'package:flutter/material.dart';
+ import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/dao/favorites_dao_impl.dart';
 import '../../domain/interfaces/models/media.dart';
@@ -12,9 +13,15 @@ import '../widgets/media_trailer.dart';
 import '../widgets/story_line.dart';
 import '../widgets/title_section.dart';
 
+@RoutePage()
 class DetailsPage extends StatelessWidget {
+
+  final Media media;
+  final List<Media> moviesList;
+
+
   const DetailsPage({
-    super.key,
+    super.key, required this.media, required this.moviesList,
   });
 
   @override
@@ -23,13 +30,6 @@ class DetailsPage extends StatelessWidget {
 
     final videoPopularMovieBloc =
         BlocProvider.of<VideosPopularMovieBloc>(context);
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final Media mediaArgsDetail = args["mediaDetails"];
-    final List<Media> moviesList = args["listMedias"];
-
-    final Media media = mediaArgsDetail;
-    List<Media> mediaItems = moviesList;
 
     videoPopularMovieBloc.add(GetTrailerPopularMovies(media.id));
 
@@ -160,7 +160,7 @@ class DetailsPage extends StatelessWidget {
                         padding: 5,
                       ),
                       const SizedBox(height: 4.0),
-                      WidgetListViewHorizontal(mediaItems: mediaItems),
+                      WidgetListViewHorizontal(mediaItems: moviesList),
                     ],
                   ),
                 ),

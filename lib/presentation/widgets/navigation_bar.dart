@@ -1,7 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/interfaces/models/media.dart';
-import '../../routes.dart';
+import '../../routes/app_router.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   final int selectedIndex;
@@ -27,22 +28,18 @@ class CustomBottomNavigationBar extends StatelessWidget {
           onItemTapped(index);
           switch (index) {
             case 0:
-              Navigator.pushNamed(
-                context,
-                NavRoutes.homePage,
+              context.pushRoute(
+                const MyHomeRoute()
               );
               break;
             case 1:
-              Navigator.pushNamed(
-                context,
-                NavRoutes.catalogoPage,
-                arguments: {'allMedias': allMedias},
+              context.pushRoute(
+                CatalogoRoute(allMedias: allMedias)
               );
               break;
             case 2:
-              Navigator.pushNamed(
-                context,
-                NavRoutes.favoritesPage,
+              context.pushRoute(
+                const FavoritesRoute()
               );
               break;
           }

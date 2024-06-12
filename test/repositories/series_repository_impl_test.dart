@@ -1,28 +1,21 @@
 import 'dart:convert';
 import 'package:dart_plus_app/data/dao/popular_series_dao.dart';
 import 'package:dart_plus_app/data/repositories/series_repository_impl.dart';
+import 'package:dart_plus_app/domain/interfaces/dao/popular_serie_dao.dart';
 import 'package:dart_plus_app/domain/interfaces/models/series/popular_series.dart';
+import 'package:dart_plus_app/domain/interfaces/services/http_client.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:mocktail/mocktail.dart';
+
+import 'movie_repository_impl_test.dart';
 
 void main() {
   group("Testes para verificar a chamada a API para séries", () {
     test("Teste de chamada a API para séries populares", () async {
-      final serie = generateRandomPopularSeries().toMap();
-      final serie2 = generateRandomPopularSeries().toMap();
-
-      Future<http.Response> mockGet(Uri url,
-          {Map<String, String>? headers}) async {
-        return http.Response(
-            jsonEncode({
-              "results": [serie, serie2]
-            }),
-            200);
-      }
-
       final serieRepository =
-          SeriesRepositoryImpl(mockGet, MockPopularSeriesDao());
+          SeriesRepositoryImpl(httpClient: MockHttpClient());
       final getAllPopularSeries = await serieRepository.getAllPopularSeries();
 
       expect(getAllPopularSeries.length, 2);
@@ -61,4 +54,17 @@ class MockPopularSeriesDao implements PopularSeriesDaoInterface {
 
   @override
   Future<void> updatePopularSeries(PopularSeries updatesPopularSeries) async {}
+}
+
+class MockHttpClient extends Mock implements HttpClientInterface {
+  final serie = generateRandomPopularSeries().toMap();
+  final serie2 = generateRandomPopularSeries().toMap();
+
+  Future<http.Response> get(Uri url, {Map<String, String>? headers}) async {
+    return http.Response(
+        jsonEncode({
+          "results": [serie, serie2]
+        }),
+        200);
+  }
 }

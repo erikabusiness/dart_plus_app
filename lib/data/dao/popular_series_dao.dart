@@ -1,15 +1,10 @@
-import '../../domain/interfaces/models/series/popular_series.dart';
-import '../database.dart';
 import 'package:sqflite/sqflite.dart';
 
-abstract class PopularSeriesDaoInterface {
-  Future<int> insertPopularSeries(PopularSeries newSerie);
-  Future<void> updatePopularSeries(PopularSeries updateSerie);
-  Future<List<PopularSeries>> readPopularSeries();
-  Future<List<PopularSeries>> readPopularSeriesFavorites();
-}
+import '../../domain/interfaces/dao/popular_serie_dao.dart';
+import '../../domain/interfaces/models/series/popular_series.dart';
+import '../database.dart';
 
-class PopularSeriesDao implements PopularSeriesDaoInterface {
+class PopularSeriesDaoImpl implements PopularSeriesDaoInterface {
   final dbHelper = DatabaseHelper();
 
   @override

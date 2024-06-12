@@ -1,16 +1,10 @@
 import 'dart:convert';
+import '../../domain/interfaces/dao/popular_movie_dao.dart';
 import '../../domain/interfaces/models/movies/popular_movies.dart';
 import '../database.dart';
 import 'package:sqflite/sqflite.dart';
 
-abstract class PopularMoviesDaoInterface {
-  Future<int> insertPopularMovies(PopularMovie newMovie);
-  Future<void> updatePopularMovies(PopularMovie updateMovie);
-  Future<List<PopularMovie>> readPopularMovies();
-  Future<List<PopularMovie>> readPopularMoviesFavorites();
-}
-
-class PopularMoviesDao implements PopularMoviesDaoInterface {
+class PopularMoviesDaoImpl implements PopularMoviesDaoInterface {
   final dbHelper = DatabaseHelper();
 
   @override
@@ -20,14 +14,24 @@ class PopularMoviesDao implements PopularMoviesDaoInterface {
       throw Exception('O banco de dados não foi inicializado corretamente');
     }
 
-    final result = await db.insert(
+    final existingMovies = await db.query(
       'PopularMovies',
-      newMovie.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
+      where: 'id = ?',
+      whereArgs: [newMovie.id],
     );
 
-    return result;
+    if (existingMovies.isNotEmpty) {
+      return -1;
+    } else {
+      final result = await db.insert(
+        'PopularMovies',
+        newMovie.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      return result;
+    }
   }
+
 
   @override
   Future<void> updatePopularMovies(PopularMovie updateMovie) async {
@@ -102,5 +106,46 @@ class PopularMoviesDao implements PopularMoviesDaoInterface {
     return favoritePopularMovie;
   }
 
-  getAllPopularMovies() {}
+  @override
+  Future<int> buscarPopularMoviesNextPage() async {
+    final db = await dbHelper.database;
+    if (db == null) {
+      throw Exception('O banco de dados não foi inicializado corretamente');
+    }
+
+    final List<Map<String, dynamic>> result = await db.query("PopularMoviesNextPage");
+
+    if (result.isNotEmpty) {
+      return result.first['next_page'] as int;
+    } else {
+      return 2;
+    }
+  }
+
+
+  @override
+  Future<int> insertPopularMoviesNextPage(int nextPage) async {
+    final db = await dbHelper.database;
+    if (db == null) {
+      throw Exception('O banco de dados não foi inicializado corretamente');
+    }
+
+    final List<Map<String, dynamic>> result = await db.query("PopularMoviesNextPage");
+    if (result.isNotEmpty) {
+      return await db.update(
+        "PopularMoviesNextPage",
+        {'next_page': nextPage},
+      );
+    } else {
+      return await db.insert(
+        "PopularMoviesNextPage",
+        {'next_page': nextPage},
+      );
+    }
+  }
+
+
+
+
+
 }

@@ -1,31 +1,47 @@
-import 'package:dart_plus_app/data/connection_status.dart';
-import 'package:dart_plus_app/data/dao/popular_movies_dao.dart';
-import 'package:dart_plus_app/data/repositories/movie_repository_impl.dart';
+// popular_movies_bloc.dart
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../domain/interfaces/dao/popular_movie_dao.dart';
 import '../../../domain/interfaces/models/movies/popular_movies.dart';
+import '../../../domain/interfaces/repositories/movie_repository.dart';
 
 part 'popular_movies_event.dart';
 part 'popular_movies_state.dart';
 
 class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
+  final MovieRepository _movieRepository;
+  final PopularMoviesDaoInterface _dbRepository;
 
-  //todo adicionar estrutura de injeção de dependências para o Repository e o Dao
-
-  final _movieRepository = MovieRepositoryImpl();
-  final dbRepository = PopularMoviesDao();
-
-  PopularMoviesBloc() : super(MoviesInitial()) {
+  PopularMoviesBloc(this._movieRepository, this._dbRepository) : super(MoviesInitial()) {
     on<PopularMoviesEvent>((event, emit) async {
-      if (event is GetAllPopularMovies) {
+      if (event is LoadingDataBasePopularMovies) {
         emit(const PopularMoviesLoading());
         try {
-          List<PopularMovie> movies;
-          if (await isConnectedToInternet()) {
+          List<PopularMovie> movies = await _dbRepository.readPopularMovies();
+          if (movies.isEmpty) {
             movies = await _movieRepository.getAllPopularMovies();
-          } else {
-            movies = await dbRepository.readPopularMovies();
+
+            for (var movie in movies) {
+              await _dbRepository.insertPopularMovies(movie);
+            }
+          }
+          emit(PopularMoviesLoaded(movies));
+        } catch (_) {
+          emit(const PopularMoviesError());
+        }
+      }
+
+      if (event is GetNextPopularMovies) {
+        emit(const PopularMoviesLoading());
+        try {
+          int numberPage = await _dbRepository.buscarPopularMoviesNextPage();
+          List<PopularMovie> movies = await _movieRepository.getNextPopularMovies(numberPage);
+          if (movies.isNotEmpty) {
+            await _dbRepository.insertPopularMoviesNextPage(numberPage + 1);
+            for (var movie in movies) {
+              await _dbRepository.insertPopularMovies(movie);
+            }
           }
           emit(PopularMoviesLoaded(movies));
         } catch (_) {

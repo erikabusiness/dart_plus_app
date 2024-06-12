@@ -1,30 +1,29 @@
-import 'package:dart_plus_app/data/connection_status.dart';
-import 'package:dart_plus_app/data/dao/popular_series_dao.dart';
-import 'package:dart_plus_app/data/repositories/series_repository_impl.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../domain/interfaces/dao/popular_serie_dao.dart';
 import '../../../domain/interfaces/models/series/popular_series.dart';
+import '../../../domain/interfaces/repositories/series_repository.dart';
 
 part 'popular_series_event.dart';
-
 part 'popular_series_state.dart';
 
 class PopularSeriesBloc extends Bloc<PopularSeriesEvent, PopularSeriesState> {
-  final _seriesRepository = SeriesRepositoryImpl();
-  final dbRepository = PopularSeriesDao();
+  final SeriesRepository _seriesRepository;
+  final PopularSeriesDaoInterface dbRepository;
 
-  PopularSeriesBloc() : super(PopularSeriesInitial()) {
+  PopularSeriesBloc(this._seriesRepository, this.dbRepository) : super(PopularSeriesInitial()) {
     on<PopularSeriesEvent>(
       (event, emit) async {
         if (event is GetAllPopularSeries) {
           emit(const PopularSeriesLoading());
           try {
-            List<PopularSeries> series;
-            if (await isConnectedToInternet()) {
+            List<PopularSeries> series = await dbRepository.readPopularSeries();
+            if (series.isEmpty) {
               series = await _seriesRepository.getAllPopularSeries();
-            } else {
-              series = await dbRepository.readPopularSeries();
+              for (var serie in series) {
+                await dbRepository.insertPopularSeries(serie);
+              }
             }
             emit(PopularSeriesLoaded(series));
           } catch (_) {

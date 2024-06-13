@@ -34,7 +34,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
               break;
             case 1:
               context.pushRoute(
-                CatalogoRoute(allMedias: allMedias)
+                const CatalogoRoute()
               );
               break;
             case 2:

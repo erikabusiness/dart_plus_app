@@ -10,22 +10,40 @@ part 'popular_series_state.dart';
 
 class PopularSeriesBloc extends Bloc<PopularSeriesEvent, PopularSeriesState> {
   final SeriesRepository _seriesRepository;
-  final PopularSeriesDaoInterface dbRepository;
+  final PopularSeriesDaoInterface _dbRepository;
 
-  PopularSeriesBloc(this._seriesRepository, this.dbRepository) : super(PopularSeriesInitial()) {
+  PopularSeriesBloc(this._seriesRepository, this._dbRepository) : super(PopularSeriesInitial()) {
     on<PopularSeriesEvent>(
       (event, emit) async {
-        if (event is GetAllPopularSeries) {
+        if (event is LoadingDataBasePopularSeries) {
           emit(const PopularSeriesLoading());
           try {
-            List<PopularSeries> series = await dbRepository.readPopularSeries();
-            if (series.isEmpty) {
-              series = await _seriesRepository.getAllPopularSeries();
-              for (var serie in series) {
-                await dbRepository.insertPopularSeries(serie);
+            List<PopularSeries> movies = await _dbRepository.readPopularSeries();
+            if (movies.isEmpty) {
+              movies = await _seriesRepository.getAllPopularSeries();
+
+              for (var movie in movies) {
+                await _dbRepository.insertPopularSeries(movie);
               }
             }
-            emit(PopularSeriesLoaded(series));
+            emit(PopularSeriesLoaded(movies));
+          } catch (_) {
+            emit(const PopularSeriesError());
+          }
+        }
+
+        if (event is GetNextPopularSeries) {
+          emit(const PopularSeriesLoading());
+          try {
+            int numberPage = await _dbRepository.buscarPopularSeriesNextPage();
+            List<PopularSeries> movies = await _seriesRepository.getNextPopularSeries(numberPage);
+            if (movies.isNotEmpty) {
+              await _dbRepository.insertPopularSeriesNextPage(numberPage + 1);
+              for (var movie in movies) {
+                await _dbRepository.insertPopularSeries(movie);
+              }
+            }
+            emit(PopularSeriesLoaded(movies));
           } catch (_) {
             emit(const PopularSeriesError());
           }

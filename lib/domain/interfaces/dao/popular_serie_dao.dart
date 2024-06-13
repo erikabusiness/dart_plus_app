@@ -5,4 +5,6 @@ abstract class PopularSeriesDaoInterface {
   Future<void> updatePopularSeries(PopularSeries updateSerie);
   Future<List<PopularSeries>> readPopularSeries();
   Future<List<PopularSeries>> readPopularSeriesFavorites();
+  Future<int> insertPopularSeriesNextPage(int nextPage);
+  Future<int> buscarPopularSeriesNextPage();
 }

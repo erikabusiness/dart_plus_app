@@ -9,6 +9,7 @@ import '../../domain/interfaces/models/media.dart';
 class FavoritesDaoImpl implements FavoritesDao{
   final dbHelper = DatabaseHelper();
 
+  @override
   Future<void> toggleFavorite(Media media) async {
     final db = await dbHelper.database;
     if (db == null) {
@@ -42,6 +43,7 @@ class FavoritesDaoImpl implements FavoritesDao{
 
 
 
+  @override
   Future<bool> isFavorite(Media media) async {
     final db = await dbHelper.database;
     if (db == null) {
@@ -57,6 +59,7 @@ class FavoritesDaoImpl implements FavoritesDao{
     return result.isNotEmpty;
   }
 
+  @override
   Future<List<Favorites>> getFavorites() async {
     final db = await dbHelper.database;
     if (db == null) {

@@ -24,7 +24,9 @@ class LoadFavorite extends FavoriteEvent {
 }
 
 class GetFavoritesEvent extends FavoriteEvent {
-  final List<Favorites> listFavorites;
 
-  GetFavoritesEvent({required this.listFavorites});
+  GetFavoritesEvent();
+
+  @override
+  List<Object> get props => [];
 }

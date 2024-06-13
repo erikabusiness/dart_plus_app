@@ -16,13 +16,9 @@ abstract class _$AppRouter extends RootStackRouter {
   @override
   final Map<String, PageFactory> pagesMap = {
     CatalogoRoute.name: (routeData) {
-      final args = routeData.argsAs<CatalogoRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: CatalogoPage(
-          key: args.key,
-          allMedias: args.allMedias,
-        ),
+        child: const CatalogoPage(),
       );
     },
     DetailsRoute.name: (routeData) {
@@ -64,40 +60,16 @@ abstract class _$AppRouter extends RootStackRouter {
 
 /// generated route for
 /// [CatalogoPage]
-class CatalogoRoute extends PageRouteInfo<CatalogoRouteArgs> {
-  CatalogoRoute({
-    Key? key,
-    required List<Media> allMedias,
-    List<PageRouteInfo>? children,
-  }) : super(
+class CatalogoRoute extends PageRouteInfo<void> {
+  const CatalogoRoute({List<PageRouteInfo>? children})
+      : super(
           CatalogoRoute.name,
-          args: CatalogoRouteArgs(
-            key: key,
-            allMedias: allMedias,
-          ),
           initialChildren: children,
         );
 
   static const String name = 'CatalogoRoute';
 
-  static const PageInfo<CatalogoRouteArgs> page =
-      PageInfo<CatalogoRouteArgs>(name);
-}
-
-class CatalogoRouteArgs {
-  const CatalogoRouteArgs({
-    this.key,
-    required this.allMedias,
-  });
-
-  final Key? key;
-
-  final List<Media> allMedias;
-
-  @override
-  String toString() {
-    return 'CatalogoRouteArgs{key: $key, allMedias: $allMedias}';
-  }
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

@@ -23,7 +23,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
 
   @override
   void initState() {
-    context.read<FavoriteBloc>().add(GetFavoritesEvent(listFavorites: []));
+    context.read<FavoriteBloc>().add(GetFavoritesEvent());
     super.initState();
   }
 
@@ -39,7 +39,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
       body: BlocBuilder<FavoriteBloc, FavoriteState>(
         builder: ((context, state) {
           if (state is FavoriteInitial) {
-            context.read<FavoriteBloc>().add(GetFavoritesEvent(listFavorites: []));
+            context.read<FavoriteBloc>().add(GetFavoritesEvent());
             return const Center(child: CircularProgressIndicator());
           }
           if (state is FavoriteLoading) {

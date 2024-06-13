@@ -160,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _loadSeries(BuildContext context) {
     final popularSeriesBloc = BlocProvider.of<PopularSeriesBloc>(context);
-    popularSeriesBloc.add(const GetAllPopularSeries());
+    popularSeriesBloc.add(const LoadingDataBasePopularSeries());
   }
 
   void _onItemTapped(int index) {

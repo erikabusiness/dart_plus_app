@@ -34,4 +34,25 @@ class SeriesRepositoryImpl implements SeriesRepository {
       throw Exception("Falha ao carregar os series populares");
     }
   }
+
+  @override
+  Future<List<PopularSeries>> getNextPopularSeries(int pageId) async {
+    try {
+      final response = await httpClient.get(
+          Uri.parse(ApiConnectionsUrl.getPopularSeriesUrl(pageId: pageId)));
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> jsonResponse = json.decode(response.body);
+        List<dynamic> moviesJson = jsonResponse['results'];
+
+        List<PopularSeries> movies =
+        moviesJson.map((movie) => PopularSeries.fromJson(movie)).toList();
+        return movies;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      throw Exception("Falha ao carregar as series populares");
+    }
+  }
 }

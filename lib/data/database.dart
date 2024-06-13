@@ -58,6 +58,10 @@ class DatabaseHelper {
           CREATE TABLE PopularMoviesNextPage (
           next_page INTEGER
           )''');
+        await db.execute('''
+          CREATE TABLE PopularSeriesNextPage (
+          next_page INTEGER
+          )''');
       },
     );
   }

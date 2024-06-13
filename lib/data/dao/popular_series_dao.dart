@@ -101,4 +101,41 @@ class PopularSeriesDaoImpl implements PopularSeriesDaoInterface {
       genreIds: map['genre_ids'],
     );
   }
+
+  @override
+  Future<int> buscarPopularSeriesNextPage() async {
+    final db = await dbHelper.database;
+    if (db == null) {
+      throw Exception('O banco de dados não foi inicializado corretamente');
+    }
+
+    final List<Map<String, dynamic>> result = await db.query("PopularSeriesNextPage");
+
+    if (result.isNotEmpty) {
+      return result.first['next_page'] as int;
+    } else {
+      return 2;
+    }
+  }
+
+  @override
+  Future<int> insertPopularSeriesNextPage(int nextPage) async {
+    final db = await dbHelper.database;
+    if (db == null) {
+      throw Exception('O banco de dados não foi inicializado corretamente');
+    }
+
+    final List<Map<String, dynamic>> result = await db.query("PopularSeriesNextPage");
+    if (result.isNotEmpty) {
+      return await db.update(
+        "PopularSeriesNextPage",
+        {'next_page': nextPage},
+      );
+    } else {
+      return await db.insert(
+        "PopularSeriesNextPage",
+        {'next_page': nextPage},
+      );
+    }
+  }
 }

@@ -102,7 +102,6 @@ class _CatalogoPageState extends State<CatalogoPage> with SingleTickerProviderSt
       bottomNavigationBar: CustomBottomNavigationBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
-        allMedias: allMedias,
       ),
     );
   }

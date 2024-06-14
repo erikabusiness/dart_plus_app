@@ -7,13 +7,11 @@ import '../../routes/app_router.dart';
 class CustomBottomNavigationBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
-  final List<Media> allMedias;
 
   const CustomBottomNavigationBar({
     super.key,
     required this.selectedIndex,
     required this.onItemTapped,
-    required this.allMedias,
   });
 
   @override

@@ -19,7 +19,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       emit(const FavoriteLoading());
       try {
         final isFavorite = await _favoriteDao.isFavorite(event.media);
-        emit(FavoriteInitial(isFavorite));
+        emit(FavoriteToggled(isFavorite: isFavorite));
       } catch (_) {
         emit(const FavoriteError(message: "Erro na chamada do loadFavorite"));
       }

@@ -20,5 +20,7 @@ class StringsConstants {
   static const favorites = 'Favoritos';
   static const errorFavorites = 'Erro ao carregar favoritos';
   static const favoritesNotFound = 'Não há itens favoritados! ☹';
+  static const favoriteAdded = 'Foi adicionado aos favoritos!';
+  static const favoriteRemoved = 'Foi removido dos favoritos!';
 
 }

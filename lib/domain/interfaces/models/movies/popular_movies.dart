@@ -12,6 +12,7 @@ class PopularMovie extends Media {
     super.video = false,
     super.title = '',
     super.posterPath = '',
+    super.backdropPath = '',
     super.genreIds,
     super.overview,
     super.voteAverage,

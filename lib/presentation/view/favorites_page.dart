@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toastification/toastification.dart';
 
 import '../../domain/interfaces/models/favorites/favorites.dart';
 import '../bloc/favorites/favorite_bloc.dart';
+import '../styles/colors.dart';
 import '../styles/strings.dart';
 import '../widgets/favorite_icon.dart';
 import '../widgets/genre_label.dart';
@@ -51,7 +53,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
           if (state is FavoriteLoaded) {
             List<Favorites> favorites = state.favorites;
             if (favorites.isEmpty) {
-              return const Center(child: Text(StringsConstants.favoritesNotFound));
+              return const Center(
+                  child: Text(StringsConstants.favoritesNotFound));
             }
             return ListView.builder(
               itemCount: favorites.length,
@@ -59,12 +62,37 @@ class _FavoritesPageState extends State<FavoritesPage> {
                 return ListTile(
                   leading: favorites[index].posterPath.isNotEmpty
                       ? Image.network(
-                    'https://image.tmdb.org/t/p/w500${favorites[index].posterPath}',
-                  )
+                          'https://image.tmdb.org/t/p/w500${favorites[index].posterPath}',
+                        )
                       : const Icon(Icons.favorite),
                   title: Text(favorites[index].title),
-                  subtitle: GenreLabelWidget(media: favorites[index], isCompact: true,),
-                  trailing: FavoriteIconWidget(media: favorites[index]),
+                  subtitle: GenreLabelWidget(
+                    media: favorites[index],
+                    isCompact: true,
+                  ),
+                  trailing: FavoriteIconWidget(
+                    media: favorites[index],
+                    onPressed: (isFavorite) {
+                      final message = isFavorite
+                          ? "${favorites[index].title} ${StringsConstants.favoriteAdded} "
+                          : "${favorites[index].title} ${StringsConstants.favoriteRemoved} ";
+                      toastification.show(
+                        style: ToastificationStyle.fillColored,
+                        autoCloseDuration: const Duration(seconds: 3),
+                        type: ToastificationType.success,
+                        alignment: Alignment.topCenter,
+                        context: context,
+                        title: Text(
+                          message,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: CustomColor.defaultTextColor,
+                            fontSize: 16,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 );
               },
             );
@@ -76,7 +104,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
       bottomNavigationBar: CustomBottomNavigationBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
-        allMedias: const [],
       ),
     );
   }

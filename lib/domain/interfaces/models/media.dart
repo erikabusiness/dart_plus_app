@@ -2,6 +2,7 @@ abstract class Media {
   final int id;
   final String title;
   final String posterPath;
+  final String backdropPath;
   final List<int> genreIds;
   final String overview;
   final double voteAverage;
@@ -12,6 +13,7 @@ abstract class Media {
     required this.id,
     required this.title,
     required this.posterPath,
+    this.backdropPath = "",
     this.genreIds = const [],
     this.overview = "",
     this.voteAverage = 0.0,

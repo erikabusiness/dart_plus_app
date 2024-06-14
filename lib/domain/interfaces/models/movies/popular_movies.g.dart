@@ -10,6 +10,7 @@ PopularMovie _$PopularMovieFromJson(Map<String, dynamic> json) => PopularMovie(
       video: json['video'] as bool? ?? false,
       title: json['title'] as String? ?? '',
       posterPath: json['poster_path'] as String? ?? '',
+      backdropPath: json['backdrop_path'] as String? ?? '',
       genreIds: (json['genre_ids'] as List<dynamic>?)
               ?.map((e) => (e as num).toInt())
               .toList() ??
@@ -25,6 +26,7 @@ Map<String, dynamic> _$PopularMovieToJson(PopularMovie instance) =>
       'id': instance.id,
       'title': instance.title,
       'poster_path': instance.posterPath,
+      'backdrop_path': instance.backdropPath,
       'genre_ids': instance.genreIds,
       'overview': instance.overview,
       'vote_average': instance.voteAverage,

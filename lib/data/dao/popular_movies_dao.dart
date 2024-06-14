@@ -55,24 +55,30 @@ class PopularMoviesDaoImpl implements PopularMoviesDaoInterface {
     if (db == null) {
       throw Exception('O banco de dados não foi inicializado corretamente');
     }
-    List<Map<String, dynamic>> maps = await db.query('PopularMovies');
 
-    List<PopularMovie> popularMovie = List.generate(maps.length, (i) {
-      List<int> genreIds = (maps[i]['genre_ids']).cast<int>();
+    try {
+      List<Map<String, dynamic>> maps = await db.query('PopularMovies');
 
-      return PopularMovie(
-        video: maps[i]['video'] == true,
-        id: maps[i]['id'],
-        overview: maps[i]['overview'],
-        voteAverage: maps[i]['vote_average'],
-        posterPath: maps[i]['poster_path'],
-        title: maps[i]['title'],
-        genreIds: genreIds,
-        isFavorite: maps[i]['is_favorite'] == true,
-      );
-    });
+      List<PopularMovie> popularMovie = List.generate(maps.length, (i) {
+        List<int> genreIds = (maps[i]['genre_ids']).cast<int>();
 
-    return popularMovie;
+        return PopularMovie(
+          video: maps[i]['video'] == true,
+          id: maps[i]['id'],
+          overview: maps[i]['overview'],
+          voteAverage: maps[i]['vote_average'],
+          posterPath: maps[i]['poster_path'],
+          title: maps[i]['title'],
+          genreIds: genreIds,
+          isFavorite: maps[i]['is_favorite'] == true,
+        );
+      });
+
+      return popularMovie;
+    } catch (e) {
+      throw Exception('Erro ao ler os popular movies');
+    }
+
   }
 
   @override

@@ -155,7 +155,6 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: CustomBottomNavigationBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
-        allMedias: [...allMovies, ...allSeries],
       ),
     );
   }

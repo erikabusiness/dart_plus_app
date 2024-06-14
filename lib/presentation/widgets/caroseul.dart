@@ -30,7 +30,7 @@ class WidgetCarousel extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(16.0),
                   child: Image.network(
-                    'https://image.tmdb.org/t/p/w500${media.posterPath}',
+                    'https://image.tmdb.org/t/p/w500${media.backdropPath}',
                     fit: BoxFit.cover,
                     width: double.infinity,
                     height: double.infinity,

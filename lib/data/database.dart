@@ -48,6 +48,7 @@ class DatabaseHelper {
             video TEXT,
             title TEXT,
             poster_path TEXT,
+            backdrop_path TEXT,
             genre_ids TEXT, 
             overview TEXT,
             vote_average REAL,

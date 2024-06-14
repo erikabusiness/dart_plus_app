@@ -1,10 +1,12 @@
- import 'package:auto_route/auto_route.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../data/dao/favorites_dao_impl.dart';
+import 'package:toastification/toastification.dart';
+
 import '../../domain/interfaces/models/media.dart';
 import '../bloc/favorites/favorite_bloc.dart';
 import '../bloc/videos_popular_movie/videos_popular_movie_bloc.dart';
+import '../styles/colors.dart';
 import '../styles/strings.dart';
 import '../widgets/favorite_icon.dart';
 import '../widgets/genre_label.dart';
@@ -15,28 +17,42 @@ import '../widgets/title_section.dart';
 
 @RoutePage()
 class DetailsPage extends StatelessWidget {
-
   final Media media;
   final List<Media> moviesList;
 
-
   const DetailsPage({
-    super.key, required this.media, required this.moviesList,
+    super.key,
+    required this.media,
+    required this.moviesList,
   });
 
   @override
   Widget build(BuildContext context) {
-    final favoriteDao = FavoritesDaoImpl();
+    void openVideo(BuildContext context, int videoKey) {
+      final videoPopularMovieBloc =
+          BlocProvider.of<VideosPopularMovieBloc>(context);
+      videoPopularMovieBloc.add(GetTrailerPopularMovies(videoKey));
+    }
 
-    final videoPopularMovieBloc =
-        BlocProvider.of<VideosPopularMovieBloc>(context);
-
-    videoPopularMovieBloc.add(GetTrailerPopularMovies(media.id));
-
-    String voteStar(double vote) {
+    String voteStar0(double vote) {
       var voteStar = vote / 2;
       return voteStar.toStringAsFixed(1);
     }
+
+    List<Media> getRecommendedMovies(List<Media> moviesListFilter, Media mediaFilter) {
+      List<Media> recommendedMovies = moviesListFilter
+          .where((movie) =>
+              movie.id != mediaFilter.id &&
+              movie.genreIds
+                  .any((genre) => mediaFilter.genreIds.contains(genre)))
+          .toList();
+
+      recommendedMovies.shuffle();
+
+      return recommendedMovies;
+    }
+
+    openVideo(context, media.id);
 
     return Scaffold(
       body: CustomScrollView(
@@ -88,17 +104,44 @@ class DetailsPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          BlocProvider(
-                            create: (context) =>
-                                FavoriteBloc(favoriteDao)..add(LoadFavorite(media)),
-                            child: FavoriteIconWidget(
-                              media: media,
-                            ),
+                          BlocBuilder<FavoriteBloc, FavoriteState>(
+                            builder: (context, state) {
+                              context
+                                  .read<FavoriteBloc>()
+                                  .add(LoadFavorite(media));
+                              return FavoriteIconWidget(
+                                media: media,
+                                onPressed: (isFavorite) {
+                                  final message = isFavorite
+                                      ? "${media.title} ${StringsConstants.favoriteAdded} "
+                                      : "${media.title} ${StringsConstants.favoriteRemoved} ";
+                                  toastification.show(
+                                    style: ToastificationStyle.fillColored,
+                                    autoCloseDuration:
+                                        const Duration(seconds: 3),
+                                    type: ToastificationType.success,
+                                    alignment: Alignment.topCenter,
+                                    context: context,
+                                    title: Text(
+                                      message,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        color: CustomColor.defaultTextColor,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
                           ),
                         ],
                       ),
                       const SizedBox(height: 8.0),
-                      GenreLabelWidget(media: media, isCompact: false,),
+                      GenreLabelWidget(
+                        media: media,
+                        isCompact: false,
+                      ),
                       const SizedBox(height: 8.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -111,7 +154,7 @@ class DetailsPage extends StatelessWidget {
                                 size: 18.0,
                               ),
                               Text(
-                                "${voteStar(media.voteAverage)}/5.0",
+                                "${voteStar0(media.voteAverage)}/5.0",
                                 style: const TextStyle(
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.normal,
@@ -160,7 +203,8 @@ class DetailsPage extends StatelessWidget {
                         padding: 5,
                       ),
                       const SizedBox(height: 4.0),
-                      WidgetListViewHorizontal(mediaItems: moviesList),
+                      WidgetListViewHorizontal(
+                          mediaItems: getRecommendedMovies(moviesList, media)),
                     ],
                   ),
                 ),

@@ -88,7 +88,7 @@ void main() {
     blocTest(
       'emits []',
       build: () => FavoriteBloc(mockFavoriteDao),
-      act: (bloc) => bloc.add(GetFavoritesEvent(listFavorites: favoritesList)),
+      act: (bloc) => bloc.add(GetFavoritesEvent()),
       wait: const Duration(seconds: 2),
       expect: () => [
         isA<FavoriteLoading>(),

@@ -54,6 +54,18 @@ class MockPopularSeriesDao implements PopularSeriesDaoInterface {
 
   @override
   Future<void> updatePopularSeries(PopularSeries updatesPopularSeries) async {}
+
+  @override
+  Future<int> buscarPopularSeriesNextPage() {
+    // TODO: implement buscarPopularSeriesNextPage
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<int> insertPopularSeriesNextPage(int nextPage) {
+    // TODO: implement insertPopularSeriesNextPage
+    throw UnimplementedError();
+  }
 }
 
 class MockHttpClient extends Mock implements HttpClientInterface {

@@ -31,6 +31,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       try {
         final isFavorite = await _favoriteDao.isFavorite(event.media);
         await _favoriteDao.toggleFavorite(event.media);
+        emit(FavoriteToggled(isFavorite: !isFavorite));
         emit(FavoriteInitial(!isFavorite));
       } catch (_) {
         emit(const FavoriteError(message: "Erro na chamada do toggleFavorite"));

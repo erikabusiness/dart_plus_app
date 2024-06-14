@@ -6,8 +6,6 @@ class StringsConstants {
   static const stateNotfound = 'Estado desconhecido';
   static const resutlsNotFound = 'Nenhum resultado encontrado';
 
-
-
   //MOVIES
   static const popularMovies = 'Filmes Populares';
   static const moviesError = 'Erro ao carregar filmes';
@@ -20,5 +18,22 @@ class StringsConstants {
   static const favorites = 'Favoritos';
   static const errorFavorites = 'Erro ao carregar favoritos';
   static const favoritesNotFound = 'Não há itens favoritados! ☹';
+
+  //EMAIL
+  static const email = "Email";
+  static const emailPlaceholder = "seuemail@taskie.com";
+  static const invalidEmail = "Insira um email válido";
+
+  //PASSWORD
+  static const password = "Senha";
+  static const passwordPlaceholder = "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022";
+  static const invalidPassword = "A senha deve ser preenchida";
+  static const confirmPassword = "Confirmar senha";
+  static const invalidPasswordConfirmation = "As senhas não coincidem.";
+  static const rulePassword = "A senha deve conter pelo menos 8 caracteres, incluindo pelo menos uma letra maiúscula, um número e um caractere especial.";
+
+  //BUTTONS
+  static const register = "Cadastrar";
+  static const login = "Entrar";
 
 }

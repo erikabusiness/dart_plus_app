@@ -8,6 +8,8 @@ import 'package:dart_plus_app/presentation/view/catalogo_page.dart';
 import 'package:dart_plus_app/presentation/view/details_page.dart';
 import 'package:dart_plus_app/presentation/view/favorites_page.dart';
 import 'package:dart_plus_app/presentation/view/home_page.dart';
+import 'package:dart_plus_app/presentation/view/login_page.dart';
+import 'package:dart_plus_app/presentation/view/register_page.dart';
 import 'package:dart_plus_app/presentation/view/see_all_page.dart';
 import 'package:dart_plus_app/routes.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +40,7 @@ class MyApp extends StatelessWidget {
   final PopularSeriesBloc popularSeriesBloc;
   final VideosPopularMovieBloc videosPopularMovieBloc;
 
-  const MyApp({
+  const MyApp({super.key, 
     required this.favoriteBloc,
     required this.popularMoviesBloc,
     required this.topRatedMoviesBloc,
@@ -57,8 +59,10 @@ class MyApp extends StatelessWidget {
         BlocProvider.value(value: videosPopularMovieBloc),
       ],
       child: MaterialApp(
-        initialRoute: NavRoutes.homePage,
+        initialRoute: NavRoutes.loginPage,
         routes: {
+          NavRoutes.loginPage: (context) => const LoginPage(),
+          NavRoutes.registerPage: (context) => const RegisterPage(),
           NavRoutes.homePage: (context) => const MyHomePage(),
           NavRoutes.details: (context) => const DetailsPage(),
           NavRoutes.seeAll: (context) => const SeeAll(),

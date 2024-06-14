@@ -9,9 +9,9 @@ void main() {
   final email = faker.internet.email();
   final password = faker.internet.password();
 
-  Widget makeSut() => const MaterialApp(home: RegisterPage());
+  Widget makeSut() => MaterialApp(home: RegisterPage());
 
-// Teste de Validação de componentes (ambiente)
+// Primeiro teste TDD - Teste de Validação de componentes (ambiente)
   testWidgets('Should display name, email, password and button components',
       (tester) async {
     await tester.pumpWidget(makeSut());

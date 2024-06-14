@@ -5,4 +5,6 @@ class NavRoutes {
   static const seeAllSeries = "/allSeries";
   static const favoritesPage = "/favoritesPage";
   static const catalogoPage = "/catalogoPage";
+  static const registerPage = "/registerPage";
+  static const loginPage = "/loginPage";
 }

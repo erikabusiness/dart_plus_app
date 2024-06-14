@@ -6,20 +6,17 @@ import 'package:dart_plus_app/presentation/widgets/input_password.dart';
 import 'package:dart_plus_app/presentation/widgets/input_text.dart';
 import 'package:flutter/material.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
-  final TextEditingController nameController = TextEditingController();
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,22 +42,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const SizedBox(height: 16),
-                    InputTextWidget(
-                      inputName: 'Nome',
-                      hint: 'Digite seu nome',
-                      controller: nameController,
-                    ),
-                    const SizedBox(height: 16),
                     InputTextWidget(
                       inputName: 'E-mail',
                       hint: 'Digite seu e-mail',
-                      validator: (value) {
-                        if (value == null || value.isEmpty || !value.contains('@')) {
-                          return StringsConstants.invalidEmail;
-                        }
-                        return null;
-                      },
                       controller: emailController,
                     ),
                     const SizedBox(height: 16),
@@ -69,21 +53,15 @@ class _RegisterPageState extends State<RegisterPage> {
                       hint: 'Digite sua senha',
                       controller: passwordController,
                     ),
-                    const SizedBox(height: 16),
-                    InputPasswordWidget(
-                      inputName: 'Confirmar Senha',
-                      hint: 'Confirme sua senha',
-                      controller: confirmPasswordController,
-                    ),
                     const SizedBox(height: 32),
                     ButtonWidget(
                       onClick: () {},
-                      text: StringsConstants.register,
+                      text: StringsConstants.login,
                     ),
                     const SizedBox(height: 8),
                     ClickableText(
-                      text: 'Já possui uma conta?', 
-                      onClick: (){} //enviar para pagina login
+                      text: 'Não possui uma conta?', 
+                      onClick: (){} //enviar para pagina register
                     ),
                   ],
                 ),

@@ -26,9 +26,8 @@ class _LoginPageState extends State<LoginPage> {
     if (_formKey.currentState?.validate() ?? false) {
       final email = emailController.text;
       final password = passwordController.text;
-
       context
-          .read()<LoginBloc>()
+          .read<LoginBloc>()
           .add(LoginUserEvent(email: email, password: password));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -41,9 +40,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<LoginBloc>(
-      create: (context) => LoginBloc(
-        authRepository: context.read<AuthRepository>(),
-      ),
+      create: (context) => LoginBloc(),
       child: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state is LoginSuccess) {
@@ -79,35 +76,42 @@ class _LoginPageState extends State<LoginPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          InputTextWidget(
-                            inputName: 'E-mail',
-                            hint: 'Digite seu e-mail',
-                            controller: emailController,
-                            prefixIcon: Icons.person,
-                            validator: (value) {
-                              if (value == null ||
-                                  value.isEmpty ||
-                                  !value.contains('@')) {
-                                return 'Insira um email válido';
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 16),
-                          InputPasswordWidget(
-                            inputName: 'Senha',
-                            hint: 'Digite sua senha',
-                            controller: passwordController,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Insira uma senha válida';
-                              }
-                              return null;
-                            },
+                          Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                InputTextWidget(
+                                  inputName: 'E-mail',
+                                  hint: 'Digite seu e-mail',
+                                  controller: emailController,
+                                  prefixIcon: Icons.person,
+                                  validator: (value) {
+                                    if (value == null ||
+                                        value.isEmpty ||
+                                        !value.contains('@')) {
+                                      return 'Insira um email válido';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 16),
+                                InputPasswordWidget(
+                                  inputName: 'Senha',
+                                  hint: 'Digite sua senha',
+                                  controller: passwordController,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Insira uma senha válida';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 32),
                           ButtonWidget(
-                            onClick: () => _login,
+                            onClick: () => _login(context),
                             text: StringsConstants.login,
                           ),
                           const SizedBox(height: 8),

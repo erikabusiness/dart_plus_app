@@ -2,9 +2,7 @@ import 'package:dart_plus_app/domain/interfaces/repositories/auth_repository.dar
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final FirebaseAuth firebaseAuth;
-
-  AuthRepositoryImpl({required this.firebaseAuth});
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   @override
   Future<void> registerUser(
@@ -20,7 +18,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> loginUser(
+  Future<void> loginUser (
       {required String email, required String password}) async {
     try {
       await firebaseAuth.signInWithEmailAndPassword(

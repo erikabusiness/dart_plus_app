@@ -45,9 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => RegisterBloc(
-        authRepository: context.read<AuthRepository>(),
-      ),
+      create: (context) => RegisterBloc(),
       child: BlocConsumer<RegisterBloc, RegisterState>(
         listener: (context, state) {
           if (state is RegisterSuccess) {
@@ -84,66 +82,73 @@ class _RegisterPageState extends State<RegisterPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const SizedBox(height: 16),
-                          InputTextWidget(
-                            inputName: 'Nome',
-                            hint: 'Digite seu nome',
-                            controller: nameController,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'O nome é obrigatório.';
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 16),
-                          InputTextWidget(
-                            inputName: 'E-mail',
-                            hint: 'Digite seu e-mail',
-                            validator: (value) {
-                              if (value == null ||
-                                  value.isEmpty ||
-                                  !value.contains('@')) {
-                                return StringsConstants.invalidEmail;
-                              }
-                              return null;
-                            },
-                            controller: emailController,
-                          ),
-                          const SizedBox(height: 16),
-                          InputPasswordWidget(
-                            inputName: 'Senha',
-                            hint: 'Digite sua senha',
-                            controller: passwordController,
-                            prefixIcon: Icons.lock,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'A senha é obrigatória.';
-                              }
-                              if (!RegExp(
-                                      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()_+{}|:"<>?~`]).{8,}$')
-                                  .hasMatch(value)) {
-                                return 'A senha deve conter pelo menos 8 caracteres, incluindo pelo menos uma letra maiúscula, um número e um caractere especial.';
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 16),
-                          InputPasswordWidget(
-                            inputName: 'Confirmar Senha',
-                            hint: 'Confirme sua senha',
-                            controller: confirmPasswordController,
-                            prefixIcon: Icons.lock,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'A senha é obrigatória.';
-                              }
-                              if (!RegExp(
-                                      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()_+{}|:"<>?~`]).{8,}$')
-                                  .hasMatch(value)) {
-                                return 'A senha deve conter pelo menos 8 caracteres, incluindo pelo menos uma letra maiúscula, um número e um caractere especial.';
-                              }
-                              return null;
-                            },
+                          Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                InputTextWidget(
+                                  inputName: 'Nome',
+                                  hint: 'Digite seu nome',
+                                  controller: nameController,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'O nome é obrigatório.';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 16),
+                                InputTextWidget(
+                                  inputName: 'E-mail',
+                                  hint: 'Digite seu e-mail',
+                                  validator: (value) {
+                                    if (value == null ||
+                                        value.isEmpty ||
+                                        !value.contains('@')) {
+                                      return StringsConstants.invalidEmail;
+                                    }
+                                    return null;
+                                  },
+                                  controller: emailController,
+                                ),
+                                const SizedBox(height: 16),
+                                InputPasswordWidget(
+                                  inputName: 'Senha',
+                                  hint: 'Digite sua senha',
+                                  controller: passwordController,
+                                  prefixIcon: Icons.lock,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'A senha é obrigatória.';
+                                    }
+                                    if (!RegExp(
+                                            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()_+{}|:"<>?~`]).{8,}$')
+                                        .hasMatch(value)) {
+                                      return 'A senha deve conter pelo menos 8 caracteres, incluindo pelo menos uma letra maiúscula, um número e um caractere especial.';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 16),
+                                InputPasswordWidget(
+                                  inputName: 'Confirmar Senha',
+                                  hint: 'Confirme sua senha',
+                                  controller: confirmPasswordController,
+                                  prefixIcon: Icons.lock,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'A senha é obrigatória.';
+                                    }
+                                    if (!RegExp(
+                                            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()_+{}|:"<>?~`]).{8,}$')
+                                        .hasMatch(value)) {
+                                      return 'A senha deve conter pelo menos 8 caracteres, incluindo pelo menos uma letra maiúscula, um número e um caractere especial.';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 32),
                           ButtonWidget(

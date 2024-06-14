@@ -23,6 +23,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -33,10 +34,8 @@ void main() async {
   final topRatedMoviesBloc = TopRatedMoviesBloc();
   final popularSeriesBloc = PopularSeriesBloc();
   final videosPopularMovieBloc = VideosPopularMovieBloc();
-  final registerBloc = RegisterBloc(
-      authRepository: AuthRepositoryImpl(firebaseAuth: FirebaseAuth.instance));
-  final loginBloc = LoginBloc(
-      authRepository: AuthRepositoryImpl(firebaseAuth: FirebaseAuth.instance));
+  final registerBloc = RegisterBloc();
+  final loginBloc = LoginBloc();
 
   runApp(MyApp(
     favoriteBloc: favoriteBloc,

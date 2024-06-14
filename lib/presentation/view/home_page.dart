@@ -56,7 +56,17 @@ class _MyHomePageState extends State<MyHomePage> {
             builder: (context, state) {
               if (state is TrhendMoviesLoaded) {
                 final movies = state.movies;
-                return WidgetCarousel(mediaItems: movies);
+                return WidgetCarousel(
+                  mediaItems: movies,
+                  onClick: (media) {
+                    context.pushRoute(
+                      DetailsRoute(
+                        media: media,
+                        moviesList: [...allMovies, ...allSeries],
+                      ),
+                    );
+                  },
+                );
               }
               if (state is TrhendMoviesError) {
                 return const Center(

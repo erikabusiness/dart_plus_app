@@ -89,8 +89,14 @@ class _CatalogoPageState extends State<CatalogoPage> with SingleTickerProviderSt
       body: TabBarView(
         controller: _tabController,
         children: UtilsFunctions.genre.values.map((String genre) {
-          final filteredMedia = _filterMediaByGenre(genre);
-          return WidgetGridViewVertical(mediaItems: filteredMedia, scrollController: null);
+         final filteredMedia = _filterMediaByGenre(genre);
+          if (filteredMedia.isEmpty) {
+            return const Center(
+              child: Text(StringsConstants.resutlsNotFound),
+            );
+          } else {
+            return WidgetGridViewVertical(mediaItems: filteredMedia, scrollController: null);
+          }
         }).toList(),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(

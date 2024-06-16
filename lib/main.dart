@@ -1,50 +1,47 @@
-import 'package:dart_plus_app/data/dao/favorites_dao.dart';
-import 'package:dart_plus_app/favorites/favorite_bloc.dart';
-import 'package:dart_plus_app/models/favorites.dart';
-import 'package:dart_plus_app/movies/bloc/videos_popular_movie/videos_popular_movie_bloc.dart';
-import 'package:dart_plus_app/routes/routes.dart';
-import 'package:dart_plus_app/movies/bloc/popular_movies/popular_movies_bloc.dart';
-import 'package:dart_plus_app/movies/bloc/top_rated_movies/top_rated_movies_bloc.dart';
-import 'package:dart_plus_app/series/bloc/popular_series/popular_series_bloc.dart';
-import 'package:dart_plus_app/view/catalogo_page.dart';
-import 'package:dart_plus_app/view/details_page.dart';
-import 'package:dart_plus_app/view/favorites_page.dart';
-import 'package:dart_plus_app/view/home_page.dart';
-import 'package:dart_plus_app/view/see_all_page.dart';
+import 'package:dart_plus_app/presentation/bloc/favorites/favorite_bloc.dart';
+import 'package:dart_plus_app/presentation/bloc/login/bloc/login_bloc.dart';
+import 'package:dart_plus_app/presentation/bloc/popular_movies/popular_movies_bloc.dart';
+import 'package:dart_plus_app/presentation/bloc/popular_series/popular_series_bloc.dart';
+import 'package:dart_plus_app/presentation/bloc/register/bloc/register_bloc.dart';
+import 'package:dart_plus_app/presentation/bloc/top_rated_movies/top_rated_movies_bloc.dart';
+import 'package:dart_plus_app/presentation/bloc/videos_popular_movie/videos_popular_movie_bloc.dart';
+import 'package:dart_plus_app/routes/app_router.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
-main() {
-  runApp(const MyApp());
+import 'di/service_locator.dart';
+import 'domain/user_data.dart';
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  setupServiceLocator();
+  runApp(
+      ChangeNotifierProvider(create: (context) => UserData(), child: MyApp()));
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class MyApp extends StatelessWidget {
+  MyApp({super.key});
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
+  final _appRouter = AppRouter();
 
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => PopularMoviesBloc()),
-        BlocProvider(create: (context) => TopRatedMoviesBloc()),
-        BlocProvider(create: (context) => PopularSeriesBloc()),
-        BlocProvider(create: (context) => VideosPopularMovieBloc()),
-        BlocProvider(create: (context) => FavoriteBloc()),
+        BlocProvider(create: (_) => getIt<FavoriteBloc>()),
+        BlocProvider(create: (_) => getIt<PopularMoviesBloc>()),
+        BlocProvider(create: (_) => getIt<TopRatedMoviesBloc>()),
+        BlocProvider(create: (_) => getIt<PopularSeriesBloc>()),
+        BlocProvider(create: (_) => getIt<VideosPopularMovieBloc>()),
+        BlocProvider(create: (_) => getIt<LoginBloc>()),
+        BlocProvider(create: (_) => getIt<RegisterBloc>()),
       ],
-      child: MaterialApp(
-        initialRoute: NavRoutes.homePage,
-        routes: {
-          NavRoutes.homePage: (context) => const MyHomePage(),
-          NavRoutes.details: (context) => const DetailsPage(),
-          NavRoutes.seeAll: (context) => const SeeAll(),
-          NavRoutes.favoritesPage: (context) => const FavoritesPage(),
-          NavRoutes.catalogoPage: (context) => const CatalogoPage(),
-        },
+      child: MaterialApp.router(
+        routerConfig: _appRouter.config(),
         title: 'Dart Plus',
         debugShowCheckedModeBanner: false,
         theme: ThemeData.dark(

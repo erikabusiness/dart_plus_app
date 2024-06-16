@@ -29,6 +29,7 @@ void main() {
     });
 
 //Segundo teste TDD - tentativa com sucesso de logar após cadastro feito
+// TODO: verify loginUser return
     test('loginUser - success', () async {
       final mockFirebaseAuth = MockFirebaseAuth();
 

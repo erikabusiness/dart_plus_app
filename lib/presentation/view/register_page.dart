@@ -17,7 +17,8 @@ import '../widgets/toastification.dart';
 
 @RoutePage()
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  final VoidCallback? onLogin;
+  const RegisterPage({this.onLogin, super.key});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -36,6 +37,8 @@ class _RegisterPageState extends State<RegisterPage> {
       final name = nameController.text;
       final email = emailController.text;
       final password = passwordController.text;
+
+      widget.onLogin?.call();
 
       context
           .read<RegisterBloc>()

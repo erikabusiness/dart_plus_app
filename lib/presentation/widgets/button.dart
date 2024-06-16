@@ -41,6 +41,7 @@ class ButtonWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(borderRadius),
       ),
       child: ElevatedButton(
+        key: const Key('button'), 
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius)),

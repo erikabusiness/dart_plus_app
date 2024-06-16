@@ -5,12 +5,12 @@ import 'package:toastification/toastification.dart';
 
 import '../../domain/interfaces/models/favorites/favorites.dart';
 import '../bloc/favorites/favorite_bloc.dart';
-import '../styles/colors.dart';
 import '../styles/strings.dart';
 import '../widgets/favorite_icon.dart';
 import '../widgets/genre_label.dart';
 import '../widgets/navigation_bar.dart';
 import '../widgets/title_section.dart';
+import '../widgets/toastification.dart';
 
 @RoutePage()
 class FavoritesPage extends StatefulWidget {
@@ -76,20 +76,10 @@ class _FavoritesPageState extends State<FavoritesPage> {
                       final message = isFavorite
                           ? "${favorites[index].title} ${StringsConstants.favoriteAdded} "
                           : "${favorites[index].title} ${StringsConstants.favoriteRemoved} ";
-                      toastification.show(
-                        style: ToastificationStyle.fillColored,
-                        autoCloseDuration: const Duration(seconds: 3),
-                        type: ToastificationType.success,
-                        alignment: Alignment.topCenter,
+                      ToastificationWidget.show(
                         context: context,
-                        title: Text(
-                          message,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: CustomColor.defaultTextColor,
-                            fontSize: 16,
-                          ),
-                        ),
+                        message: message,
+                        type: ToastificationType.success,
                       );
                     },
                   ),

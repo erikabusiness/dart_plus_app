@@ -1,4 +1,3 @@
-
 import 'package:dart_plus_app/presentation/styles/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -13,17 +12,18 @@ class ButtonWidget extends StatelessWidget {
   final Color primaryColorGradient;
   final Color secondaryColorGradient;
 
-  const ButtonWidget(
-      {super.key,
-      required this.onClick,
-      required this.text,
-      this.fontColor = CustomColor.defaultTextColor,
-      this.textFontSize = 20,
-      this.borderRadius = 15,
-      this.width = double.infinity,
-      this.height = 50,
-      this.primaryColorGradient = const Color(0xFF7200DC),
-      this.secondaryColorGradient = const Color(0xFF998DE7)});
+  const ButtonWidget({
+    super.key,
+    required this.onClick,
+    required this.text,
+    this.fontColor = CustomColor.defaultTextColor,
+    this.textFontSize = 20,
+    this.borderRadius = 15,
+    this.width = double.infinity,
+    this.height = 50,
+    this.primaryColorGradient =Colors.black,
+    this.secondaryColorGradient = Colors.grey,
+  });
 
   @override
   Widget build(BuildContext context) {

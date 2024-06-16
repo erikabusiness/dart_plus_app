@@ -27,7 +27,7 @@ class WidgetListViewHorizontal extends StatelessWidget {
         margin: EdgeInsets.zero,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: itemCount,
+          itemCount: mediaItems.length > itemCount ? itemCount : mediaItems.length,
           itemBuilder: (BuildContext context, int index) {
             return AspectRatio(
               aspectRatio: aspectRatio,

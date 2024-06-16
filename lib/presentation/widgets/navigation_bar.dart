@@ -27,7 +27,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           switch (index) {
             case 0:
               context.pushRoute(
-                const MyHomeRoute()
+                MyHomeRoute()
               );
               break;
             case 1:

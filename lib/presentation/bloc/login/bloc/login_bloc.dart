@@ -9,15 +9,15 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final AuthRepository authRepository = AuthRepositoryImpl();
+  final AuthRepository authRepository;
 
-  LoginBloc() : super(LoginInitial()) {
+  LoginBloc({required this.authRepository}) : super(LoginInitial()) {
     on<LoginUserEvent>((event, emit) async {
       emit(LoginLoading());
       try {
-        await authRepository.loginUser(
+       final login = await authRepository.loginUser(
             email: event.email, password: event.password);
-        emit(LoginSuccess());
+        emit(LoginSuccess(name: login['name']!, email: login['email']!));
       } catch (e) {
         emit(LoginFailure(error: e.toString()));
       }

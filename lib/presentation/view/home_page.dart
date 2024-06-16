@@ -1,11 +1,14 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dart_plus_app/data/dao/popular_series_dao.dart';
+import 'package:dart_plus_app/presentation/bloc/login/bloc/login_bloc.dart';
+import 'package:dart_plus_app/presentation/widgets/drawer.dart';
 import 'package:dart_plus_app/routes/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../domain/interfaces/models/media.dart';
 import '../../domain/interfaces/models/movies/popular_movies.dart';
 import '../../domain/interfaces/models/series/popular_series.dart';
+import '../../domain/user_data.dart';
 import '../bloc/popular_movies/popular_movies_bloc.dart';
 import '../bloc/popular_series/popular_series_bloc.dart';
 import '../bloc/top_rated_movies/top_rated_movies_bloc.dart';
@@ -18,7 +21,9 @@ import '../widgets/title_section.dart';
 
 @RoutePage()
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  const MyHomePage({
+    super.key,
+  });
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -43,7 +48,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    final userData = context.watch<UserData>();
+
     return Scaffold(
+      endDrawer: DrawerWidget(
+        userName: userData.userName,
+        userEmail: userData.userEmail,
+      ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).colorScheme.background,

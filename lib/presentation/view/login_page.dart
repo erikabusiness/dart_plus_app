@@ -1,4 +1,4 @@
-import 'package:dart_plus_app/domain/interfaces/repositories/auth_repository.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:dart_plus_app/presentation/bloc/login/bloc/login_bloc.dart';
 import 'package:dart_plus_app/presentation/styles/colors.dart';
 import 'package:dart_plus_app/presentation/styles/strings.dart';
@@ -6,10 +6,15 @@ import 'package:dart_plus_app/presentation/widgets/button.dart';
 import 'package:dart_plus_app/presentation/widgets/clickable_text.dart';
 import 'package:dart_plus_app/presentation/widgets/input_password.dart';
 import 'package:dart_plus_app/presentation/widgets/input_text.dart';
-import 'package:dart_plus_app/routes.dart';
+import 'package:dart_plus_app/presentation/widgets/toastification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toastification/toastification.dart';
 
+import '../../domain/user_data.dart';
+import '../../routes/app_router.dart';
+
+@RoutePage()
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -26,34 +31,39 @@ class _LoginPageState extends State<LoginPage> {
     if (_formKey.currentState?.validate() ?? false) {
       final email = emailController.text;
       final password = passwordController.text;
+
       context
           .read<LoginBloc>()
           .add(LoginUserEvent(email: email, password: password));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text("Preencha corretamente os campos Email e Senha")),
+      ToastificationWidget.show(
+        context: context,
+        message: StringsConstants.invalidFilds,
+        type: ToastificationType.warning,
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<LoginBloc>(
-      create: (context) => LoginBloc(),
-      child: BlocConsumer<LoginBloc, LoginState>(
-        listener: (context, state) {
-          if (state is LoginSuccess) {
-            Navigator.pushNamed(context, NavRoutes.homePage);
-          } else if (state is LoginFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.error)),
-            );
-          }
-        },
-        builder: (context, state) {
-          return Scaffold(
-            body: Stack(
+    return BlocConsumer<LoginBloc, LoginState>(
+      listener: (context, state) {
+        if (state is LoginSuccess) {
+          context.read<UserData>().updateUser(state.email, state.name);
+          context.pushRoute(const MyHomeRoute());
+        } else if (state is LoginFailure) {
+          ToastificationWidget.show(
+            context: context,
+            message: state.error,
+            type: ToastificationType.error,
+          );
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          body: PopScope(
+            canPop: false,
+            child: Stack(
               fit: StackFit.expand,
               children: [
                 const Image(
@@ -67,7 +77,9 @@ class _LoginPageState extends State<LoginPage> {
                     padding: const EdgeInsets.all(10),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 20),
+                        horizontal: 10,
+                        vertical: 20,
+                      ),
                       decoration: BoxDecoration(
                         color: CustomColor.transparentWidget,
                         borderRadius: BorderRadius.circular(20.0),
@@ -81,27 +93,27 @@ class _LoginPageState extends State<LoginPage> {
                             child: Column(
                               children: [
                                 InputTextWidget(
-                                  inputName: 'E-mail',
-                                  hint: 'Digite seu e-mail',
+                                  inputName: StringsConstants.email,
+                                  hint: StringsConstants.insertEmail,
                                   controller: emailController,
                                   prefixIcon: Icons.person,
                                   validator: (value) {
                                     if (value == null ||
                                         value.isEmpty ||
                                         !value.contains('@')) {
-                                      return 'Insira um email válido';
+                                      return StringsConstants.invalidEmail;
                                     }
                                     return null;
                                   },
                                 ),
                                 const SizedBox(height: 16),
                                 InputPasswordWidget(
-                                  inputName: 'Senha',
-                                  hint: 'Digite sua senha',
+                                  inputName: StringsConstants.password,
+                                  hint: StringsConstants.insertPassword,
                                   controller: passwordController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Insira uma senha válida';
+                                      return StringsConstants.invalidPassword;
                                     }
                                     return null;
                                   },
@@ -116,11 +128,11 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const SizedBox(height: 8),
                           ClickableText(
-                              text: 'Não possui uma conta?',
-                              onClick: () {
-                                Navigator.pushNamed(
-                                    context, NavRoutes.registerPage);
-                              }),
+                            text: StringsConstants.dontHaveAccount,
+                            onClick: () {
+                              context.pushRoute(const RegisterRoute());
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -128,9 +140,9 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

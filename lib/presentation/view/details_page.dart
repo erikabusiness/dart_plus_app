@@ -6,7 +6,6 @@ import 'package:toastification/toastification.dart';
 import '../../domain/interfaces/models/media.dart';
 import '../bloc/favorites/favorite_bloc.dart';
 import '../bloc/videos_popular_movie/videos_popular_movie_bloc.dart';
-import '../styles/colors.dart';
 import '../styles/strings.dart';
 import '../widgets/favorite_icon.dart';
 import '../widgets/genre_label.dart';
@@ -14,6 +13,7 @@ import '../widgets/list_view_horizontal.dart';
 import '../widgets/media_trailer.dart';
 import '../widgets/story_line.dart';
 import '../widgets/title_section.dart';
+import '../widgets/toastification.dart';
 
 @RoutePage()
 class DetailsPage extends StatelessWidget {
@@ -39,7 +39,8 @@ class DetailsPage extends StatelessWidget {
       return voteStar.toStringAsFixed(1);
     }
 
-    List<Media> getRecommendedMovies(List<Media> moviesListFilter, Media mediaFilter) {
+    List<Media> getRecommendedMovies(
+        List<Media> moviesListFilter, Media mediaFilter) {
       List<Media> recommendedMovies = moviesListFilter
           .where((movie) =>
               movie.id != mediaFilter.id &&
@@ -115,21 +116,10 @@ class DetailsPage extends StatelessWidget {
                                   final message = isFavorite
                                       ? "${media.title} ${StringsConstants.favoriteAdded} "
                                       : "${media.title} ${StringsConstants.favoriteRemoved} ";
-                                  toastification.show(
-                                    style: ToastificationStyle.fillColored,
-                                    autoCloseDuration:
-                                        const Duration(seconds: 3),
-                                    type: ToastificationType.success,
-                                    alignment: Alignment.topCenter,
+                                  ToastificationWidget.show(
                                     context: context,
-                                    title: Text(
-                                      message,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        color: CustomColor.defaultTextColor,
-                                        fontSize: 16,
-                                      ),
-                                    ),
+                                    message: message,
+                                    type: ToastificationType.success,
                                   );
                                 },
                               );

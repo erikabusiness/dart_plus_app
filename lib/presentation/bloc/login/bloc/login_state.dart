@@ -15,8 +15,15 @@ class LoginLoading extends LoginState {
 }
 
 class LoginSuccess extends LoginState {
+
+  final String name;
+  final String email;
+
+  const LoginSuccess({required this.name, required this.email});
+
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object> get props => [name, email];
+
 }
 
 class LoginFailure extends LoginState {

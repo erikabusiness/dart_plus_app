@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:dart_plus_app/domain/interfaces/repositories/auth_repository.dart';
 import 'package:dart_plus_app/presentation/bloc/register/bloc/register_bloc.dart';
 import 'package:dart_plus_app/presentation/styles/colors.dart';
@@ -6,11 +7,15 @@ import 'package:dart_plus_app/presentation/widgets/button.dart';
 import 'package:dart_plus_app/presentation/widgets/clickable_text.dart';
 import 'package:dart_plus_app/presentation/widgets/input_password.dart';
 import 'package:dart_plus_app/presentation/widgets/input_text.dart';
-import 'package:dart_plus_app/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path/path.dart';
+import 'package:toastification/toastification.dart';
 
+import '../../di/service_locator.dart';
+import '../../routes/app_router.dart';
+import '../widgets/toastification.dart';
+
+@RoutePage()
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -36,8 +41,10 @@ class _RegisterPageState extends State<RegisterPage> {
           .read<RegisterBloc>()
           .add(RegisterUserEvent(name: name, email: email, password: password));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Preencha corretamente todos os campos')),
+      ToastificationWidget.show(
+        context: context,
+        message: StringsConstants.invalidFilds,
+        type: ToastificationType.warning,
       );
     }
   }
@@ -45,14 +52,21 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => RegisterBloc(),
+      create: (context) =>
+          RegisterBloc(authRepository: getIt<AuthRepository>()),
       child: BlocConsumer<RegisterBloc, RegisterState>(
         listener: (context, state) {
           if (state is RegisterSuccess) {
-            Navigator.pushNamed(context, NavRoutes.loginPage);
+            ToastificationWidget.show(
+                context: context,
+                message: StringsConstants.successCreateAccount,
+                type: ToastificationType.success);
+            context.pushRoute(const LoginRoute());
           } else if (state is RegisterFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.error)),
+            ToastificationWidget.show(
+              context: context,
+              message: state.error,
+              type: ToastificationType.error,
             );
           }
         },
@@ -87,20 +101,20 @@ class _RegisterPageState extends State<RegisterPage> {
                             child: Column(
                               children: [
                                 InputTextWidget(
-                                  inputName: 'Nome',
-                                  hint: 'Digite seu nome',
+                                  inputName: StringsConstants.name,
+                                  hint: StringsConstants.insertName,
                                   controller: nameController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'O nome é obrigatório.';
+                                      return StringsConstants.ruleName;
                                     }
                                     return null;
                                   },
                                 ),
                                 const SizedBox(height: 16),
                                 InputTextWidget(
-                                  inputName: 'E-mail',
-                                  hint: 'Digite seu e-mail',
+                                  inputName: StringsConstants.email,
+                                  hint: StringsConstants.insertEmail,
                                   validator: (value) {
                                     if (value == null ||
                                         value.isEmpty ||
@@ -113,36 +127,41 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                                 const SizedBox(height: 16),
                                 InputPasswordWidget(
-                                  inputName: 'Senha',
-                                  hint: 'Digite sua senha',
+                                  inputName: StringsConstants.password,
+                                  hint: StringsConstants.insertPassword,
                                   controller: passwordController,
                                   prefixIcon: Icons.lock,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'A senha é obrigatória.';
+                                      return StringsConstants.invalidPassword;
                                     }
                                     if (!RegExp(
-                                            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()_+{}|:"<>?~`]).{8,}$')
+                                            r'^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#$%^&*()_+{}|:"<>?~`]).{6,}$')
                                         .hasMatch(value)) {
-                                      return 'A senha deve conter pelo menos 8 caracteres, incluindo pelo menos uma letra maiúscula, um número e um caractere especial.';
+                                      return StringsConstants.rulePassword;
                                     }
                                     return null;
                                   },
                                 ),
                                 const SizedBox(height: 16),
                                 InputPasswordWidget(
-                                  inputName: 'Confirmar Senha',
-                                  hint: 'Confirme sua senha',
+                                  inputName: StringsConstants.confirmPassword,
+                                  hint: StringsConstants
+                                      .insertPasswordConfirmation,
                                   controller: confirmPasswordController,
                                   prefixIcon: Icons.lock,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'A senha é obrigatória.';
+                                      return StringsConstants.invalidPassword;
+                                    }
+                                    if (value != passwordController.text) {
+                                      return StringsConstants
+                                          .invalidPasswordConfirmation;
                                     }
                                     if (!RegExp(
-                                            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()_+{}|:"<>?~`]).{8,}$')
+                                            r'^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#$%^&*()_+{}|:"<>?~`]).{6,}$')
                                         .hasMatch(value)) {
-                                      return 'A senha deve conter pelo menos 8 caracteres, incluindo pelo menos uma letra maiúscula, um número e um caractere especial.';
+                                      return StringsConstants.rulePassword;
                                     }
                                     return null;
                                   },
@@ -157,10 +176,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           const SizedBox(height: 8),
                           ClickableText(
-                              text: 'Já possui uma conta?',
+                              text: StringsConstants.haveAccount,
                               onClick: () {
-                                Navigator.pushNamed(
-                                    context, NavRoutes.loginPage);
+                                context.pushRoute(const LoginRoute());
                               }),
                         ],
                       ),

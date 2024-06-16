@@ -8,9 +8,9 @@ part 'register_event.dart';
 part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  final AuthRepository authRepository = AuthRepositoryImpl();
+  final AuthRepository authRepository;
 
-  RegisterBloc() : super(RegisterInitial()) {
+  RegisterBloc({required this.authRepository}) : super(RegisterInitial()) {
     on<RegisterUserEvent>((event, emit) async {
       emit(RegisterLoading());
       try {

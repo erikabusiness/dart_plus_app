@@ -9,8 +9,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 
-import 'movie_repository_impl_test.dart';
-
 void main() {
   group("Testes para verificar a chamada a API para séries", () {
     test("Teste de chamada a API para séries populares", () async {

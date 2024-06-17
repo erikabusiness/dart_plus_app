@@ -1,5 +1,6 @@
 import 'package:dart_plus_app/domain/interfaces/repositories/auth_repository.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../data/repositories/firebase_repository_impl.dart';
@@ -18,7 +19,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             name: event.name, email: event.email, password: event.password);
         emit(RegisterSuccess());
       } catch (e) {
-        print("ERRO LOGGER ${e.toString()}");
+        debugPrint("ERRO LOGGER ${e.toString()}");
         emit(RegisterFailure(error: e.toString()));
       }
     });

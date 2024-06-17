@@ -28,13 +28,16 @@ void main() {
     });
 
 //Segundo teste TDD - tentativa com sucesso de logar após cadastro feito
+// TODO: verify loginUser return
     test('loginUser - success', () async {
       final mockFirebaseAuth = MockFirebaseAuth();
 
       when(() => mockFirebaseAuth.loginUser(
             email: any(named: 'email'),
             password: any(named: 'password'),
-          )).thenAnswer((_) async {});
+          )).thenAnswer((_) async {
+        return Future.value({});
+      });
 
       await mockFirebaseAuth.loginUser(
           email: 'teste@gmail.com', password: '123456');

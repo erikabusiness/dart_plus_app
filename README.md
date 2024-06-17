@@ -20,7 +20,7 @@
 * [Instalação](#instalação)
 
 ## Objetivo
-O Dart plus é um aplicativo que oferece aos usuários uma experiência completa para explorar filmes e séries utilizando a API The Movie Database (TMDb). A aplicação permite interações dinâmicas como buscar e visualizar informações detalhadas, favoritar filmes e séries preferidos, filtragem por gênero, possibilitando uma experiência personalizada de acordo com as preferências de cada usuário.
+Dart plus é um aplicativo que proporciona aos usuários uma experiência completa para explorar filmes e séries usando a API The Movie Database (TMDb). Com recursos dinâmicos, os usuários podem facilmente buscar, visualizar informações detalhadas, favoritar seus filmes e séries preferidos, além de filtrar por gênero, garantindo uma experiência personalizada de acordo com suas preferências.
 
 ## Tecnologias usadas:
 - Flutter

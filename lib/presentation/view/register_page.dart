@@ -18,6 +18,7 @@ import '../widgets/toastification.dart';
 @RoutePage()
 class RegisterPage extends StatefulWidget {
   final VoidCallback? onLogin;
+
   const RegisterPage({this.onLogin, super.key});
 
   @override
@@ -82,12 +83,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   image: AssetImage('assets/bg-login.jpg'),
                   fit: BoxFit.cover,
                 ),
-                SingleChildScrollView(
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: MediaQuery.of(context).size.height,
-                    padding: const EdgeInsets.all(10),
+                Align(
+                  child: SingleChildScrollView(
                     child: Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 20),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 20),
                       decoration: BoxDecoration(

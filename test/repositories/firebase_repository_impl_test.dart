@@ -5,7 +5,6 @@ import 'package:mocktail/mocktail.dart';
 class MockFirebaseAuth extends Mock implements AuthRepository {}
 
 void main() {
-  
   group('Firebase Repository Test', () {
 // Primeiro teste TDD - tentativa com sucesso de criar cadastro
     test(
@@ -36,7 +35,9 @@ void main() {
       when(() => mockFirebaseAuth.loginUser(
             email: any(named: 'email'),
             password: any(named: 'password'),
-          )).thenAnswer((_) async {throw '';});
+          )).thenAnswer((_) async {
+        return Future.value({});
+      });
 
       await mockFirebaseAuth.loginUser(
           email: 'teste@gmail.com', password: '123456');

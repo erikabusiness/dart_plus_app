@@ -36,39 +36,22 @@ void main() {
     await setUpLocator();
   });
 
-  setUp(() {
-    counter = 0;
-  });
-
-  // Primeiro teste TDD - Teste de Validação de componentes (ambiente)
-  testWidgets('Should display input text widget', (tester) async {
+// Primeiro teste TDD - Teste de Validação de componentes (ambiente)
+  testWidgets('Should display only name, email, password and button components',
+      (tester) async {
     await tester.pumpWidget(
-      const MaterialApp(home: RegisterPage()),
+      const MaterialApp(home: RegisterPage(
+
+      )),
     );
 
     expect(find.byType(InputTextWidget), findsNWidgets(2)); //nome e email
+    expect(find.byType(InputPasswordWidget),
+        findsNWidgets(2)); //senha e confirmação de senha
+    expect(
+        find.byKey(const Key('button')), findsOneWidget); //botão de cadastrar
   });
 
-  tearDownAll(
-    () => getIt.reset(),
-  );
-
-// // Primeiro teste TDD - Teste de Validação de componentes (ambiente)
-//   testWidgets('Should display only name, email, password and button components',
-//       (tester) async {
-//     await tester.pumpWidget(
-//       const MaterialApp(home: RegisterPage(
-
-//       )),
-//     );
-
-//     expect(find.byType(InputTextWidget), findsNWidgets(2)); //nome e email
-//     expect(find.byType(InputPasswordWidget),
-//         findsNWidgets(2)); //senha e confirmação de senha
-//     expect(
-//         find.byKey(const Key('button')), findsOneWidget); //botão de cadastrar
-//   });
-}
   // Validar a funcionalidade (sucesso)
 //   testWidgets('Should tap button correctly when with email & password',
 //       (tester) async {
@@ -114,4 +97,9 @@ void main() {
 
 //   await tester.tap(button);
 // }
+  tearDownAll(
+    () => getIt.reset(),
+  );
+}
+
 class FakeAuthRepository extends Mock implements AuthRepository {}

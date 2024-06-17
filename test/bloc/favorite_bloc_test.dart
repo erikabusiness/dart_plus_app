@@ -64,12 +64,12 @@ void main() {
 // Verificar se uma midia é favoritada ou não
     blocTest(
       'emits [FavoriteLoading, FavoriteInitial] when LoadFavorite is added',
-      build: () => FavoriteBloc(
-          mockFavoriteDao), //injetando banco de dados fake (mockFavoriteDao) dentro do FavoriteBloc
+      build: () => FavoriteBloc(mockFavoriteDao),
+      //injetando banco de dados fake (mockFavoriteDao) dentro do FavoriteBloc
       act: (bloc) => bloc.add(LoadFavorite(favorite)),
       expect: () => [
         isA<FavoriteLoading>(),
-        isA<FavoriteInitial>()
+        isA<FavoriteToggled>()
             .having((favorite) => favorite.isFavorite, 'isFavorite', false),
       ],
     );
@@ -80,8 +80,9 @@ void main() {
         act: (bloc) => bloc.add(ToggleFavorite(favorite)),
         expect: () => [
               isA<FavoriteLoading>(),
-              isA<FavoriteInitial>().having(
+              isA<FavoriteToggled>().having(
                   (favorite) => favorite.isFavorite, 'isFavorite', true),
+              isA<FavoriteInitial>(),
             ]);
 
 // testando se retorna lista

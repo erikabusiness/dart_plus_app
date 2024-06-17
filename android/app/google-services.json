@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "312570143014",
+    "project_id": "dartplus-76bc6",
+    "storage_bucket": "dartplus-76bc6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:312570143014:android:e9eb00fc6990d674bde1e7",
+        "android_client_info": {
+          "package_name": "com.example.dart_plus_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAho8cBD3WA256x1yrTB2cBP-Fgy3C1ZOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

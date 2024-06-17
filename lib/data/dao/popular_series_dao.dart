@@ -1,11 +1,13 @@
-import 'dart:convert';
-import 'package:dart_plus_app/models/popular_series.dart';
-import '../database.dart';
 import 'package:sqflite/sqflite.dart';
 
-class PopularSeriesDao {
+import '../../domain/interfaces/dao/popular_serie_dao.dart';
+import '../../domain/interfaces/models/series/popular_series.dart';
+import '../database.dart';
+
+class PopularSeriesDaoImpl implements PopularSeriesDaoInterface {
   final dbHelper = DatabaseHelper();
 
+  @override
   Future<int> insertPopularSeries(PopularSeries newSerie) async {
     final db = await dbHelper.database;
     if (db == null) {
@@ -14,13 +16,14 @@ class PopularSeriesDao {
 
     final result = await db.insert(
       'PopularSeries',
-      newSerie.toMap(),
+      _toMap(newSerie),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
     return result;
   }
 
+  @override
   Future<void> updatePopularSeries(PopularSeries updateSerie) async {
     final db = await dbHelper.database;
     if (db == null) {
@@ -29,14 +32,15 @@ class PopularSeriesDao {
 
     await db.update(
       'PopularSeries',
-      updateSerie.toMap(),
+      _toMap(updateSerie),
       where: 'id = ?',
       whereArgs: [updateSerie.id],
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  Future<List<PopularSeries>> readPopularseriesFavorites() async {
+  @override
+  Future<List<PopularSeries>> readPopularSeriesFavorites() async {
     final db = await dbHelper.database;
     if (db == null) {
       throw Exception('O banco de dados não foi inicializado corretamente');
@@ -48,34 +52,14 @@ class PopularSeriesDao {
       whereArgs: [1],
     );
 
-    List<PopularSeries> favoritePopularSeries = List.generate(maps.length, (i) {
-      List<int> genreIds = jsonDecode(maps[i]['genre_ids']).cast<int>();
-      List<String> originCountry = [
-        maps[i]['origin_country'].split('[').last.split(']').first
-      ];
-
-      return PopularSeries(
-        originalName: maps[i]['original_name'],
-        originCountry: originCountry,
-        id: maps[i]['id'],
-        releaseDate: maps[i]['release_date'],
-        originalLanguage: maps[i]['original_language'],
-        overview: maps[i]['overview'],
-        popularity: maps[i]['popularity'],
-        voteAverage: maps[i]['vote_average'],
-        voteCount: maps[i]['vote_count'],
-        posterPath: maps[i]['poster_path'],
-        backdropPath: maps[i]['backdrop_path'],
-        adult: maps[i]['adult'] == 'true',
-        title: maps[i]['title'],
-        genreIds: genreIds,
-        isFavorite: maps[i]['is_favorite'] == 1,
-      );
-    });
+    List<PopularSeries> favoritePopularSeries = maps.map((map) {
+      return _fromMap(map);
+    }).toList();
 
     return favoritePopularSeries;
   }
 
+  @override
   Future<List<PopularSeries>> readPopularSeries() async {
     final db = await dbHelper.database;
 
@@ -85,31 +69,73 @@ class PopularSeriesDao {
 
     List<Map<String, dynamic>> maps = await db.query('PopularSeries');
 
-    List<PopularSeries> popularSerie = List.generate(maps.length, (i) {
-      List<int> genreIds = jsonDecode(maps[i]['genre_ids']).cast<int>();
-      List<String> originCountry = [
-        maps[i]['origin_country'].split('[').last.split(']').first
-      ];
+    List<PopularSeries> popularSeries = maps.map((map) {
+      return _fromMap(map);
+    }).toList();
 
-      return PopularSeries(
-        id: maps[i]['id'],
-        releaseDate: maps[i]['release_date'],
-        originalLanguage: maps[i]['original_language'],
-        overview: maps[i]['overview'],
-        popularity: maps[i]['popularity'],
-        voteAverage: maps[i]['vote_average'],
-        voteCount: maps[i]['vote_count'],
-        posterPath: maps[i]['poster_path'],
-        backdropPath: maps[i]['backdrop_path'],
-        adult: maps[i]['adult'] == 'true',
-        title: maps[i]['title'],
-        genreIds: genreIds,
-        isFavorite: maps[i]['is_favorite'] == 1,
-        originalName: maps[i]['original_name'],
-        originCountry: originCountry,
+    return popularSeries;
+  }
+
+  Map<String, dynamic> _toMap(PopularSeries series) {
+    List<int> genreIds = (series.genreIds).cast<int>();
+
+    return {
+      'id': series.id,
+      'title': series.title,
+      'poster_path': series.posterPath,
+      'genre_ids': genreIds,
+      'overview': series.overview,
+      'vote_average': series.voteAverage,
+      'is_favorite': series.isFavorite ? 1 : 0,
+    };
+  }
+
+  PopularSeries _fromMap(Map<String, dynamic> map) {
+    return PopularSeries(
+      id: map['id'],
+      title: map['title'],
+      posterPath: map['poster_path'],
+      overview: map['overview'],
+      voteAverage: map['vote_average'],
+      isFavorite: map['is_favorite'] == 1,
+      genreIds: map['genre_ids'],
+    );
+  }
+
+  @override
+  Future<int> buscarPopularSeriesNextPage() async {
+    final db = await dbHelper.database;
+    if (db == null) {
+      throw Exception('O banco de dados não foi inicializado corretamente');
+    }
+
+    final List<Map<String, dynamic>> result = await db.query("PopularSeriesNextPage");
+
+    if (result.isNotEmpty) {
+      return result.first['next_page'] as int;
+    } else {
+      return 2;
+    }
+  }
+
+  @override
+  Future<int> insertPopularSeriesNextPage(int nextPage) async {
+    final db = await dbHelper.database;
+    if (db == null) {
+      throw Exception('O banco de dados não foi inicializado corretamente');
+    }
+
+    final List<Map<String, dynamic>> result = await db.query("PopularSeriesNextPage");
+    if (result.isNotEmpty) {
+      return await db.update(
+        "PopularSeriesNextPage",
+        {'next_page': nextPage},
       );
-    });
-
-    return popularSerie;
+    } else {
+      return await db.insert(
+        "PopularSeriesNextPage",
+        {'next_page': nextPage},
+      );
+    }
   }
 }

@@ -1,13 +1,15 @@
 <p align="center">
-<img src="./assets/integrantes/capa_modulo_5.png"" width="100%">
+<img src="./assets/integrantes/capa_modulo_6.png"" width="100%">
 </p>
 
 <p align="center">
-<img src="./assets/integrantes/homepage.png"" width="35%">    <img src="./assets/integrantes/favoritos.png"" width="35%">
+<img src="./assets/integrantes/cadastro.png"" width="18%">    <img src="./assets/integrantes/login.png"" width="18%">
+<img src="./assets/integrantes/home.png"" width="18%">    <img src="./assets/integrantes/catalogo.png"" width="18%">
+<img src="./assets/integrantes/favoritos.png"" width="18%">   
 </p>
 
 > [!NOTE]
-> Este repositório faz parte do Projeto de Aprendizagem - Módulo 5. A atividade foi realizada no curso de Desenvolvimento Mobile, durante o Programa Desenvolve 2024, do Grupo Boticário em parceria com a Escola Korú.</span>
+> Este repositório faz parte do Projeto de Aprendizagem - Módulo 6. A atividade foi realizada no curso de Desenvolvimento Mobile, durante o Programa Desenvolve 2024, do Grupo Boticário em parceria com a Escola Korú.</span>
 
 ## Índice
 * [Objetivo](#objetivo)
@@ -18,30 +20,33 @@
 * [Instalação](#instalação)
 
 ## Objetivo
-O objetivo deste projeto foi desenvolver um aplicativo que oferece aos usuários uma experiência completa para explorar e descobrir filmes e séries populares. Através da integração com a API TMDb, os usuários podem visualizar uma lista atualizada de títulos, bem como acessar informações detalhadas sobre cada um deles. A aplicação permite interações dinâmicas, como favoritar filmes e séries preferidos, além de fornecer a funcionalidade de filtragem por gênero, possibilitando uma experiência personalizada de acordo com as preferências de cada usuário.
+Dart plus é um aplicativo que proporciona aos usuários uma experiência completa para explorar filmes e séries usando a API The Movie Database (TMDb). Com recursos dinâmicos, os usuários podem facilmente buscar, visualizar informações detalhadas, favoritar seus filmes e séries preferidos, além de filtrar por gênero, garantindo uma experiência personalizada de acordo com suas preferências.
 
-## Tecnologias Usadas:
-[![My Skills](https://skillicons.dev/icons?i=dart,flutter,figma)](https://skillicons.dev)
+## Tecnologias usadas:
+- Flutter
+- Dart
+- Bloc
+- sqflite
+- Firebase
+- Figma
 
 ## Features
-* Visualização de filmes e séries populares
-* Navegação e visualização dos detalhes de cada filme ou série
-* Visualização de filmes e séries vindos de uma API
-* Adição de filmes ou séries aos favoritos e seu gerenciamento
-
-#### **Extra:**
-* Visualização de filmes e séries em tendência
-* Pesquisa por título de filmes ou séries utilizando a SearchBar
-* Tratamento de mensagem para o usuário caso não seja encontrado nenhum título de filme ou série não corresponder a nenhum item encontrado
-* Visualização de ranking com estrelas
-* Visualização de trailer em vídeo 
+* Autenticação do usuário com Firebase
+* Navegação e visualização de filmes ou séries populares
+* Visualização de detalhes da mídia, incluindo ranking, sinopse e trailer em vídeo
 * Recomendações de filmes ou séries similares 
-* Filtragem por gênero
-* Persistência de dados com sqflite
-* Sistema de Offline First
+* Visualização de filmes e séries em tendência
+* Busca por título 
+* Visualização em formato de catálogo e filtragem por gênero
+* Gerenciamento de favoritos possibilitando adicionar, remover e visualizar lista de favoritos
+* Navegação com menu drawer permitindo acesso a conta e logout
+* Offline first
+* Implementação responsiva proporcionando uma experiência consistente em diferentes dispositivos
+
 
 ## Links
 * [Apresentação disponível no Figma](https://www.figma.com/file/5syuNnFIP2xm7y6V64zP9K/Dart%2B-App?type=design&node-id=171-66&mode=design&t=MkQ5SrPDCfC3utHp-0)
+* [APK da aplicaçao](https://drive.google.com/drive/folders/1prZaewE_w1rDHGbXhCzdPMUOE-pCpz0D?usp=sharing)
 
 
 ## Squad DartVaders 💜
@@ -59,10 +64,21 @@ Se você tiver uma chave SSH registrada em sua conta do GitHub, clone o projeto 
 
 ```git clone git@github.com:erikabusiness/dart_plus_app.git```
 
+Instale as dependências:
+
+```flutter pub get ```
+
 Execute o seguinte comando para iniciar a aplicação em um ambiente de desenvolvimento:
 
 ```
 // Inicie a aplicação
-dart run main.dart
+flutter run main.dart
+```
+
+Execute o seguinte comando para rodar os testes de desenvolvimento:
+
+```
+// Rode todos testes 
+flutter test 
 ```
 
